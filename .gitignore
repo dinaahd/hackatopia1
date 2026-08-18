@@ -1,0 +1,49 @@
+### Project Files
+/node_modules
+/package-lock.json
+/vercel-out
+
+### Environment
+.env
+.env.example
+.env.test
+
+### Development Tools
+.DS_Store
+.idea
+.ropeproject
+
+### System/OS
+.DS_Store
+Thumbs.db
+
+### Ignore build outputs
+/build
+/dist
+/coverage
+/tmp
+
+### Dependency management
+npm-debug.log
+yarn-error.log
+
+### IDE-specific files
+*.swp
+*.swo
+_global stray files
+**/
+# Automatically generated files
+*.autosave
+*.backup
+*.DS_Store
+*._MACOSX
+
+### Node.js
+*.cache
+.p RED files
+
+### Testing
+test
+spec
+__pycache__
+*$*~
