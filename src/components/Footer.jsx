@@ -1,3 +1,9 @@
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const quickLinks = [
   { label: 'About', href: '#about' },
   { label: 'Domains', href: '#domains' },
@@ -7,9 +13,67 @@ const quickLinks = [
 ]
 
 export default function Footer() {
+  const footerRef = useRef(null)
+  const logoStripRef = useRef(null)
+  const columnsRef = useRef(null)
+
+  useEffect(() => {
+    const footer = footerRef.current
+    if (!footer) return
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set([logoStripRef.current, columnsRef.current], { opacity: 1, y: 0 })
+        return
+      }
+
+      if (logoStripRef.current) {
+        gsap.fromTo(
+          logoStripRef.current,
+          { opacity: 0, y: 25 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: logoStripRef.current,
+              start: 'top 85%',
+              once: true,
+            },
+          }
+        )
+      }
+
+      if (columnsRef.current) {
+        gsap.fromTo(
+          columnsRef.current.children,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.65,
+            stagger: 0.12,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: columnsRef.current,
+              start: 'top 85%',
+              once: true,
+            },
+          }
+        )
+      }
+    }, footer)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <footer
       id="contact"
+      ref={footerRef}
       className="relative pt-16 pb-12 px-6 lg:px-16 overflow-hidden bg-[#06060c] text-white"
     >
       {/* Top Accent Line */}
@@ -18,7 +82,10 @@ export default function Footer() {
       <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-12 sm:gap-14">
 
         {/* ── 3 Big Organiser Logos (No Labels, Clean & Large) ── */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-white/[0.08]">
+        <div
+          ref={logoStripRef}
+          className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-white/[0.08] opacity-0"
+        >
           <span className="font-pixel text-xs sm:text-sm tracking-[0.25em] text-white/50 uppercase">
             Organised by
           </span>
@@ -27,12 +94,10 @@ export default function Footer() {
             {/* 1. Big YIT Logo */}
             <div className="group cursor-default transition-transform duration-300 hover:scale-105" title="Yenepoya Institute of Technology">
               <svg className="h-12 sm:h-14 w-auto drop-shadow-[0_0_15px_rgba(0,229,255,0.25)]" viewBox="0 0 160 50" fill="none">
-                {/* YIT Shield Badge */}
                 <rect x="2" y="2" width="46" height="46" rx="10" fill="rgba(0, 229, 255, 0.08)" stroke="#00e5ff" strokeWidth="2" />
                 <text x="25" y="32" textAnchor="middle" fill="#00e5ff" style={{ fontFamily: 'monospace', fontSize: '20px', fontWeight: 900, letterSpacing: '-1px' }}>
                   YIT
                 </text>
-                {/* YENEPOYA Text */}
                 <text x="60" y="24" fill="#ffffff" style={{ fontFamily: 'system-ui, sans-serif', fontSize: '15px', fontWeight: 800, letterSpacing: '1px' }}>
                   YENEPOYA
                 </text>
@@ -45,12 +110,10 @@ export default function Footer() {
             {/* 2. Big IEEE Logo */}
             <div className="group cursor-default transition-transform duration-300 hover:scale-105" title="IEEE Student Branch">
               <svg className="h-12 sm:h-14 w-auto drop-shadow-[0_0_15px_rgba(0,170,255,0.25)]" viewBox="0 0 150 50" fill="none">
-                {/* IEEE Diamond Emblem */}
                 <path d="M25 4L45 25L25 46L5 25L25 4Z" fill="rgba(0, 170, 255, 0.08)" stroke="#00aaff" strokeWidth="2" />
                 <circle cx="25" cy="25" r="5" fill="#00aaff" />
                 <line x1="25" y1="12" x2="25" y2="38" stroke="#00aaff" strokeWidth="1.5" />
                 <line x1="12" y1="25" x2="38" y2="25" stroke="#00aaff" strokeWidth="1.5" />
-                {/* IEEE Official Wordmark */}
                 <text x="56" y="34" fill="#00aaff" style={{ fontFamily: 'serif', fontSize: '26px', fontWeight: 900, letterSpacing: '2px' }}>
                   IEEE
                 </text>
@@ -60,11 +123,9 @@ export default function Footer() {
             {/* 3. Big Cybernauts × YenCoders Logo */}
             <div className="group cursor-default transition-transform duration-300 hover:scale-105" title="Cybernauts × YenCoders">
               <svg className="h-12 sm:h-14 w-auto drop-shadow-[0_0_15px_rgba(255,46,166,0.25)]" viewBox="0 0 200 50" fill="none">
-                {/* Cybernauts Circuit Node */}
                 <circle cx="24" cy="25" r="18" fill="rgba(255, 46, 166, 0.08)" stroke="#FF2E9A" strokeWidth="2" />
                 <circle cx="24" cy="25" r="5" fill="#FF2E9A" />
                 <path d="M24 7v6M24 37v6M6 25h6M36 25h6" stroke="#FF2E9A" strokeWidth="2" strokeLinecap="round" />
-                {/* Cybernauts x YenCoders Brand Text */}
                 <text x="52" y="24" fill="#FF2E9A" style={{ fontFamily: 'system-ui, sans-serif', fontSize: '14px', fontWeight: 900, letterSpacing: '1.5px' }}>
                   CYBERNAUTS
                 </text>
@@ -77,10 +138,10 @@ export default function Footer() {
         </div>
 
         {/* ── 3-Column Clean Spacious Layout ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 items-start">
+        <div ref={columnsRef} className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 items-start">
 
           {/* Col 1: Contact Information */}
-          <div className="space-y-4">
+          <div className="space-y-4 opacity-0">
             <h4 className="font-pixel text-sm sm:text-base text-[#00e5ff] tracking-wider">
               Contact
             </h4>
@@ -114,7 +175,7 @@ export default function Footer() {
           </div>
 
           {/* Col 2: Quick Links */}
-          <div className="space-y-4">
+          <div className="space-y-4 opacity-0">
             <h4 className="font-pixel text-sm sm:text-base text-[#00e5ff] tracking-wider">
               Quick Links
             </h4>
@@ -135,7 +196,7 @@ export default function Footer() {
           </div>
 
           {/* Col 3: Follow Us */}
-          <div className="space-y-4">
+          <div className="space-y-4 opacity-0">
             <h4 className="font-pixel text-sm sm:text-base text-[#00e5ff] tracking-wider">
               Follow Us
             </h4>

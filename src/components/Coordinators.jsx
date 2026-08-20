@@ -1,6 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Phone, GraduationCap, User, Copy, Check } from 'lucide-react'
-import { useScrollReveal } from '../hooks/useScrollReveal'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const facultyCoordinators = [
   {
@@ -75,7 +78,7 @@ function CoordinatorCard({ person, isFaculty = false }) {
 
   return (
     <div
-      className="group relative p-5 sm:p-6 rounded-xl transition-all duration-300 flex flex-col justify-between"
+      className="coord-card group relative p-5 sm:p-6 rounded-xl transition-all duration-300 flex flex-col justify-between"
       style={{
         background: 'linear-gradient(165deg, rgba(14, 18, 36, 0.9) 0%, rgba(8, 10, 24, 0.96) 100%)',
         border: '1.5px solid rgba(0, 229, 255, 0.16)',
@@ -84,7 +87,7 @@ function CoordinatorCard({ person, isFaculty = false }) {
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = person.color
         e.currentTarget.style.boxShadow = `0 12px 36px rgba(0, 0, 0, 0.8), 0 0 25px ${person.color}35, inset 0 1px 0 rgba(255, 255, 255, 0.15)`
-        e.currentTarget.style.transform = 'translateY(-3px)'
+        e.currentTarget.style.transform = 'translateY(-4px)'
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = 'rgba(0, 229, 255, 0.16)'
@@ -103,7 +106,7 @@ function CoordinatorCard({ person, isFaculty = false }) {
       <div className="space-y-3.5">
         <div className="flex items-center gap-3">
           <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm text-black flex-shrink-0 transition-transform duration-300 group-hover:scale-105"
+            className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm text-black flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
             style={{
               background: person.color,
               boxShadow: `0 0 16px ${person.color}80`,
@@ -137,7 +140,7 @@ function CoordinatorCard({ person, isFaculty = false }) {
 
           <button
             onClick={() => copyToClipboard(person.phone)}
-            className="p-1 rounded text-white/40 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-md hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer"
             title="Copy Phone Number"
           >
             {copied ? (
@@ -153,12 +156,94 @@ function CoordinatorCard({ person, isFaculty = false }) {
 }
 
 export default function Coordinators() {
-  const containerRef = useScrollReveal()
+  const sectionRef = useRef(null)
+  const headerRef = useRef(null)
+  const facultyRowRef = useRef(null)
+  const studentRowRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set([headerRef.current, facultyRowRef.current, studentRowRef.current], { opacity: 1, y: 0 })
+        return
+      }
+
+      // Header entrance
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: 'top 80%',
+              once: true,
+            },
+          }
+        )
+      }
+
+      // Faculty Row entrance
+      if (facultyRowRef.current) {
+        const cards = facultyRowRef.current.querySelectorAll('.coord-card')
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 35, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.65,
+            stagger: 0.1,
+            ease: 'back.out(1.5)',
+            scrollTrigger: {
+              trigger: facultyRowRef.current,
+              start: 'top 80%',
+              once: true,
+            },
+          }
+        )
+      }
+
+      // Student Row entrance
+      if (studentRowRef.current) {
+        const cards = studentRowRef.current.querySelectorAll('.coord-card')
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 35, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.65,
+            stagger: 0.1,
+            ease: 'back.out(1.5)',
+            scrollTrigger: {
+              trigger: studentRowRef.current,
+              start: 'top 80%',
+              once: true,
+            },
+          }
+        )
+      }
+    }, section)
+
+    return () => ctx.revert()
+  }, [])
 
   return (
     <section
       id="coordinators"
-      ref={containerRef}
+      ref={sectionRef}
       className="relative py-24 sm:py-32 px-6 lg:px-12 overflow-hidden"
       style={{
         background: 'linear-gradient(180deg, #0a0a14 0%, #0c0824 50%, #0a0a14 100%)',
@@ -176,7 +261,7 @@ export default function Coordinators() {
 
       <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-14 sm:gap-16">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center space-y-4">
+        <div ref={headerRef} className="flex flex-col items-center text-center space-y-4 opacity-0">
           <span className="font-pixel text-[0.65rem] sm:text-xs tracking-[0.25em] text-[#00e5ff] uppercase px-3.5 py-1.5 rounded-sm bg-[#00e5ff]/10 border border-[#00e5ff]/30 shadow-[0_0_12px_rgba(0,229,255,0.25)]">
             // LEADERSHIP & ASSISTANCE
           </span>
@@ -195,7 +280,7 @@ export default function Coordinators() {
         {/* 2-Section Grid (4 Faculty Coordinators & 4 Student Coordinators) */}
         <div className="space-y-12">
           {/* Row 1: Faculty Coordinators */}
-          <div className="space-y-5">
+          <div ref={facultyRowRef} className="space-y-5">
             <div className="flex items-center gap-3 pb-2 border-b border-white/10">
               <div className="w-2 h-2 rounded-[1px] bg-[#00e5ff] shadow-[0_0_8px_#00e5ff]" />
               <h3 className="font-pixel text-sm sm:text-base text-white tracking-wider">
@@ -211,7 +296,7 @@ export default function Coordinators() {
           </div>
 
           {/* Row 2: Student Coordinators */}
-          <div className="space-y-5">
+          <div ref={studentRowRef} className="space-y-5">
             <div className="flex items-center gap-3 pb-2 border-b border-white/10">
               <div className="w-2 h-2 rounded-[1px] bg-[#FF2E9A] shadow-[0_0_8px_#FF2E9A]" />
               <h3 className="font-pixel text-sm sm:text-base text-white tracking-wider">
