@@ -17,48 +17,61 @@ export default function Footer() {
 
       <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-12 sm:gap-14">
 
-        {/* ── Seamless Organised By Strip (Clean, No Container, No Clutter) ── */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-white/[0.08]">
-          <span className="font-pixel text-[0.7rem] sm:text-xs tracking-[0.25em] text-white/50 uppercase">
+        {/* ── 3 Big Organiser Logos (No Labels, Clean & Large) ── */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-white/[0.08]">
+          <span className="font-pixel text-xs sm:text-sm tracking-[0.25em] text-white/50 uppercase">
             Organised by
           </span>
 
-          {/* Clean 3 Organiser Logos */}
-          <div className="flex items-center flex-wrap justify-center gap-8 sm:gap-12">
-            {/* 1. YIT Logo */}
-            <div className="flex items-center gap-2.5 text-white/80 hover:text-white transition-colors group cursor-default">
-              <div className="w-8 h-8 rounded-lg bg-white/[0.08] border border-white/15 flex items-center justify-center font-bold text-xs font-mono tracking-tighter text-[#00e5ff] group-hover:border-[#00e5ff]/60 group-hover:shadow-[0_0_12px_rgba(0,229,255,0.3)] transition-all">
-                YIT
-              </div>
-              <span className="font-bold text-sm sm:text-base tracking-wide font-sans text-white/90">
-                Yenepoya Inst. of Tech
-              </span>
+          <div className="flex items-center flex-wrap justify-center gap-10 sm:gap-16">
+            {/* 1. Big YIT Logo */}
+            <div className="group cursor-default transition-transform duration-300 hover:scale-105" title="Yenepoya Institute of Technology">
+              <svg className="h-12 sm:h-14 w-auto drop-shadow-[0_0_15px_rgba(0,229,255,0.25)]" viewBox="0 0 160 50" fill="none">
+                {/* YIT Shield Badge */}
+                <rect x="2" y="2" width="46" height="46" rx="10" fill="rgba(0, 229, 255, 0.08)" stroke="#00e5ff" strokeWidth="2" />
+                <text x="25" y="32" textAnchor="middle" fill="#00e5ff" style={{ fontFamily: 'monospace', fontSize: '20px', fontWeight: 900, letterSpacing: '-1px' }}>
+                  YIT
+                </text>
+                {/* YENEPOYA Text */}
+                <text x="60" y="24" fill="#ffffff" style={{ fontFamily: 'system-ui, sans-serif', fontSize: '15px', fontWeight: 800, letterSpacing: '1px' }}>
+                  YENEPOYA
+                </text>
+                <text x="60" y="38" fill="rgba(255,255,255,0.55)" style={{ fontFamily: 'system-ui, sans-serif', fontSize: '9px', fontWeight: 700, letterSpacing: '1.5px' }}>
+                  INSTITUTE OF TECH
+                </text>
+              </svg>
             </div>
 
-            <div className="hidden sm:block w-px h-5 bg-white/10" />
-
-            {/* 2. IEEE Logo */}
-            <div className="flex items-center gap-2.5 text-white/80 hover:text-white transition-colors group cursor-default">
-              <svg viewBox="0 0 24 24" className="w-7 h-7 fill-[#00aaff] group-hover:scale-105 transition-transform">
-                <path d="M12 2L3 7v10l9 5 9-5V7l-9-5zm0 2.2l6.8 3.8-6.8 3.8L5.2 8 12 4.2zm-7 5.2l6 3.3v6.7l-6-3.3V9.4zm8 10v-6.7l6-3.3v6.7l-6 3.3z" />
+            {/* 2. Big IEEE Logo */}
+            <div className="group cursor-default transition-transform duration-300 hover:scale-105" title="IEEE Student Branch">
+              <svg className="h-12 sm:h-14 w-auto drop-shadow-[0_0_15px_rgba(0,170,255,0.25)]" viewBox="0 0 150 50" fill="none">
+                {/* IEEE Diamond Emblem */}
+                <path d="M25 4L45 25L25 46L5 25L25 4Z" fill="rgba(0, 170, 255, 0.08)" stroke="#00aaff" strokeWidth="2" />
+                <circle cx="25" cy="25" r="5" fill="#00aaff" />
+                <line x1="25" y1="12" x2="25" y2="38" stroke="#00aaff" strokeWidth="1.5" />
+                <line x1="12" y1="25" x2="38" y2="25" stroke="#00aaff" strokeWidth="1.5" />
+                {/* IEEE Official Wordmark */}
+                <text x="56" y="34" fill="#00aaff" style={{ fontFamily: 'serif', fontSize: '26px', fontWeight: 900, letterSpacing: '2px' }}>
+                  IEEE
+                </text>
               </svg>
-              <span className="font-bold text-sm sm:text-base tracking-wide font-sans text-white/90">
-                IEEE Student Branch
-              </span>
             </div>
 
-            <div className="hidden sm:block w-px h-5 bg-white/10" />
-
-            {/* 3. Cybernauts × YenCoders */}
-            <div className="flex items-center gap-2.5 text-white/80 hover:text-white transition-colors group cursor-default">
-              <svg viewBox="0 0 24 24" className="w-7 h-7 fill-none stroke-[#FF2E9A] stroke-2 group-hover:scale-105 transition-transform">
-                <circle cx="12" cy="12" r="3" fill="#FF2E9A" />
-                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-                <circle cx="12" cy="12" r="8" strokeDasharray="3 3" opacity="0.6" />
+            {/* 3. Big Cybernauts × YenCoders Logo */}
+            <div className="group cursor-default transition-transform duration-300 hover:scale-105" title="Cybernauts × YenCoders">
+              <svg className="h-12 sm:h-14 w-auto drop-shadow-[0_0_15px_rgba(255,46,166,0.25)]" viewBox="0 0 200 50" fill="none">
+                {/* Cybernauts Circuit Node */}
+                <circle cx="24" cy="25" r="18" fill="rgba(255, 46, 166, 0.08)" stroke="#FF2E9A" strokeWidth="2" />
+                <circle cx="24" cy="25" r="5" fill="#FF2E9A" />
+                <path d="M24 7v6M24 37v6M6 25h6M36 25h6" stroke="#FF2E9A" strokeWidth="2" strokeLinecap="round" />
+                {/* Cybernauts x YenCoders Brand Text */}
+                <text x="52" y="24" fill="#FF2E9A" style={{ fontFamily: 'system-ui, sans-serif', fontSize: '14px', fontWeight: 900, letterSpacing: '1.5px' }}>
+                  CYBERNAUTS
+                </text>
+                <text x="52" y="38" fill="#ffffff" style={{ fontFamily: 'monospace', fontSize: '10px', fontWeight: 700, letterSpacing: '2px' }}>
+                  × YENCODERS
+                </text>
               </svg>
-              <span className="font-bold text-sm sm:text-base tracking-wide font-sans text-white/90">
-                Cybernauts × YenCoders
-              </span>
             </div>
           </div>
         </div>
