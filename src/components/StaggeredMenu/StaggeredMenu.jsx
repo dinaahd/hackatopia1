@@ -314,12 +314,12 @@ export const StaggeredMenu = ({
           </div>
 
           {/* Panel content */}
-          <div className="sm-panel-content flex-1 flex flex-col justify-between p-6 sm:p-8 pt-5 relative z-10">
+          <div className="sm-panel-content flex-1 flex flex-col justify-between p-6 sm:p-8 pt-2 relative z-10">
 
             {/* Top section: Header row + divider */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               {/* Header row: CLOSE button */}
-              <div className="flex items-center justify-end pt-1">
+              <div className="flex items-center justify-end pt-0.5">
                 <button
                   className="craft-pixel-btn craft-close"
                   onClick={e => { closeMenu(); craftBurst(e, "#ef4444"); }}
