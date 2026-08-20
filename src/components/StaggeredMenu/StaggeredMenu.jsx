@@ -251,7 +251,7 @@ export const StaggeredMenu = ({
     { baseColor: "#db0f9c", hoverBg: "linear-gradient(90deg, #db0f9c 0%, #c00060 100%)", hoverShadow: "0 0 32px rgba(219, 15, 156, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
     { baseColor: "#c2008e", hoverBg: "linear-gradient(90deg, #c2008e 0%, #a40050 100%)", hoverShadow: "0 0 32px rgba(194, 0, 142, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
   ];
-  const buildings  = [28,42,36,52,30,46,38,58,32,44,40,56,34,50,26,48,36,44];
+  const buildings  = [42, 65, 54, 82, 46, 70, 58, 92, 48, 68, 62, 88, 52, 78, 38, 74, 56, 68];
 
   return (
     <div className={"sm-scope " + (isFixed ? "fixed top-0 left-0 w-full z-50 pointer-events-none" : "relative w-full h-full")}>
@@ -438,7 +438,7 @@ export const StaggeredMenu = ({
         }
         
         .sm-scope .sm-skyline-strip {
-          display: flex; align-items: flex-end; gap: 2px; padding: 0 14px; height: 72px;
+          display: flex; align-items: flex-end; gap: 2px; padding: 0 14px; height: 108px;
           flex-shrink: 0; background: linear-gradient(180deg, #08021a 0%, #0e0330 100%);
           border-bottom: 2px solid rgba(0,212,255,0.1); overflow: hidden; position: relative;
         }
@@ -612,7 +612,14 @@ export const StaggeredMenu = ({
         
         .sm-scope .craft-close {
           background: #ef4444; box-shadow: 4px 4px 0 #991b1b; color: #fff;
-          padding: 8px 12px; font-size: 0;
+          min-height: auto !important;
+          width: 32px !important;
+          height: 32px !important;
+          padding: 0 !important;
+          font-size: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px);
           transition: all 0.2s ease;
         }
@@ -621,7 +628,7 @@ export const StaggeredMenu = ({
           box-shadow: 0 0 16px rgba(239, 68, 68, 0.6), 4px 4px 0 #991b1b;
           transform: scale(1.05);
         }
-        .sm-scope .craft-close-icon { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 900; line-height: 1; color: #fff; display: block; }
+        .sm-scope .craft-close-icon { font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 900; line-height: 1; color: #fff; display: block; }
         
         /* Register Now CTA */
         .sm-scope .sm-reg-btn {
