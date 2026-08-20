@@ -534,41 +534,54 @@ export const StaggeredMenu = ({
 
         /* Button styles */
         .sm-scope .craft-pixel-btn {
-          font-family: 'Press Start 2P', monospace;
-          font-size: 0.72rem;
-          letter-spacing: 0.08em;
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          font-weight: 800;
+          font-size: 0.84rem;
+          letter-spacing: 0.12em;
+          text-decoration: none !important;
           border: none;
-          padding: 15px 26px;
+          padding: 12px 22px;
           cursor: pointer;
-          clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
+          clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
           transform: translate(0, 0);
-          transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.2s ease;
+          transition: transform 0.12s ease, box-shadow 0.18s ease, background 0.22s ease;
           user-select: none;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 0.7rem;
+          gap: 0.65rem;
           position: relative;
-          text-decoration: none;
+        }
+        .sm-scope .craft-pixel-btn * {
+          text-decoration: none !important;
+          border-bottom: none !important;
+          box-shadow: none !important;
+        }
+        .sm-scope .sm-toggle-textWrap,
+        .sm-scope .sm-toggle-textInner,
+        .sm-scope .sm-toggle-line {
+          text-decoration: none !important;
+          border-bottom: none !important;
+          line-height: 1 !important;
         }
         .sm-scope .craft-pixel-btn::after {
           content: "";
           position: absolute;
           inset: 0;
           clip-path: inherit;
-          box-shadow: inset 0 5px 0 rgba(255,255,255,0.42), inset 0 -6px 0 rgba(0,0,0,0.35);
+          box-shadow: inset 0 2px 0 rgba(255,255,255,0.65), inset 0 -3px 0 rgba(0,0,0,0.25) !important;
           pointer-events: none;
         }
         .sm-scope .craft-pixel-btn:hover {
           transform: translateY(-2px);
-          box-shadow: 8px 10px 0 #3b3f47, 0 0 25px rgba(0, 229, 255, 0.35) !important;
+          box-shadow: 0 6px 0 #008fa8, 0 12px 30px rgba(0, 240, 255, 0.65) !important;
         }
         .sm-scope .craft-pixel-btn:active {
-          transform: translate(6px, 6px);
-          box-shadow: 2px 2px 0 #3b3f47 !important;
+          transform: translate(3px, 3px);
+          box-shadow: 0 1px 0 #008fa8 !important;
         }
         .sm-scope .craft-pixel-btn:active::after {
-          box-shadow: inset 0 4px 0 rgba(0,0,0,0.25);
+          box-shadow: inset 0 2px 0 rgba(0,0,0,0.3) !important;
         }
         
         /* High Contrast Luminous Cyber Button (Blue with Black text) */
