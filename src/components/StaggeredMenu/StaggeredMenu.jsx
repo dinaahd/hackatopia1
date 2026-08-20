@@ -536,20 +536,21 @@ export const StaggeredMenu = ({
         .sm-scope .craft-pixel-btn {
           font-family: 'Inter', system-ui, -apple-system, sans-serif;
           font-weight: 800;
-          font-size: 0.84rem;
+          font-size: 0.88rem;
           letter-spacing: 0.12em;
           text-decoration: none !important;
           border: none;
-          padding: 12px 22px;
+          min-height: 50px;
+          padding: 16px 28px;
           cursor: pointer;
-          clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+          clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
           transform: translate(0, 0);
           transition: transform 0.12s ease, box-shadow 0.18s ease, background 0.22s ease;
           user-select: none;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 0.65rem;
+          gap: 0.75rem;
           position: relative;
         }
         .sm-scope .craft-pixel-btn * {
@@ -569,12 +570,12 @@ export const StaggeredMenu = ({
           position: absolute;
           inset: 0;
           clip-path: inherit;
-          box-shadow: inset 0 2px 0 rgba(255,255,255,0.65), inset 0 -3px 0 rgba(0,0,0,0.25) !important;
+          box-shadow: inset 0 2px 0 rgba(255,255,255,0.65), inset 0 -4px 0 rgba(0,0,0,0.25) !important;
           pointer-events: none;
         }
         .sm-scope .craft-pixel-btn:hover {
           transform: translateY(-2px);
-          box-shadow: 0 6px 0 #008fa8, 0 12px 30px rgba(0, 240, 255, 0.65) !important;
+          box-shadow: 0 6px 0 #008fa8, 0 14px 32px rgba(0, 240, 255, 0.65) !important;
         }
         .sm-scope .craft-pixel-btn:active {
           transform: translate(3px, 3px);
