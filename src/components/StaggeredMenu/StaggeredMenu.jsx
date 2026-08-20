@@ -45,7 +45,7 @@ export const StaggeredMenu = ({
   const iconRef  = useRef(null);
   const textInnerRef = useRef(null);
   const textWrapRef  = useRef(null);
-  const [textLines, setTextLines] = useState(["Menu", "Close"]);
+  const [textLines, setTextLines] = useState(["MENU", "CLOSE"]);
   const openTlRef        = useRef(null);
   const closeTweenRef    = useRef(null);
   const spinTweenRef     = useRef(null);
@@ -174,19 +174,19 @@ export const StaggeredMenu = ({
     const btn = toggleBtnRef.current;
     if (!btn) return;
     if (changeMenuColorOnOpen)
-      gsap.to(btn, { color: opening ? openMenuButtonColor : menuButtonColor, duration: 0.25, ease: "power2.out" });
-  }, [openMenuButtonColor, menuButtonColor, changeMenuColorOnOpen]);
+      gsap.to(btn, { color: opening ? "#ffffff" : "#040e24", duration: 0.25, ease: "power2.out" });
+  }, [changeMenuColorOnOpen]);
 
   const animateText = useCallback(opening => {
     const inner = textInnerRef.current;
     if (!inner) return;
     textCycleAnimRef.current?.kill();
-    const currentLabel = opening ? "Menu" : "Close";
-    const targetLabel  = opening ? "Close" : "Menu";
+    const currentLabel = opening ? "MENU" : "CLOSE";
+    const targetLabel  = opening ? "CLOSE" : "MENU";
     const cycles = 2;
     const seq = [currentLabel];
     let last = currentLabel;
-    for (let i = 0; i < cycles; i++) { last = last === "Menu" ? "Close" : "Menu"; seq.push(last); }
+    for (let i = 0; i < cycles; i++) { last = last === "MENU" ? "CLOSE" : "MENU"; seq.push(last); }
     if (last !== targetLabel) seq.push(targetLabel);
     seq.push(targetLabel);
     setTextLines(seq);
@@ -571,22 +571,29 @@ export const StaggeredMenu = ({
           box-shadow: inset 0 4px 0 rgba(0,0,0,0.25);
         }
         
+        /* High Contrast Luminous Cyber Button (Blue with Black text) */
         .sm-scope .craft-stone {
-          background: #8a8f9c;
-          box-shadow: 7px 7px 0 #565b66;
-          color: #0b0e14;
+          background: linear-gradient(135deg, #00f0ff 0%, #00c4e6 100%);
+          border: 1.5px solid #a8f5ff;
+          box-shadow: 0 4px 0 #008fa8, 0 8px 25px rgba(0, 240, 255, 0.45);
+          color: #040e24 !important;
         }
         .sm-scope .craft-stone:hover {
-          background: #9fa6b6;
+          background: linear-gradient(135deg, #38f6ff 0%, #00dcff 100%);
+          color: #040e24 !important;
+          box-shadow: 0 6px 0 #008fa8, 0 12px 35px rgba(0, 240, 255, 0.7) !important;
+          transform: translateY(-2px);
         }
         .sm-scope .craft-stone[data-open="true"] {
-          background: #00e5ff;
-          box-shadow: 7px 7px 0 #00889c;
-          color: #030e26;
+          background: linear-gradient(135deg, #ff2ea6 0%, #ff007f 100%);
+          border: 1.5px solid #ffb3e0;
+          box-shadow: 0 4px 0 #9e0050, 0 8px 25px rgba(255, 46, 166, 0.5);
+          color: #ffffff !important;
         }
         .sm-scope .craft-stone[data-open="true"]:hover {
-          background: #33ecff;
-          box-shadow: 8px 10px 0 #00889c, 0 0 30px rgba(0, 229, 255, 0.6) !important;
+          background: linear-gradient(135deg, #ff54b8 0%, #ff1a8c 100%);
+          box-shadow: 0 6px 0 #9e0050, 0 12px 35px rgba(255, 46, 166, 0.75) !important;
+          transform: translateY(-2px);
         }
         
         .sm-scope .craft-close {
