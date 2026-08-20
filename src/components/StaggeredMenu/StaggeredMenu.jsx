@@ -1,19 +1,26 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import logo from "../../assets/logo.png";
+import logoText from "../../assets/logo_text.png";
 
 export const StaggeredMenu = ({
   position = "right",
   colors = ["#00e5ff", "#ff2ea6", "#0c0422"],
   items = [
-    { label: "About",        ariaLabel: "About Hackatopia",             link: "#about"        },
-    { label: "Tracks",       ariaLabel: "Explore Hackathon Tracks",     link: "#domains"      },
-    { label: "Timeline",     ariaLabel: "Hackathon Schedule",           link: "#timeline"     },
-    { label: "Coordinators", ariaLabel: "Central coordinators",         link: "#coordinators" },
-    { label: "Location",     ariaLabel: "Venue and Location Map",       link: "#map"          },
+    { label: "Home",     ariaLabel: "Go to home page",             link: "#home"     },
+    { label: "About",    ariaLabel: "About Hackatopia",             link: "#about"    },
+    { label: "Tracks",   ariaLabel: "Explore Hackathon Tracks",     link: "#domains"  },
+    { label: "Rules",    ariaLabel: "View Hackathon Rules",         link: "#rules"    },
+    { label: "Timeline", ariaLabel: "Hackathon Schedule",           link: "#timeline" },
+    { label: "Sponsors", ariaLabel: "View our sponsors",            link: "#sponsors" },
+    { label: "FAQ",      ariaLabel: "Frequently asked questions",   link: "#faq"      },
+    { label: "Contact",  ariaLabel: "Get in touch with organizers", link: "#contact"  },
   ],
   socialItems = [
-    { label: "Instagram", link: "https://instagram.com/hackatopia" },
+    { label: "Discord",   link: "https://discord.gg"    },
+    { label: "GitHub",    link: "https://github.com"    },
+    { label: "Instagram", link: "https://instagram.com" },
+    { label: "Devfolio",  link: "https://devfolio.co"   },
   ],
   displaySocials = true,
   displayItemNumbering = true,
@@ -30,7 +37,6 @@ export const StaggeredMenu = ({
 }) => {
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
-  const headerRef      = useRef(null);
   const panelRef       = useRef(null);
   const preLayersRef   = useRef(null);
   const preLayerElsRef = useRef([]);
@@ -39,7 +45,7 @@ export const StaggeredMenu = ({
   const iconRef  = useRef(null);
   const textInnerRef = useRef(null);
   const textWrapRef  = useRef(null);
-  const [textLines, setTextLines] = useState(["MENU", "CLOSE"]);
+  const [textLines, setTextLines] = useState(["Menu", "Close"]);
   const openTlRef        = useRef(null);
   const closeTweenRef    = useRef(null);
   const spinTweenRef     = useRef(null);
@@ -168,19 +174,19 @@ export const StaggeredMenu = ({
     const btn = toggleBtnRef.current;
     if (!btn) return;
     if (changeMenuColorOnOpen)
-      gsap.to(btn, { color: opening ? "#ffffff" : "#040e24", duration: 0.25, ease: "power2.out" });
-  }, [changeMenuColorOnOpen]);
+      gsap.to(btn, { color: opening ? openMenuButtonColor : menuButtonColor, duration: 0.25, ease: "power2.out" });
+  }, [openMenuButtonColor, menuButtonColor, changeMenuColorOnOpen]);
 
   const animateText = useCallback(opening => {
     const inner = textInnerRef.current;
     if (!inner) return;
     textCycleAnimRef.current?.kill();
-    const currentLabel = opening ? "MENU" : "CLOSE";
-    const targetLabel  = opening ? "CLOSE" : "MENU";
+    const currentLabel = opening ? "Menu" : "Close";
+    const targetLabel  = opening ? "Close" : "Menu";
     const cycles = 2;
     const seq = [currentLabel];
     let last = currentLabel;
-    for (let i = 0; i < cycles; i++) { last = last === "MENU" ? "CLOSE" : "MENU"; seq.push(last); }
+    for (let i = 0; i < cycles; i++) { last = last === "Menu" ? "Close" : "Menu"; seq.push(last); }
     if (last !== targetLabel) seq.push(targetLabel);
     seq.push(targetLabel);
     setTextLines(seq);
@@ -215,43 +221,6 @@ export const StaggeredMenu = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [closeOnClickAway, open, closeMenu]);
 
-  React.useEffect(() => {
-    let lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    let isHidden = false;
-
-    const handleScroll = () => {
-      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-
-      if (openRef.current || currentScrollY < 60) {
-        if (isHidden) {
-          isHidden = false;
-          if (headerRef.current) {
-            gsap.to(headerRef.current, { yPercent: 0, duration: 0.35, ease: "power2.out", overwrite: "auto" });
-          }
-        }
-        lastScrollY = currentScrollY;
-        return;
-      }
-
-      if (currentScrollY > lastScrollY + 8 && !isHidden) {
-        isHidden = true;
-        if (headerRef.current) {
-          gsap.to(headerRef.current, { yPercent: -150, duration: 0.35, ease: "power2.inOut", overwrite: "auto" });
-        }
-      } else if (currentScrollY < lastScrollY - 8 && isHidden) {
-        isHidden = false;
-        if (headerRef.current) {
-          gsap.to(headerRef.current, { yPercent: 0, duration: 0.35, ease: "power2.out", overwrite: "auto" });
-        }
-      }
-
-      lastScrollY = currentScrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const craftBurst = (e, color) => {
     if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -271,11 +240,16 @@ export const StaggeredMenu = ({
   };
 
   const navThemes = [
+    // Cyan family (0-3)
     { baseColor: "#00e5ff", hoverBg: "linear-gradient(90deg, #00e5ff 0%, #00bfff 100%)", hoverShadow: "0 0 30px rgba(0, 229, 255, 0.7)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00e5ff", hoverBorder: "#80f0ff" },
-    { baseColor: "#ff2ea6", hoverBg: "linear-gradient(90deg, #ff2ea6 0%, #ff007f 100%)", hoverShadow: "0 0 30px rgba(255, 46, 166, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
     { baseColor: "#00d4ff", hoverBg: "linear-gradient(90deg, #00d4ff 0%, #00a8ee 100%)", hoverShadow: "0 0 30px rgba(0, 212, 255, 0.7)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00d4ff", hoverBorder: "#80e5ff" },
-    { baseColor: "#f01da5", hoverBg: "linear-gradient(90deg, #f01da5 0%, #d8006e 100%)", hoverShadow: "0 0 30px rgba(240, 29, 165, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
     { baseColor: "#00b8ee", hoverBg: "linear-gradient(90deg, #00b8ee 0%, #0090d8 100%)", hoverShadow: "0 0 30px rgba(0, 184, 238, 0.7)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00b8ee", hoverBorder: "#80d8ff" },
+    { baseColor: "#009edd", hoverBg: "linear-gradient(90deg, #009edd 0%, #0077c2 100%)", hoverShadow: "0 0 30px rgba(0, 158, 221, 0.7)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#009edd", hoverBorder: "#80c8ff" },
+    // Pink family (4-7)
+    { baseColor: "#ff2ea6", hoverBg: "linear-gradient(90deg, #ff2ea6 0%, #ff007f 100%)", hoverShadow: "0 0 30px rgba(255, 46, 166, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
+    { baseColor: "#f01da5", hoverBg: "linear-gradient(90deg, #f01da5 0%, #d8006e 100%)", hoverShadow: "0 0 30px rgba(240, 29, 165, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
+    { baseColor: "#db0f9c", hoverBg: "linear-gradient(90deg, #db0f9c 0%, #c00060 100%)", hoverShadow: "0 0 32px rgba(219, 15, 156, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
+    { baseColor: "#c2008e", hoverBg: "linear-gradient(90deg, #c2008e 0%, #a40050 100%)", hoverShadow: "0 0 32px rgba(194, 0, 142, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
   ];
   const buildings  = [28,42,36,52,30,46,38,58,32,44,40,56,34,50,26,48,36,44];
 
@@ -295,18 +269,11 @@ export const StaggeredMenu = ({
         </div>
 
         {/* NAVBAR */}
-        <header
-          ref={headerRef}
-          className="staggered-menu-header w-full flex items-center justify-between px-6 sm:px-12 py-4 sm:py-6 pointer-events-none z-[60]"
-          aria-label="Main navigation header"
-        >
+        <header className="staggered-menu-header w-full flex items-center justify-between px-6 sm:px-10 py-4 sm:py-5 pointer-events-none z-[60]" aria-label="Main navigation header">
           <a href="#home" className="sm-logo pointer-events-auto select-none group flex items-center" aria-label="Go to home">
-            <img
-              src={logoUrl}
-              alt="Hackatopia Logo"
-              className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-full transition-transform duration-300 ease-out group-hover:scale-110 group-active:scale-95 drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
-              draggable={false}
-            />
+            <div className="sm-logo-circle relative w-13 h-13 sm:w-16 sm:h-16 rounded-full p-2 flex items-center justify-center transition-all duration-300">
+              <img src={logoUrl} alt="Hackatopia Logo" className="w-full h-full object-contain rounded-full" draggable={false} />
+            </div>
           </a>
           <button
             ref={toggleBtnRef}
@@ -457,6 +424,17 @@ export const StaggeredMenu = ({
           background: transparent !important;
           border-bottom: none !important;
           box-shadow: none !important;
+        }
+        .sm-scope .sm-logo-circle {
+          background: radial-gradient(circle, rgba(20, 6, 45, 0.9) 0%, rgba(6, 1, 18, 0.95) 100%);
+          border: 2px solid rgba(0, 229, 255, 0.4);
+          box-shadow: 0 0 25px rgba(0, 229, 255, 0.4), 0 4px 20px rgba(0,0,0,0.8);
+          backdrop-filter: blur(12px);
+        }
+        .sm-scope .sm-logo:hover .sm-logo-circle {
+          border-color: #00e5ff;
+          box-shadow: 0 0 35px rgba(0, 229, 255, 0.8), 0 0 60px rgba(255, 46, 166, 0.5);
+          transform: scale(1.1) rotate(4deg);
         }
         
         .sm-scope .sm-skyline-strip {
