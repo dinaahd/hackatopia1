@@ -21,7 +21,7 @@ const Navbar = () => {
       items={menuItems}
       socialItems={socialItems}
       displaySocials={true}
-      displayItemNumbering={false}
+      displayItemNumbering={true}
       menuButtonColor="#ffffff"
       openMenuButtonColor="#00e5ff"
       changeMenuColorOnOpen={true}

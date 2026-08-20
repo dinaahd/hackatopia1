@@ -1,6 +1,5 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { X, ArrowRight } from "lucide-react";
 import logo from "../../assets/logo.png";
 
 export const StaggeredMenu = ({
@@ -13,10 +12,15 @@ export const StaggeredMenu = ({
     { label: "Coordinators", ariaLabel: "Central coordinators",         link: "#coordinators" },
     { label: "Location",     ariaLabel: "Venue and Location Map",       link: "#map"          },
   ],
+  socialItems = [
+    { label: "Instagram", link: "https://instagram.com/hackatopia" },
+  ],
   displaySocials = true,
+  displayItemNumbering = true,
   className,
   logoUrl = logo,
   menuButtonColor = "#ffffff",
+  openMenuButtonColor = "#00e5ff",
   changeMenuColorOnOpen = true,
   isFixed = true,
   accentColor = "#00e5ff",
@@ -75,32 +79,36 @@ export const StaggeredMenu = ({
     openTlRef.current?.kill();
     if (closeTweenRef.current) { closeTweenRef.current.kill(); closeTweenRef.current = null; }
     itemEntranceTweenRef.current?.kill();
-    
     const itemEls     = Array.from(panel.querySelectorAll(".sm-panel-itemLabel"));
-    const bottomCta   = panel.querySelector(".sm-bottom-cta");
+    const numberEls   = Array.from(panel.querySelectorAll(".sm-panel-list[data-numbering] .sm-panel-item"));
+    const socialTitle = panel.querySelector(".sm-socials-title");
+    const socialLinks = Array.from(panel.querySelectorAll(".sm-socials-link"));
+    const registerCta = panel.querySelector(".sm-register-cta");
     const offscreen   = position === "left" ? -100 : 100;
     const layerStates = layers.map(el => ({ el, start: offscreen }));
-    
-    if (itemEls.length) gsap.set(itemEls, { yPercent: 120, opacity: 0 });
-    if (bottomCta)      gsap.set(bottomCta, { y: 20, opacity: 0 });
-
+    if (itemEls.length)     gsap.set(itemEls,     { yPercent: 140, rotate: 10 });
+    if (numberEls.length)   gsap.set(numberEls,   { ["--sm-num-opacity"]: 0 });
+    if (socialTitle)        gsap.set(socialTitle,  { opacity: 0, y: 15 });
+    if (socialLinks.length) gsap.set(socialLinks,  { y: 20, opacity: 0 });
+    if (registerCta)        gsap.set(registerCta,  { y: 25, opacity: 0, scale: 0.95 });
     const tl = gsap.timeline({ paused: true });
     layerStates.forEach((ls, i) => {
-      tl.fromTo(ls.el, { xPercent: ls.start }, { xPercent: 0, duration: 0.4, ease: "power4.out" }, i * 0.05);
+      tl.fromTo(ls.el, { xPercent: ls.start }, { xPercent: 0, duration: 0.45, ease: "power4.out" }, i * 0.06);
     });
-    const lastTime      = layerStates.length ? (layerStates.length - 1) * 0.05 : 0;
-    const panelInsert   = lastTime + (layerStates.length ? 0.06 : 0);
-    const panelDuration = 0.55;
+    const lastTime      = layerStates.length ? (layerStates.length - 1) * 0.06 : 0;
+    const panelInsert   = lastTime + (layerStates.length ? 0.07 : 0);
+    const panelDuration = 0.6;
     tl.fromTo(panel, { xPercent: offscreen }, { xPercent: 0, duration: panelDuration, ease: "power4.out" }, panelInsert);
-    
     if (itemEls.length) {
       const itemsStart = panelInsert + panelDuration * 0.15;
-      tl.to(itemEls, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: { each: 0.06 } }, itemsStart);
+      tl.to(itemEls, { yPercent: 0, rotate: 0, duration: 0.8, ease: "power4.out", stagger: { each: 0.06 } }, itemsStart);
+      if (numberEls.length)
+        tl.to(numberEls, { duration: 0.5, ease: "power2.out", ["--sm-num-opacity"]: 1, stagger: { each: 0.05 } }, itemsStart + 0.08);
     }
     const socialsStart = panelInsert + panelDuration * 0.35;
-    if (bottomCta) {
-      tl.to(bottomCta, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.4)" }, socialsStart);
-    }
+    if (registerCta)        tl.to(registerCta, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, socialsStart);
+    if (socialTitle)        tl.to(socialTitle, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, socialsStart + 0.05);
+    if (socialLinks.length) tl.to(socialLinks, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out", stagger: { each: 0.06 }, onComplete: () => gsap.set(socialLinks, { clearProps: "opacity" }) }, socialsStart + 0.08);
     openTlRef.current = tl;
     return tl;
   }, [position]);
@@ -124,10 +132,16 @@ export const StaggeredMenu = ({
     closeTweenRef.current = gsap.to([...layers, panel], {
       xPercent: offscreen, duration: 0.3, ease: "power3.in", overwrite: "auto",
       onComplete: () => {
-        const itemEls   = Array.from(panel.querySelectorAll(".sm-panel-itemLabel"));
-        const bottomCta = panel.querySelector(".sm-bottom-cta");
-        if (itemEls.length) gsap.set(itemEls, { yPercent: 120, opacity: 0 });
-        if (bottomCta)      gsap.set(bottomCta, { opacity: 0 });
+        const itemEls     = Array.from(panel.querySelectorAll(".sm-panel-itemLabel"));
+        const numberEls   = Array.from(panel.querySelectorAll(".sm-panel-list[data-numbering] .sm-panel-item"));
+        const socialTitle = panel.querySelector(".sm-socials-title");
+        const socialLinks = Array.from(panel.querySelectorAll(".sm-socials-link"));
+        const registerCta = panel.querySelector(".sm-register-cta");
+        if (itemEls.length)     gsap.set(itemEls,     { yPercent: 140, rotate: 10 });
+        if (numberEls.length)   gsap.set(numberEls,   { ["--sm-num-opacity"]: 0 });
+        if (socialTitle)        gsap.set(socialTitle,  { opacity: 0 });
+        if (socialLinks.length) gsap.set(socialLinks,  { y: 20, opacity: 0 });
+        if (registerCta)        gsap.set(registerCta,  { opacity: 0 });
         busyRef.current = false;
       }
     });
@@ -140,8 +154,8 @@ export const StaggeredMenu = ({
     if (opening) {
       gsap.set(icon, { rotate: 0, transformOrigin: "50% 50%" });
       spinTweenRef.current = gsap.timeline({ defaults: { ease: "power4.out" } })
-        .to(h, { rotate: 45,  duration: 0.35 }, 0)
-        .to(v, { rotate: -45, duration: 0.35 }, 0);
+        .to(h, { rotate: 45,  duration: 0.4 }, 0)
+        .to(v, { rotate: -45, duration: 0.4 }, 0);
     } else {
       spinTweenRef.current = gsap.timeline({ defaults: { ease: "power3.inOut" } })
         .to(h, { rotate: 0,  duration: 0.3 }, 0)
@@ -163,10 +177,17 @@ export const StaggeredMenu = ({
     textCycleAnimRef.current?.kill();
     const currentLabel = opening ? "MENU" : "CLOSE";
     const targetLabel  = opening ? "CLOSE" : "MENU";
-    const seq = [currentLabel, targetLabel];
+    const cycles = 2;
+    const seq = [currentLabel];
+    let last = currentLabel;
+    for (let i = 0; i < cycles; i++) { last = last === "MENU" ? "CLOSE" : "MENU"; seq.push(last); }
+    if (last !== targetLabel) seq.push(targetLabel);
+    seq.push(targetLabel);
     setTextLines(seq);
     gsap.set(inner, { yPercent: 0 });
-    textCycleAnimRef.current = gsap.to(inner, { yPercent: -50, duration: 0.35, ease: "power4.out" });
+    const lineCount  = seq.length;
+    const finalShift = ((lineCount - 1) / lineCount) * 100;
+    textCycleAnimRef.current = gsap.to(inner, { yPercent: -finalShift, duration: 0.4 + lineCount * 0.05, ease: "power4.out" });
   }, []);
 
   const toggleMenu = useCallback(() => {
@@ -194,7 +215,6 @@ export const StaggeredMenu = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [closeOnClickAway, open, closeMenu]);
 
-  // Hide header on scroll down, show on scroll up
   React.useEffect(() => {
     let lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
     let isHidden = false;
@@ -213,12 +233,12 @@ export const StaggeredMenu = ({
         return;
       }
 
-      if (currentScrollY > lastScrollY + 10 && !isHidden) {
+      if (currentScrollY > lastScrollY + 8 && !isHidden) {
         isHidden = true;
         if (headerRef.current) {
           gsap.to(headerRef.current, { yPercent: -150, duration: 0.35, ease: "power2.inOut", overwrite: "auto" });
         }
-      } else if (currentScrollY < lastScrollY - 10 && isHidden) {
+      } else if (currentScrollY < lastScrollY - 8 && isHidden) {
         isHidden = false;
         if (headerRef.current) {
           gsap.to(headerRef.current, { yPercent: 0, duration: 0.35, ease: "power2.out", overwrite: "auto" });
@@ -232,13 +252,32 @@ export const StaggeredMenu = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navColors = [
-    { color: "#00e5ff", tag: "ABOUT", desc: "Overview & Prize Pool" },
-    { color: "#ff2ea6", tag: "DOMAINS", desc: "4 Core Innovation Tracks" },
-    { color: "#00e5ff", tag: "SCHEDULE", desc: "24-Hour Event Timeline" },
-    { color: "#ff2ea6", tag: "CONTACT", desc: "Faculty & Student Leads" },
-    { color: "#00e5ff", tag: "MAP", desc: "Campus Venue & Directions" },
+  const craftBurst = (e, color) => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+    for (let i = 0; i < 8; i++) {
+      const p = document.createElement("div");
+      p.style.cssText = "position:fixed;width:5px;height:5px;background:" + color + ";pointer-events:none;z-index:9999;left:" + cx + "px;top:" + cy + "px;border-radius:1px;";
+      document.body.appendChild(p);
+      const angle = (Math.PI * 2 * i) / 8;
+      const dist  = 26 + Math.random() * 14;
+      p.animate(
+        [{ transform: "translate(0,0)", opacity: 1 }, { transform: "translate(" + (Math.cos(angle)*dist) + "px," + (Math.sin(angle)*dist) + "px)", opacity: 0 }],
+        { duration: 320, easing: "ease-out" }
+      );
+      setTimeout(() => p.remove(), 340);
+    }
+  };
+
+  const navThemes = [
+    { baseColor: "#00e5ff", hoverBg: "linear-gradient(90deg, #00e5ff 0%, #00bfff 100%)", hoverShadow: "0 0 30px rgba(0, 229, 255, 0.7)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00e5ff", hoverBorder: "#80f0ff" },
+    { baseColor: "#ff2ea6", hoverBg: "linear-gradient(90deg, #ff2ea6 0%, #ff007f 100%)", hoverShadow: "0 0 30px rgba(255, 46, 166, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
+    { baseColor: "#00d4ff", hoverBg: "linear-gradient(90deg, #00d4ff 0%, #00a8ee 100%)", hoverShadow: "0 0 30px rgba(0, 212, 255, 0.7)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00d4ff", hoverBorder: "#80e5ff" },
+    { baseColor: "#f01da5", hoverBg: "linear-gradient(90deg, #f01da5 0%, #d8006e 100%)", hoverShadow: "0 0 30px rgba(240, 29, 165, 0.75)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00f0ff", hoverBorder: "#ff80cc" },
+    { baseColor: "#00b8ee", hoverBg: "linear-gradient(90deg, #00b8ee 0%, #0090d8 100%)", hoverShadow: "0 0 30px rgba(0, 184, 238, 0.7)", hoverText: "#030e26", hoverTagBg: "rgba(3, 14, 38, 0.9)", hoverTagText: "#00b8ee", hoverBorder: "#80d8ff" },
   ];
+  const buildings  = [28,42,36,52,30,46,38,58,32,44,40,56,34,50,26,48,36,44];
 
   return (
     <div className={"sm-scope " + (isFixed ? "fixed top-0 left-0 w-full z-50 pointer-events-none" : "relative w-full h-full")}>
@@ -248,32 +287,27 @@ export const StaggeredMenu = ({
         data-position={position}
         data-open={open || undefined}
       >
-        {/* Layer Transitions */}
+        {/* Prelayers */}
         <div ref={preLayersRef} className="sm-prelayers fixed top-0 right-0 bottom-0 pointer-events-none z-[55]" aria-hidden="true">
-          {(colors && colors.length ? colors.slice(0, 3) : ["#00e5ff", "#ff2ea6", "#0c0422"]).map((c, i) => (
+          {(colors && colors.length ? colors.slice(0, 4) : ["#00e5ff", "#ff2ea6", "#0c0422"]).map((c, i) => (
             <div key={i} className="sm-prelayer absolute top-0 right-0 h-full w-full shadow-2xl" style={{ background: c }} />
           ))}
         </div>
 
-        {/* TOP NAVBAR HEADER */}
+        {/* NAVBAR */}
         <header
           ref={headerRef}
-          className="staggered-menu-header w-full flex items-center justify-between px-4 sm:px-8 lg:px-12 py-3 sm:py-5 pointer-events-none z-[60]"
+          className="staggered-menu-header w-full flex items-center justify-between px-6 sm:px-12 py-4 sm:py-6 pointer-events-none z-[60]"
           aria-label="Main navigation header"
         >
-          <a
-            href="#home"
-            className="sm-logo pointer-events-auto select-none group flex items-center gap-3"
-            aria-label="Go to home"
-          >
+          <a href="#home" className="sm-logo pointer-events-auto select-none group flex items-center" aria-label="Go to home">
             <img
               src={logoUrl}
               alt="Hackatopia Logo"
-              className="w-12 h-12 sm:w-16 sm:h-16 object-contain rounded-full transition-transform duration-300 ease-out group-hover:scale-105 group-active:scale-95 drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-full transition-transform duration-300 ease-out group-hover:scale-110 group-active:scale-95 drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
               draggable={false}
             />
           </a>
-
           <button
             ref={toggleBtnRef}
             className="sm-toggle craft-pixel-btn craft-stone pointer-events-auto"
@@ -281,14 +315,12 @@ export const StaggeredMenu = ({
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="staggered-menu-panel"
-            onClick={toggleMenu}
+            onClick={e => { toggleMenu(); craftBurst(e, open ? "#4fd3e8" : "#8a8f9c"); }}
             type="button"
           >
             <span ref={textWrapRef} className="sm-toggle-textWrap relative inline-block h-[1.2em] overflow-hidden whitespace-nowrap" aria-hidden="true">
               <span ref={textInnerRef} className="sm-toggle-textInner flex flex-col leading-none">
-                {textLines.map((l, i) => (
-                  <span className="sm-toggle-line block h-[1.2em] leading-none" key={i}>{l}</span>
-                ))}
+                {textLines.map((l, i) => <span className="sm-toggle-line block h-[1.2em] leading-none" key={i}>{l}</span>)}
               </span>
             </span>
             <span ref={iconRef} className="sm-icon relative w-4 h-4 shrink-0 inline-flex items-center justify-center" aria-hidden="true">
@@ -298,184 +330,325 @@ export const StaggeredMenu = ({
           </button>
         </header>
 
-        {/* SLIDING CLEAN MODERN DRAWER PANEL */}
+        {/* SLIDING PANEL */}
         <aside
           id="staggered-menu-panel"
           ref={panelRef}
-          className="sm-panel fixed top-0 right-0 h-[100dvh] flex flex-col justify-between overflow-y-auto z-[58] pointer-events-auto"
+          className="sm-panel fixed top-0 right-0 h-screen flex flex-col overflow-y-auto z-[58] pointer-events-auto"
           aria-hidden={!open}
         >
-          {/* Top Panel Header */}
-          <div className="flex items-center justify-between px-6 sm:px-8 pt-6 pb-4 border-b border-white/[0.08] flex-shrink-0">
-            <div className="flex items-center gap-2.5">
-              <span className="w-2 h-2 rounded-full bg-[#00e5ff] shadow-[0_0_8px_#00e5ff]" />
-              <span className="font-pixel text-[0.7rem] sm:text-xs text-white tracking-widest uppercase">
-                Navigation
-              </span>
+          {/* Pixel City Skyline */}
+          <div className="sm-skyline-strip" aria-hidden="true">
+            {buildings.map((h, i) => (
+              <div key={i} className="sm-sky-building" style={{ height: h + "px", animationDelay: (i * 0.1) + "s" }}>
+                <div className="sm-sky-window" style={{ animationDelay: (i * 0.28 + 0.4) + "s" }} />
+              </div>
+            ))}
+          </div>
+
+          {/* Panel content */}
+          <div className="sm-panel-content flex-1 flex flex-col justify-between p-6 sm:p-8 pt-5 relative z-10">
+
+            {/* Top section: Header row + divider */}
+            <div className="flex flex-col gap-4">
+              {/* Header row: CLOSE button */}
+              <div className="flex items-center justify-end pt-1">
+                <button
+                  className="craft-pixel-btn craft-close"
+                  onClick={e => { closeMenu(); craftBurst(e, "#ef4444"); }}
+                  aria-label="Close menu"
+                  type="button"
+                >
+                  <span className="craft-close-icon">X</span>
+                </button>
+              </div>
+
+              {/* Question-block divider */}
+              <div className="sm-q-divider">
+                <div className="sm-q-line" />
+                <div className="sm-q-block">?</div>
+                <div className="sm-q-line" />
+              </div>
             </div>
 
-            <button
-              onClick={closeMenu}
-              className="w-9 h-9 rounded-full bg-white/[0.08] hover:bg-white/[0.18] border border-white/15 text-white/80 hover:text-white flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-90"
-              aria-label="Close menu"
-              type="button"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
+            {/* Nav links */}
+            <div className="my-auto py-2">
+              <ul className="sm-panel-list list-none m-0 p-0 flex flex-col gap-1.5 sm:gap-2" role="list">
+                {items.map((it, idx) => {
+                  const theme = navThemes[idx] || navThemes[0];
+                  return (
+                    <li className="sm-panel-itemWrap relative overflow-hidden" key={it.label + idx}>
+                      <a
+                        className="sm-nav-link group relative flex items-center justify-between w-full px-4 py-2.5 sm:py-3 rounded-xl border no-underline cursor-pointer select-none"
+                        href={it.link}
+                        aria-label={it.ariaLabel}
+                        data-index={idx + 1}
+                        onClick={closeMenu}
+                        style={{
+                          "--item-base-color": theme.baseColor,
+                          "--item-hover-bg": theme.hoverBg,
+                          "--item-hover-shadow": theme.hoverShadow,
+                          "--item-hover-text": theme.hoverText,
+                          "--item-hover-border": theme.hoverBorder,
+                          "--item-hover-tag-bg": theme.hoverTagBg,
+                          "--item-hover-tag-text": theme.hoverTagText,
+                        }}
+                      >
+                        <div className="flex items-center gap-3 overflow-hidden">
+                          {/* Slide-in arrow indicator */}
+                          <span className="sm-arrow font-pixel text-xs">
+                            ▶
+                          </span>
+                          
+                          {/* Nav Label */}
+                          <span className="sm-panel-itemLabel font-black text-2xl sm:text-3xl md:text-[2.1rem] leading-none uppercase tracking-wide">
+                            {it.label}
+                          </span>
+                        </div>
 
-          {/* Curated Navigation Links */}
-          <div className="px-5 sm:px-8 py-4 my-auto overflow-y-auto">
-            <ul className="flex flex-col gap-2 list-none m-0 p-0" role="list">
-              {items.map((it, idx) => {
-                const meta = navColors[idx] || navColors[0];
-                return (
-                  <li key={it.label} className="overflow-hidden">
-                    <a
-                      href={it.link}
-                      onClick={closeMenu}
-                      className="group flex items-center justify-between p-3.5 sm:p-4 rounded-xl border border-white/[0.06] hover:border-[#00e5ff]/50 bg-white/[0.02] hover:bg-white/[0.07] transition-all duration-200 no-underline cursor-pointer"
-                    >
-                      <div className="flex flex-col gap-0.5 min-w-0">
-                        <span
-                          className="sm-panel-itemLabel text-lg sm:text-xl font-black tracking-wide text-white group-hover:text-[#00e5ff] transition-colors"
-                        >
-                          {it.label}
-                        </span>
-                        <span className="text-[0.7rem] text-white/40 font-mono tracking-wider truncate">
-                          {meta.desc}
-                        </span>
-                      </div>
+                        {/* Number Tag */}
+                        {displayItemNumbering && (
+                          <span className="sm-num-tag font-pixel text-[0.65rem] px-2.5 py-1 rounded-md select-none">
+                            {String(idx + 1).padStart(2, '0')}
+                          </span>
+                        )}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
 
-                      <div className="w-7 h-7 rounded-lg bg-white/[0.04] group-hover:bg-[#00e5ff]/20 text-white/30 group-hover:text-[#00e5ff] flex items-center justify-center transition-all duration-200 flex-shrink-0">
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                      </div>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* Bottom Action Section */}
-          <div className="sm-bottom-cta p-5 sm:p-8 pt-4 border-t border-white/[0.08] flex-shrink-0 flex flex-col gap-3.5">
-            {/* Primary Action Button */}
-            <a
-              href="#register"
-              onClick={closeMenu}
-              className="btn-arcade btn-arcade-pink w-full text-xs sm:text-sm py-3.5 sm:py-4 flex items-center justify-center gap-2 text-center text-white"
-            >
-              REGISTER NOW
-            </a>
-
-            {/* Social Link Badge */}
-            {displaySocials && (
-              <div className="flex items-center justify-between pt-1 text-xs text-white/50 font-mono">
-                <span>Connect with us:</span>
+            {/* Bottom section: REGISTER NOW button */}
+            <div className="pt-5 pb-2 border-t border-white/10 flex flex-col gap-3 active:scale-90">
+              <div className="sm-register-cta px-4 sm:px-6">
                 <a
-                  href="https://instagram.com/hackatopia"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-white/80 hover:text-[#FF2E9A] transition-colors"
+                  href="#register"
+                  onClick={e => { closeMenu(); craftBurst(e, "#ffcc4d"); }}
+                  className="sm-reg-btn group relative w-full flex items-center justify-center py-3.5 sm:py-4 px-6 rounded-xl text-sm sm:text-[0.95rem] font-black uppercase tracking-[0.16em] text-[#1a0a00] transition-all duration-300 no-underline overflow-hidden select-none"
                 >
-                  <svg className="w-4 h-4 fill-[#FF2E9A]" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                  </svg>
-                  <span>@hackatopia</span>
+                  {/* Shimmer sweep effect */}
+                  <span className="sm-btn-shimmer absolute inset-0 w-full h-full pointer-events-none" />
+                  <span className="relative z-10">
+                    REGISTER NOW
+                  </span>
                 </a>
               </div>
-            )}
+            </div>
+
           </div>
         </aside>
       </div>
 
       <style>{`
         .sm-scope .sm-panel {
-          width: clamp(300px, 85vw, 420px);
-          background: linear-gradient(175deg, #0d0624 0%, #060214 60%, #03010a 100%);
-          border-left: 1.5px solid rgba(0, 229, 255, 0.2);
-          box-shadow: -20px 0 60px rgba(0, 0, 0, 0.9), inset 1px 0 0 rgba(255, 255, 255, 0.05);
+          width: clamp(320px, 36vw, 480px);
+          background: radial-gradient(circle at 100% 0%, #160733 0%, #060112 70%);
+          border-left: 2px solid rgba(0,212,255,0.22);
+          box-shadow: -25px 0 90px rgba(0,0,0,0.95), inset 1px 0 0 rgba(255,255,255,0.06);
         }
-        .sm-scope [data-position='left'] .sm-panel {
-          right: auto;
-          left: 0;
-          border-left: none;
-          border-right: 1.5px solid rgba(0, 229, 255, 0.2);
-        }
-        .sm-scope .sm-prelayers {
-          width: clamp(300px, 85vw, 420px);
-        }
-        .sm-scope [data-position='left'] .sm-prelayers {
-          right: auto;
-          left: 0;
-        }
-        @media (max-width: 480px) {
-          .sm-scope .sm-panel, .sm-scope .sm-prelayers {
-            width: 100vw;
-          }
+        .sm-scope [data-position='left'] .sm-panel { right: auto; left: 0; border-left: none; border-right: 2px solid rgba(0,212,255,0.22); }
+        .sm-scope .sm-prelayers { width: clamp(320px, 36vw, 480px); }
+        .sm-scope [data-position='left'] .sm-prelayers { right: auto; left: 0; }
+        @media (max-width: 640px) {
+          .sm-scope .sm-panel, .sm-scope .sm-prelayers { width: 100vw; }
         }
         .sm-scope .staggered-menu-header {
           background: transparent !important;
           border-bottom: none !important;
           box-shadow: none !important;
         }
+        
+        .sm-scope .sm-skyline-strip {
+          display: flex; align-items: flex-end; gap: 2px; padding: 0 14px; height: 72px;
+          flex-shrink: 0; background: linear-gradient(180deg, #08021a 0%, #0e0330 100%);
+          border-bottom: 2px solid rgba(0,212,255,0.1); overflow: hidden; position: relative;
+        }
+        .sm-scope .sm-skyline-strip::after {
+          content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 10px;
+          background: linear-gradient(90deg, rgba(0,212,255,0.12), rgba(255,46,166,0.12), rgba(0,212,255,0.12));
+        }
+        .sm-scope .sm-sky-building {
+          flex: 1; min-width: 9px; border-radius: 2px 2px 0 0;
+          background: linear-gradient(180deg, #180440 0%, #0c0224 100%);
+          border: 1px solid rgba(255,255,255,0.05); border-bottom: none; position: relative;
+          animation: smRise 0.5s ease both;
+        }
+        .sm-scope .sm-sky-building:nth-child(even)  { background: linear-gradient(180deg, #1c0848 0%, #100230 100%); }
+        .sm-scope .sm-sky-building:nth-child(3n)    { background: linear-gradient(180deg, #200a50 0%, #140338 100%); }
+        .sm-scope .sm-sky-window {
+          position: absolute; top: 7px; left: 50%; transform: translateX(-50%);
+          width: 4px; height: 4px; border-radius: 1px;
+          background: #00e5ff; box-shadow: 0 0 6px #00e5ff;
+          animation: smBlink 2.5s infinite ease-in-out;
+        }
+        .sm-scope .sm-sky-building:nth-child(even) .sm-sky-window { background: #ff2ea6; box-shadow: 0 0 6px #ff2ea6; }
+        .sm-scope .sm-sky-building:nth-child(3n)   .sm-sky-window { background: #ffcc4d; box-shadow: 0 0 6px #ffcc4d; }
+        @keyframes smRise  { from { transform: scaleY(0); transform-origin: bottom; } to { transform: scaleY(1); transform-origin: bottom; } }
+        @keyframes smBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.15; } }
+        
+        .sm-scope .sm-q-divider { display: flex; align-items: center; gap: 10px; }
+        .sm-scope .sm-q-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.35), transparent); }
+        .sm-scope .sm-q-block {
+          font-family: 'Press Start 2P', monospace; font-size: 0.6rem; color: #1a0a00;
+          background: #ffcc4d; border: 2px solid #b8860f;
+          box-shadow: 0 3px 0 #b8860f, inset 0 2px 0 rgba(255,255,255,0.5), inset 0 -2px 0 rgba(0,0,0,0.3);
+          width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px;
+        }
 
-        /* Toggle Button styles */
+        /* Nav link high-contrast interactive motion styling */
+        .sm-scope .sm-nav-link {
+          background: transparent;
+          border-color: rgba(255, 255, 255, 0.04);
+          transition: background 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                      border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                      box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                      transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sm-scope .sm-nav-link .sm-panel-itemLabel {
+          color: var(--item-base-color);
+          text-shadow: none !important;
+          transition: color 0.24s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sm-scope .sm-nav-link .sm-arrow {
+          color: var(--item-hover-text);
+          opacity: 0;
+          transform: translateX(-12px) scale(0.7);
+          transition: opacity 0.24s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), color 0.24s ease;
+        }
+
+        .sm-scope .sm-nav-link .sm-num-tag {
+          color: rgba(255, 255, 255, 0.35);
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          transition: color 0.24s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
+        }
+
+        /* Hover Active State */
+        .sm-scope .sm-nav-link:hover {
+          background: var(--item-hover-bg) !important;
+          border-color: var(--item-hover-border) !important;
+          box-shadow: var(--item-hover-shadow), 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+          transform: translateX(6px) scale(1.02);
+        }
+
+        .sm-scope .sm-nav-link:hover .sm-panel-itemLabel {
+          color: var(--item-hover-text) !important;
+          text-shadow: none !important;
+          transform: translateX(4px);
+        }
+
+        .sm-scope .sm-nav-link:hover .sm-arrow {
+          opacity: 1;
+          transform: translateX(0) scale(1);
+          color: var(--item-hover-text) !important;
+        }
+
+        .sm-scope .sm-nav-link:hover .sm-num-tag {
+          color: var(--item-hover-tag-text) !important;
+          background: var(--item-hover-tag-bg) !important;
+          border-color: rgba(255, 255, 255, 0.25) !important;
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5) !important;
+          transform: scale(1.05);
+        }
+
+        /* Button styles */
         .sm-scope .craft-pixel-btn {
-          font-family: 'Inter', system-ui, sans-serif;
-          font-weight: 800;
-          font-size: 0.8rem;
-          letter-spacing: 0.12em;
-          text-decoration: none !important;
+          font-family: 'Press Start 2P', monospace;
+          font-size: 0.72rem;
+          letter-spacing: 0.08em;
           border: none;
-          padding: 10px 18px;
+          padding: 15px 26px;
           cursor: pointer;
-          border-radius: 9999px;
+          clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
           transform: translate(0, 0);
-          transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.25s ease;
+          transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.2s ease;
           user-select: none;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 0.6rem;
+          gap: 0.7rem;
           position: relative;
+          text-decoration: none;
         }
-        @media (min-width: 640px) {
-          .sm-scope .craft-pixel-btn {
-            font-size: 0.85rem;
-            padding: 12px 22px;
-          }
+        .sm-scope .craft-pixel-btn::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          clip-path: inherit;
+          box-shadow: inset 0 5px 0 rgba(255,255,255,0.42), inset 0 -6px 0 rgba(0,0,0,0.35);
+          pointer-events: none;
         }
-        .sm-scope .craft-pixel-btn * {
-          text-decoration: none !important;
+        .sm-scope .craft-pixel-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 8px 10px 0 #3b3f47, 0 0 25px rgba(0, 229, 255, 0.35) !important;
         }
         .sm-scope .craft-pixel-btn:active {
-          transform: scale(0.95);
+          transform: translate(6px, 6px);
+          box-shadow: 2px 2px 0 #3b3f47 !important;
         }
-
-        /* High Contrast Luminous Cyber Button */
+        .sm-scope .craft-pixel-btn:active::after {
+          box-shadow: inset 0 4px 0 rgba(0,0,0,0.25);
+        }
+        
         .sm-scope .craft-stone {
-          background: linear-gradient(135deg, #00f0ff 0%, #00b8e6 100%);
-          border: 1.5px solid #a8f5ff;
-          box-shadow: 0 4px 18px rgba(0, 240, 255, 0.45);
-          color: #040e24;
+          background: #8a8f9c;
+          box-shadow: 7px 7px 0 #565b66;
+          color: #0b0e14;
         }
         .sm-scope .craft-stone:hover {
-          background: linear-gradient(135deg, #38f6ff 0%, #00dcff 100%);
-          color: #040e24 !important;
-          box-shadow: 0 6px 25px rgba(0, 240, 255, 0.7) !important;
-          transform: translateY(-2px);
+          background: #9fa6b6;
         }
         .sm-scope .craft-stone[data-open="true"] {
-          background: linear-gradient(135deg, #ff2ea6 0%, #e60073 100%);
-          border: 1.5px solid #ffb3e0;
-          box-shadow: 0 4px 18px rgba(255, 46, 166, 0.5);
-          color: #ffffff !important;
+          background: #00e5ff;
+          box-shadow: 7px 7px 0 #00889c;
+          color: #030e26;
         }
         .sm-scope .craft-stone[data-open="true"]:hover {
-          background: linear-gradient(135deg, #ff54b8 0%, #ff1a8c 100%);
-          box-shadow: 0 6px 25px rgba(255, 46, 166, 0.75) !important;
+          background: #33ecff;
+          box-shadow: 8px 10px 0 #00889c, 0 0 30px rgba(0, 229, 255, 0.6) !important;
+        }
+        
+        .sm-scope .craft-close {
+          background: #ef4444; box-shadow: 4px 4px 0 #991b1b; color: #fff;
+          padding: 8px 12px; font-size: 0;
+          clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px);
+          transition: all 0.2s ease;
+        }
+        .sm-scope .craft-close:hover {
+          background: #f87171;
+          box-shadow: 0 0 16px rgba(239, 68, 68, 0.6), 4px 4px 0 #991b1b;
+          transform: scale(1.05);
+        }
+        .sm-scope .craft-close-icon { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 900; line-height: 1; color: #fff; display: block; }
+        
+        /* Register Now CTA */
+        .sm-scope .sm-reg-btn {
+          font-family: 'Inter', system-ui, sans-serif;
+          background: linear-gradient(135deg, #ffcc00 0%, #ff9e00 50%, #ff7300 100%);
+          box-shadow: 0 5px 0 #a34e00, 0 10px 25px rgba(255, 154, 0, 0.35), inset 0 2px 0 rgba(255,255,255,0.7), inset 0 -2px 0 rgba(0,0,0,0.15);
+          border: 1.5px solid #ffe680;
+        }
+        .sm-scope .sm-reg-btn:hover {
+          background: linear-gradient(135deg, #ffe066 0%, #ffaa00 50%, #ff8500 100%);
+          box-shadow: 0 7px 0 #a34e00, 0 14px 30px rgba(255, 170, 0, 0.5), inset 0 2px 0 rgba(255,255,255,0.85);
           transform: translateY(-2px);
+        }
+        .sm-scope .sm-reg-btn:active {
+          transform: translateY(3px);
+          box-shadow: 0 2px 0 #a34e00, 0 6px 15px rgba(255, 154, 0, 0.25);
+        }
+        
+        .sm-scope .sm-btn-shimmer {
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+          transform: translateX(-100%) skewX(-20deg);
+          animation: smShimmer 3.5s infinite;
+        }
+        @keyframes smShimmer {
+          0%, 60% { transform: translateX(-100%) skewX(-20deg); }
+          100% { transform: translateX(200%) skewX(-20deg); }
         }
       `}</style>
     </div>
