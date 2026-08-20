@@ -1,168 +1,203 @@
-import { useState } from 'react'
-import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-const rules = [
+gsap.registerPlugin(ScrollTrigger)
+
+const rulesList = [
   {
-    id: 'team',
-    icon: '👥',
-    title: 'Team Size',
-    content:
-      'Each team must comprise 2 to 4 members. Solo participation is not permitted. Teams may include members from different colleges or departments — we encourage cross-disciplinary collaboration.',
+    id: 1,
+    title: 'Team Formation',
+    rule: 'Teams of up to 4 — solo builders welcome too. Cross-college teams are fully permitted.',
+    accent: '#2ED3E8', // Blue
   },
   {
-    id: 'eligibility',
-    icon: '🎓',
-    title: 'Eligibility',
-    content:
-      'Open to all currently enrolled undergraduate students (B.E. / B.Tech / B.Sc / BCA / equivalent) from any recognised institution in India. No minimum CGPA requirement.',
+    id: 2,
+    title: 'Fresh Code Only',
+    rule: 'All code must be written during the 24-hour window. No pre-built codebases allowed.',
+    accent: '#FF2E9A', // Pink
   },
   {
-    id: 'idea',
-    icon: '💡',
-    title: 'One Idea Per Team',
-    content:
-      'Each team may submit exactly one project. The idea, code, design, and presentation must be the original work of the registered team — created entirely during the 24-hour hacking window.',
+    id: 3,
+    title: 'Assets & Designs',
+    rule: 'Pre-existing designs, wireframes, open-source libraries, and APIs are allowed.',
+    accent: '#2ED3E8', // Blue
   },
   {
-    id: 'conduct',
-    icon: '🤝',
+    id: 4,
+    title: 'Bounty Qualification',
+    rule: 'You must integrate at least one sponsor API/tool/platform to qualify for bounty prize tracks.',
+    accent: '#FF2E9A', // Pink
+  },
+  {
+    id: 5,
+    title: 'Submission & Pitch',
+    rule: 'Final submission (repo + deck + demo video) plus a live 3-minute pitch required to be judged.',
+    accent: '#2ED3E8', // Blue
+  },
+  {
+    id: 6,
     title: 'Code of Conduct',
-    content:
-      'All participants must treat fellow hackers, mentors, and organisers with respect. Discrimination, harassment, plagiarism, or violation of Hackatopia\'s Code of Conduct will result in immediate disqualification.',
+    rule: 'Respect fellow builders, mentors, and staff. Zero tolerance for harassment or plagiarism.',
+    accent: '#FF2E9A', // Pink
   },
-  {
-    id: 'submission',
-    icon: '📦',
-    title: 'Submission Deadline',
-    content:
-      'All project submissions (code repository link + demo video + presentation deck) must be submitted before 15 March 2027, 12:00 PM IST. Late submissions will not be accepted under any circumstances.',
-  },
-  {
-    id: 'judging',
-    icon: '⚖️',
-    title: 'Judging Criteria',
-    content:
-      'Projects will be evaluated across four dimensions: Innovation (25%) — originality and creativity of the idea; Feasibility (25%) — technical correctness and scalability; Execution (25%) — quality of implementation and code; Presentation (25%) — clarity, impact, and demo quality.',
-  },
-]
-
-function RuleItem({ rule, idx }) {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <div
-      className={`sr-hidden sr-delay-${Math.min(idx + 1, 6)} accordion-item`}
-    >
-      <button
-        className="w-full flex items-center gap-4 py-5 px-1 text-left
-                   hover:text-cyan-300 transition-colors duration-200 group"
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-      >
-        {/* Icon */}
-        <span className="text-2xl flex-shrink-0">{rule.icon}</span>
-
-        {/* Title */}
-        <span className="flex-1 font-semibold text-sm md:text-base text-white/90 group-hover:text-white transition-colors">
-          {rule.title}
-        </span>
-
-        {/* Toggle glyph */}
-        <span
-          className="font-pixel text-base transition-all duration-300 flex-shrink-0"
-          style={{
-            color: open ? '#00e5ff' : 'rgba(255,255,255,0.4)',
-            textShadow: open ? '0 0 10px #00e5ff' : 'none',
-            transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
-          }}
-        >
-          +
-        </span>
-      </button>
-
-      {/* Content */}
-      <div className={`accordion-content ${open ? 'open' : ''}`}>
-        <p className="text-white/60 text-sm leading-relaxed pb-5 pl-10 pr-1">
-          {rule.content}
-        </p>
-      </div>
-    </div>
-  )
-}
-
-const criteria = [
-  { label: 'Innovation', pct: 25, color: '#00e5ff' },
-  { label: 'Feasibility', pct: 25, color: '#ff2ea6' },
-  { label: 'Execution', pct: 25, color: '#a855f7' },
-  { label: 'Presentation', pct: 25, color: '#ffb020' },
 ]
 
 export default function Rules() {
-  const containerRef = useScrollReveal()
+  const sectionRef = useRef(null)
+  const headerRef = useRef(null)
+  const rulesContainerRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 75%',
+          once: true,
+        },
+      })
+
+      if (prefersReducedMotion) {
+        gsap.set([headerRef.current, rulesContainerRef.current], { opacity: 1, y: 0 })
+        return
+      }
+
+      // Header entrance
+      tl.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }
+      )
+
+      // Alternating slide-in for rule rows
+      if (rulesContainerRef.current) {
+        const rows = rulesContainerRef.current.querySelectorAll('.rule-row')
+        rows.forEach((row, i) => {
+          const fromLeft = i % 2 === 0
+          gsap.fromTo(
+            row,
+            {
+              opacity: 0,
+              x: fromLeft ? -40 : 40,
+            },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.65,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: row,
+                start: 'top 85%',
+                once: true,
+              },
+            }
+          )
+        })
+      }
+    }, section)
+
+    return () => ctx.revert()
+  }, [])
 
   return (
     <section
       id="rules"
-      ref={containerRef}
-      className="relative py-28 px-6 overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #130840 0%, #150a45 100%)' }}
+      ref={sectionRef}
+      className="relative py-28 sm:py-36 px-6 lg:px-12 overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #0a0a14 0%, #0c0824 50%, #0a0a14 100%)',
+      }}
     >
-      <div className="orb w-72 h-72 bg-cyan-600/8 bottom-10 left-10"
-           style={{ animationDuration: '9s' }} />
+      {/* Background Grid Lines */}
+      <div
+        className="absolute inset-0 opacity-[0.08] pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(46, 211, 232, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 211, 232, 0.4) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}
+      />
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl w-full mx-auto relative z-10 flex flex-col gap-12 sm:gap-16">
         {/* Header */}
-        <div className="text-center mb-14 space-y-4">
-          <div className="sr-hidden">
-            <span className="section-label">📋 Rules & Regs</span>
-          </div>
-          <h2 className="sr-hidden sr-delay-1 font-pixel text-2xl md:text-3xl
-                         bg-gradient-to-r from-fuchsia-400 to-cyan-400 bg-clip-text text-transparent">
-            Rules &amp; Regulations
+        <div ref={headerRef} className="flex flex-col items-center text-center space-y-4 opacity-0">
+          <span className="font-pixel text-[0.65rem] sm:text-xs tracking-[0.25em] text-[#2ED3E8] uppercase px-3 py-1.5 rounded-sm bg-[#2ED3E8]/10 border border-[#2ED3E8]/30 shadow-[0_0_12px_rgba(46,211,232,0.2)]">
+            // THE RULEBOOK
+          </span>
+
+          <h2 className="font-pixel text-2xl sm:text-4xl lg:text-5xl leading-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
+            Build Fair. Build Fast. Build Real.
           </h2>
+
+          <p className="text-white/70 text-sm sm:text-base max-w-xl mx-auto font-medium">
+            Clear guidelines for all hackers. Play by the rules, build with honor, and create something extraordinary.
+          </p>
         </div>
 
-        {/* Two column layout on large screens */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Accordion — 2 cols */}
-          <div className="md:col-span-2 glass-panel glow-border-cyan px-6 py-2">
-            {rules.map((rule, idx) => (
-              <RuleItem key={rule.id} rule={rule} idx={idx} />
-            ))}
-          </div>
+        {/* 6 Rules List with Voxel Cube Markers in Blue & Pink */}
+        <div ref={rulesContainerRef} className="flex flex-col gap-4 sm:gap-5 w-full">
+          {rulesList.map((r) => {
+            const isPink = r.accent === '#FF2E9A'
+            return (
+              <div
+                key={r.id}
+                className="rule-row group relative p-5 sm:p-6 rounded-md flex items-start gap-4 sm:gap-6 cursor-default transition-all duration-200"
+                style={{
+                  background: 'linear-gradient(165deg, rgba(14,14,28,0.85) 0%, rgba(8,8,18,0.95) 100%)',
+                  border: '2px solid rgba(255, 255, 255, 0.08)',
+                  boxShadow: '0 6px 0 rgba(0,0,0,0.8), 0 12px 24px rgba(0,0,0,0.5)',
+                }}
+              >
+                {/* Glowing Voxel-Cube Number Marker in Blue / Pink */}
+                <div
+                  className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center rounded-sm text-black font-pixel text-sm sm:text-base font-bold shadow-[0_4px_0_#000,inset_0_1px_0_rgba(255,255,255,0.4)] group-hover:scale-105 transition-transform duration-200"
+                  style={{
+                    background: r.accent,
+                    boxShadow: `0 4px 0 #000, 0 0 16px ${r.accent}80, inset 0 1px 0 rgba(255,255,255,0.4)`,
+                  }}
+                >
+                  0{r.id}
+                </div>
 
-          {/* Judging criteria visual — 1 col */}
-          <div className="glass-panel glow-border-magenta p-6 flex flex-col gap-5 self-start sticky top-28">
-            <h3 className="font-pixel text-xs text-fuchsia-400 tracking-wider">
-              Judging Criteria
-            </h3>
-            {criteria.map((c, i) => (
-              <div key={c.label} className={`sr-hidden sr-delay-${i + 2}`}>
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="text-white/70">{c.label}</span>
-                  <span style={{ color: c.color }} className="font-semibold">{c.pct}%</span>
+                {/* Rule Details */}
+                <div className="flex-1 space-y-1">
+                  <h3
+                    className="font-pixel text-xs sm:text-sm text-white group-hover:text-[var(--accent)] transition-colors"
+                    style={{ '--accent': r.accent }}
+                  >
+                    {r.title}
+                  </h3>
+                  <p className="text-white/70 text-xs sm:text-sm leading-relaxed font-medium">
+                    {r.rule}
+                  </p>
                 </div>
-                <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: `${c.pct}%`,
-                      background: `linear-gradient(90deg, ${c.color}80, ${c.color})`,
-                      boxShadow: `0 0 8px ${c.color}`,
-                    }}
-                  />
-                </div>
+
+                {/* Status Indicator */}
+                <span
+                  className="hidden sm:inline-block font-mono text-[0.65rem] tracking-widest uppercase mt-1"
+                  style={{ color: `${r.accent}80` }}
+                >
+                  RULE 0{r.id}
+                </span>
               </div>
-            ))}
-
-            <div className="mt-4 pt-4 border-t border-white/10">
-              <p className="text-white/40 text-xs leading-relaxed">
-                Judging panel includes industry experts and faculty mentors. Scores are final and binding.
-              </p>
-            </div>
-          </div>
+            )
+          })}
         </div>
       </div>
+
+      <style>{`
+        .rule-row:hover {
+          border-color: rgba(46, 211, 232, 0.3) !important;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 0 rgba(0,0,0,0.8), 0 16px 30px rgba(46,211,232,0.15) !important;
+        }
+      `}</style>
     </section>
   )
 }

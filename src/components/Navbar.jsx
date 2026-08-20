@@ -3,21 +3,15 @@ import StaggeredMenu from './StaggeredMenu/StaggeredMenu';
 import logo from '../assets/logo.png';
 
 const menuItems = [
-  { label: 'Home', ariaLabel: 'Go to home section', link: '#home' },
   { label: 'About', ariaLabel: 'Learn about Hackatopia', link: '#about' },
   { label: 'Tracks', ariaLabel: 'Explore innovation domains', link: '#domains' },
-  { label: 'Rules', ariaLabel: 'Hackathon rules & guidelines', link: '#rules' },
   { label: 'Timeline', ariaLabel: '24-hour event timeline', link: '#timeline' },
-  { label: 'Sponsors', ariaLabel: 'Our partners & sponsors', link: '#sponsors' },
-  { label: 'FAQ', ariaLabel: 'Frequently asked questions', link: '#faq' },
-  { label: 'Contact', ariaLabel: 'Get in touch with organizers', link: '#contact' }
+  { label: 'Coordinators', ariaLabel: 'Central event coordinators', link: '#coordinators' },
+  { label: 'Location', ariaLabel: 'Venue and location map', link: '#map' },
 ];
 
 const socialItems = [
-  { label: 'Discord', link: 'https://discord.gg' },
-  { label: 'GitHub', link: 'https://github.com' },
-  { label: 'Instagram', link: 'https://instagram.com' },
-  { label: 'Devfolio', link: 'https://devfolio.co' }
+  { label: 'Instagram', link: 'https://instagram.com/hackatopia' },
 ];
 
 const Navbar = () => {
@@ -27,7 +21,7 @@ const Navbar = () => {
       items={menuItems}
       socialItems={socialItems}
       displaySocials={true}
-      displayItemNumbering={true}
+      displayItemNumbering={false}
       menuButtonColor="#ffffff"
       openMenuButtonColor="#00e5ff"
       changeMenuColorOnOpen={true}

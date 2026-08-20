@@ -1,167 +1,230 @@
 import { useState } from 'react'
+import { Phone, GraduationCap, User, Copy, Check } from 'lucide-react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
-const faculty = [
+const facultyCoordinators = [
   {
-    name: 'Dr. A. Placeholder',
-    role: 'Professor & HOD, Dept. of CSE',
-    email: 'placeholder@xyzit.edu.in',
-    phone: '+91 99XXX XXXXX',
-    initial: 'A',
-    gradient: 'from-cyan-600 to-blue-800',
+    name: 'Mr. Manjunath Raikar',
+    role: 'Faculty Coordinator',
+    phone: '+91 9448922929',
+    rawPhone: '+919448922929',
+    color: '#00e5ff',
   },
   {
-    name: 'Prof. B. Placeholder',
-    role: 'Associate Professor, Dept. of CSE',
-    email: 'placeholder@xyzit.edu.in',
-    phone: '+91 98XXX XXXXX',
-    initial: 'B',
-    gradient: 'from-fuchsia-600 to-purple-800',
+    name: 'Ms. Viswalakshmi',
+    role: 'Faculty Coordinator',
+    phone: '+91 9946042686',
+    rawPhone: '+919946042686',
+    color: '#FF2E9A',
   },
   {
-    name: 'Dr. C. Placeholder',
-    role: 'Asst. Professor & Event Faculty Advisor',
-    email: 'placeholder@xyzit.edu.in',
-    phone: '+91 97XXX XXXXX',
-    initial: 'C',
-    gradient: 'from-pink-600 to-red-800',
-  },
-]
-
-const students = [
-  {
-    name: 'Placeholder Alpha',
-    role: 'Lead Coordinator, 4th Year CSE',
-    email: 'alpha.student@xyzit.edu.in',
-    phone: '+91 96XXX XXXXX',
-    initial: 'α',
-    gradient: 'from-orange-500 to-yellow-700',
+    name: 'Mr. Pandu Naik',
+    role: 'Faculty Coordinator',
+    phone: '+91 8197914952',
+    rawPhone: '+918197914952',
+    color: '#00e5ff',
   },
   {
-    name: 'Placeholder Beta',
-    role: 'Technical Head, 3rd Year CSE',
-    email: 'beta.student@xyzit.edu.in',
-    phone: '+91 95XXX XXXXX',
-    initial: 'β',
-    gradient: 'from-cyan-500 to-teal-800',
-  },
-  {
-    name: 'Placeholder Gamma',
-    role: 'Design & Outreach Lead, 3rd Year CSE',
-    email: 'gamma.student@xyzit.edu.in',
-    phone: '+91 94XXX XXXXX',
-    initial: 'γ',
-    gradient: 'from-fuchsia-500 to-pink-800',
+    name: 'Mr. Christine Justine',
+    role: 'Faculty Coordinator',
+    phone: '+91 8086081791',
+    rawPhone: '+918086081791',
+    color: '#FF2E9A',
   },
 ]
 
-function CoordCard({ person, delay }) {
+const studentCoordinators = [
+  {
+    name: 'Noaman Nazeer Ahamed',
+    role: 'Student Coordinator',
+    phone: '+91 7829320282',
+    rawPhone: '+917829320282',
+    color: '#00e5ff',
+  },
+  {
+    name: 'Soha Parveen',
+    role: 'Student Coordinator',
+    phone: '+91 8217086280',
+    rawPhone: '+918217086280',
+    color: '#FF2E9A',
+  },
+  {
+    name: 'Abhinav S',
+    role: 'Student Coordinator',
+    phone: '+91 8714348101',
+    rawPhone: '+918714348101',
+    color: '#00e5ff',
+  },
+  {
+    name: 'Sinchana Patgar',
+    role: 'Student Coordinator',
+    phone: '+91 8618969945',
+    rawPhone: '+918618969945',
+    color: '#FF2E9A',
+  },
+]
+
+function CoordinatorCard({ person, isFaculty = false }) {
+  const [copied, setCopied] = useState(false)
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <div
-      className={`sr-hidden ${delay} glass-panel glow-border-cyan
-                  flex flex-col items-center text-center gap-4 p-6
-                  hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(0,229,255,0.15)]
-                  transition-all duration-300`}
+      className="group relative p-5 sm:p-6 rounded-xl transition-all duration-300 flex flex-col justify-between"
+      style={{
+        background: 'linear-gradient(165deg, rgba(14, 18, 36, 0.9) 0%, rgba(8, 10, 24, 0.96) 100%)',
+        border: '1.5px solid rgba(0, 229, 255, 0.16)',
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = person.color
+        e.currentTarget.style.boxShadow = `0 12px 36px rgba(0, 0, 0, 0.8), 0 0 25px ${person.color}35, inset 0 1px 0 rgba(255, 255, 255, 0.15)`
+        e.currentTarget.style.transform = 'translateY(-3px)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'rgba(0, 229, 255, 0.16)'
+        e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+        e.currentTarget.style.transform = 'translateY(0)'
+      }}
     >
-      {/* Avatar */}
+      {/* Top Accent Line */}
       <div
-        className={`coord-avatar bg-gradient-to-br ${person.gradient} text-white font-bold text-2xl`}
-      >
-        {person.initial}
-      </div>
+        className="absolute top-0 left-0 right-0 h-0.5 rounded-t-xl opacity-70 group-hover:opacity-100 transition-opacity"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${person.color}, transparent)`,
+        }}
+      />
 
-      {/* Info */}
-      <div className="space-y-1">
-        <h4 className="text-white font-semibold text-sm">{person.name}</h4>
-        <p className="text-white/50 text-xs leading-snug">{person.role}</p>
-      </div>
+      <div className="space-y-3.5">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm text-black flex-shrink-0 transition-transform duration-300 group-hover:scale-105"
+            style={{
+              background: person.color,
+              boxShadow: `0 0 16px ${person.color}80`,
+            }}
+          >
+            {isFaculty ? (
+              <GraduationCap className="w-5 h-5 text-black" />
+            ) : (
+              <User className="w-5 h-5 text-black" />
+            )}
+          </div>
 
-      {/* Contact icons */}
-      <div className="flex items-center gap-3 pt-2 border-t border-white/10 w-full justify-center">
-        <a
-          href={`mailto:${person.email}`}
-          title={person.email}
-          className="w-8 h-8 rounded-full flex items-center justify-center
-                     bg-cyan-400/10 border border-cyan-400/20
-                     hover:bg-cyan-400/20 hover:border-cyan-400/40
-                     transition-all duration-200 text-sm"
-        >
-          ✉️
-        </a>
-        <a
-          href={`tel:${person.phone}`}
-          title={person.phone}
-          className="w-8 h-8 rounded-full flex items-center justify-center
-                     bg-fuchsia-400/10 border border-fuchsia-400/20
-                     hover:bg-fuchsia-400/20 hover:border-fuchsia-400/40
-                     transition-all duration-200 text-sm"
-        >
-          📞
-        </a>
+          <div className="min-w-0 flex-1">
+            <h4 className="text-white font-bold text-sm sm:text-base tracking-tight group-hover:text-[#00e5ff] transition-colors truncate">
+              {person.name}
+            </h4>
+            <p className="text-white/50 text-xs font-mono">{person.role}</p>
+          </div>
+        </div>
+
+        {/* Phone contact bar */}
+        <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
+          <a
+            href={`tel:${person.rawPhone}`}
+            className="flex items-center gap-2 text-xs sm:text-sm text-white/80 hover:text-[#00e5ff] transition-colors font-mono"
+            title={`Call ${person.name}`}
+          >
+            <Phone className="w-3.5 h-3.5 text-[#00e5ff] flex-shrink-0" />
+            <span>{person.phone}</span>
+          </a>
+
+          <button
+            onClick={() => copyToClipboard(person.phone)}
+            className="p-1 rounded text-white/40 hover:text-white transition-colors cursor-pointer"
+            title="Copy Phone Number"
+          >
+            {copied ? (
+              <Check className="w-3.5 h-3.5 text-emerald-400" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
+          </button>
+        </div>
       </div>
     </div>
   )
 }
 
 export default function Coordinators() {
-  const [activeTab, setActiveTab] = useState('faculty')
   const containerRef = useScrollReveal()
-
-  const displayed = activeTab === 'faculty' ? faculty : students
 
   return (
     <section
       id="coordinators"
       ref={containerRef}
-      className="relative py-28 px-6 overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #17094a 0%, #1a0850 100%)' }}
+      className="relative py-24 sm:py-32 px-6 lg:px-12 overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #0a0a14 0%, #0c0824 50%, #0a0a14 100%)',
+      }}
     >
-      <div className="orb w-80 h-80 bg-fuchsia-600/8 top-20 right-10"
-           style={{ animationDuration: '8s' }} />
+      {/* Background Grid Lines */}
+      <div
+        className="absolute inset-0 opacity-[0.06] pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(0, 229, 255, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.4) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}
+      />
 
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12 space-y-4">
-          <div className="sr-hidden">
-            <span className="section-label">👤 Team</span>
-          </div>
-          <h2 className="sr-hidden sr-delay-1 font-pixel text-2xl md:text-3xl
-                         bg-gradient-to-r from-cyan-400 to-fuchsia-400 bg-clip-text text-transparent">
-            Co-ordinators
+      <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-14 sm:gap-16">
+        {/* Section Header */}
+        <div className="flex flex-col items-center text-center space-y-4">
+          <span className="font-pixel text-[0.65rem] sm:text-xs tracking-[0.25em] text-[#00e5ff] uppercase px-3.5 py-1.5 rounded-sm bg-[#00e5ff]/10 border border-[#00e5ff]/30 shadow-[0_0_12px_rgba(0,229,255,0.25)]">
+            // LEADERSHIP & ASSISTANCE
+          </span>
+
+          <h2 className="font-pixel text-2xl sm:text-4xl lg:text-5xl leading-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+            Event Coordinators
           </h2>
+
+          <div className="h-0.5 w-24 bg-gradient-to-r from-transparent via-[#00e5ff] to-transparent shadow-[0_0_12px_#00e5ff]" />
+
+          <p className="text-white/70 text-xs sm:text-sm md:text-base max-w-xl mx-auto font-medium leading-relaxed">
+            Have questions regarding registrations, themes, or event rules? Reach out to our faculty & student coordinators.
+          </p>
         </div>
 
-        {/* Tab switcher */}
-        <div className="sr-hidden sr-delay-2 flex justify-center mb-10">
-          <div className="flex gap-1 glass-panel glow-border-cyan p-1.5 rounded-full">
-            {[
-              { key: 'faculty', label: '🎓 Faculty' },
-              { key: 'students', label: '👾 Students' },
-            ].map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-                  activeTab === tab.key
-                    ? 'bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-pink-500 text-white shadow-[0_0_15px_rgba(217,70,239,0.5)]'
-                    : 'text-white/50 hover:text-white'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+        {/* 2-Section Grid (4 Faculty Coordinators & 4 Student Coordinators) */}
+        <div className="space-y-12">
+          {/* Row 1: Faculty Coordinators */}
+          <div className="space-y-5">
+            <div className="flex items-center gap-3 pb-2 border-b border-white/10">
+              <div className="w-2 h-2 rounded-[1px] bg-[#00e5ff] shadow-[0_0_8px_#00e5ff]" />
+              <h3 className="font-pixel text-sm sm:text-base text-white tracking-wider">
+                Faculty Coordinators
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {facultyCoordinators.map((person) => (
+                <CoordinatorCard key={person.name} person={person} isFaculty={true} />
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {displayed.map((person, i) => (
-            <CoordCard
-              key={person.name}
-              person={person}
-              delay={`sr-delay-${i + 1}`}
-            />
-          ))}
+          {/* Row 2: Student Coordinators */}
+          <div className="space-y-5">
+            <div className="flex items-center gap-3 pb-2 border-b border-white/10">
+              <div className="w-2 h-2 rounded-[1px] bg-[#FF2E9A] shadow-[0_0_8px_#FF2E9A]" />
+              <h3 className="font-pixel text-sm sm:text-base text-white tracking-wider">
+                Student Coordinators
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {studentCoordinators.map((person) => (
+                <CoordinatorCard key={person.name} person={person} isFaculty={false} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

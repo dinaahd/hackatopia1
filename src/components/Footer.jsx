@@ -1,123 +1,167 @@
-import logo from '../assets/logo.png'
-
 const quickLinks = [
-  { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
   { label: 'Domains', href: '#domains' },
-  { label: 'Rules', href: '#rules' },
-  { label: 'Sponsors', href: '#sponsors' },
   { label: 'Timeline', href: '#timeline' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Coordinators', href: '#coordinators' },
+  { label: 'Location', href: '#map' },
 ]
 
-const socials = [
-  {
-    label: 'Instagram',
-    href: 'https://instagram.com/hackatopia_xyz',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-      </svg>
-    ),
-  },
-  {
-    label: 'LinkedIn',
-    href: 'https://linkedin.com/company/hackatopia',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Twitter / X',
-    href: 'https://twitter.com/hackatopia_xyz',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-      </svg>
-    ),
-  },
-]
+// ── Official Organiser Logos (SVG inline / text-badge fallback) ──
+
+function YitLogo() {
+  return (
+    <div className="flex flex-col items-center gap-1.5">
+      <div
+        className="w-14 h-14 rounded-xl flex items-center justify-center font-black text-xl text-white"
+        style={{
+          background: 'linear-gradient(135deg, #1a3c6b 0%, #0d2044 100%)',
+          boxShadow: '0 0 18px rgba(26, 60, 107, 0.8)',
+          border: '1.5px solid rgba(100, 160, 255, 0.4)',
+        }}
+      >
+        <span style={{ fontFamily: 'monospace', fontSize: '1.1rem', letterSpacing: '-0.05em' }}>YIT</span>
+      </div>
+      <span className="text-[0.6rem] text-white/50 text-center leading-tight max-w-[80px] font-medium">
+        Yenepoya Inst. of Tech
+      </span>
+    </div>
+  )
+}
+
+function IeeeLogo() {
+  return (
+    <div className="flex flex-col items-center gap-1.5">
+      <div
+        className="w-14 h-14 rounded-xl flex items-center justify-center"
+        style={{
+          background: 'linear-gradient(135deg, #003b8e 0%, #001d50 100%)',
+          boxShadow: '0 0 18px rgba(0, 59, 142, 0.8)',
+          border: '1.5px solid rgba(0, 120, 255, 0.4)',
+        }}
+      >
+        {/* IEEE Diamond Icon */}
+        <svg viewBox="0 0 48 48" className="w-9 h-9" fill="none">
+          <text x="50%" y="58%" dominantBaseline="middle" textAnchor="middle"
+            style={{ fontFamily: 'Georgia, serif', fontSize: '14px', fontWeight: 'bold', fill: '#00aaff', letterSpacing: '0' }}>
+            IEEE
+          </text>
+        </svg>
+      </div>
+      <span className="text-[0.6rem] text-white/50 text-center leading-tight max-w-[80px] font-medium">
+        IEEE Student Branch
+      </span>
+    </div>
+  )
+}
+
+function CybernautsLogo() {
+  return (
+    <div className="flex flex-col items-center gap-1.5">
+      <div
+        className="w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, #1a0040 0%, #0d001f 100%)',
+          boxShadow: '0 0 18px rgba(139, 0, 255, 0.7)',
+          border: '1.5px solid rgba(180, 50, 255, 0.45)',
+        }}
+      >
+        {/* Circuit node icon */}
+        <svg viewBox="0 0 40 40" className="w-8 h-8" fill="none">
+          <circle cx="20" cy="20" r="5" fill="#b432ff" />
+          <circle cx="20" cy="20" r="9" stroke="#b432ff" strokeWidth="1.5" fill="none" opacity="0.5" />
+          <line x1="20" y1="4" x2="20" y2="11" stroke="#b432ff" strokeWidth="1.5" />
+          <line x1="20" y1="29" x2="20" y2="36" stroke="#b432ff" strokeWidth="1.5" />
+          <line x1="4" y1="20" x2="11" y2="20" stroke="#b432ff" strokeWidth="1.5" />
+          <line x1="29" y1="20" x2="36" y2="20" stroke="#b432ff" strokeWidth="1.5" />
+          <circle cx="20" cy="4" r="2" fill="#b432ff" />
+          <circle cx="20" cy="36" r="2" fill="#b432ff" />
+          <circle cx="4" cy="20" r="2" fill="#b432ff" />
+          <circle cx="36" cy="20" r="2" fill="#b432ff" />
+        </svg>
+      </div>
+      <span className="text-[0.6rem] text-white/50 text-center leading-tight max-w-[80px] font-medium">
+        Cybernauts ×<br />YenCoders
+      </span>
+    </div>
+  )
+}
 
 export default function Footer() {
   return (
     <footer
       id="contact"
-      className="relative pt-20 pb-10 px-6 overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #20095f 0%, #080220 100%)' }}
+      className="relative pt-16 pb-10 px-6 lg:px-16 overflow-hidden"
+      style={{ background: '#05050f' }}
     >
-      {/* Top glow line */}
-      <div className="absolute top-0 left-0 right-0 h-px
-                      bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
+      {/* Top gradient line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00e5ff]/40 to-transparent" />
 
-      {/* Orbs */}
-      <div className="orb w-96 h-96 bg-fuchsia-600/8 top-0 left-1/2 -translate-x-1/2"
-           style={{ animationDuration: '12s' }} />
+      <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-12">
 
-      <div className="max-w-6xl mx-auto">
-        {/* Register CTA banner */}
-        <div className="glass-panel glow-border-cyan p-8 md:p-12 text-center mb-16 space-y-5 relative overflow-hidden">
-          <div className="scanlines absolute inset-0 rounded-2xl pointer-events-none" />
-          <p className="font-pixel text-[0.6rem] text-cyan-400 tracking-widest">
-            🚀 Registrations Open — March 2027
-          </p>
-          <h2 className="font-pixel text-xl md:text-3xl gradient-text leading-snug">
-            Ready to Build<br/>Utopia?
-          </h2>
-          <p className="text-white/50 text-sm max-w-md mx-auto">
-            Join 500+ builders, dreamers, and creators. 24 hours. One theme. Infinite possibilities.
-          </p>
-          <a href="#register" className="btn-cta text-base px-10 py-4">
-            ⚡ Register Now — It's Free
-          </a>
+        {/* ── Organiser Logo Strip ── */}
+        <div
+          className="flex flex-wrap items-center justify-center gap-8 py-6 px-6 rounded-2xl"
+          style={{
+            background: 'linear-gradient(165deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+          }}
+        >
+          <span className="text-[0.65rem] font-pixel tracking-widest text-white/35 uppercase w-full text-center sm:w-auto sm:text-left">
+            Organised by
+          </span>
+          <div className="flex flex-wrap items-start justify-center gap-8">
+            <YitLogo />
+            {/* Vertical Divider */}
+            <div className="hidden sm:block w-px h-16 bg-white/10 self-center" />
+            <IeeeLogo />
+            <div className="hidden sm:block w-px h-16 bg-white/10 self-center" />
+            <CybernautsLogo />
+          </div>
         </div>
 
-        {/* 3-column footer */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-14">
-          {/* Col 1 — Contact */}
+        {/* ── 3-Column Layout ── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 items-start">
+
+          {/* Col 1: Contact */}
           <div className="space-y-5">
-            <div className="flex items-center gap-3">
-              <img src={logo} alt="Hackatopia" className="h-8 w-8 object-contain" />
-              <span className="font-pixel text-xs text-white/80">HACKATOPIA</span>
-            </div>
-            <p className="text-white/50 text-sm leading-relaxed">
-              Organised by the <span className="text-cyan-400">Department of Computer Science &amp; Engineering</span> and
-              the <span className="text-fuchsia-400">XYZ Tech Club</span> at
-              XYZ Institute of Technology, Placeholder City.
-            </p>
-            <div className="space-y-2 text-sm text-white/50">
-              <p className="flex items-center gap-2">
-                <span>📧</span>
-                <a href="mailto:hello@hackatopia.xyz" className="hover:text-cyan-400 transition-colors">
-                  hello@hackatopia.xyz
+            <h4 className="font-pixel text-sm sm:text-base text-[#00e5ff] tracking-wider">
+              Contact
+            </h4>
+            <div className="space-y-3 text-sm font-mono">
+              <div>
+                <span className="text-white/50 text-xs uppercase tracking-wider block mb-0.5">Phone</span>
+                <a href="tel:+919448922929" className="text-white/80 hover:text-[#00e5ff] transition-colors block">+91 9448922929</a>
+                <a href="tel:+919946042686" className="text-white/80 hover:text-[#00e5ff] transition-colors block">+91 9946042686</a>
+              </div>
+              <div>
+                <span className="text-white/50 text-xs uppercase tracking-wider block mb-0.5">Email</span>
+                <a href="mailto:iste@yit.edu.in" className="text-white/80 hover:text-[#00e5ff] transition-colors">
+                  iste@yit.edu.in
                 </a>
-              </p>
-              <p className="flex items-center gap-2">
-                <span>📞</span>
-                <a href="tel:+910000000000" className="hover:text-cyan-400 transition-colors">
-                  +91 00000 00000
-                </a>
-              </p>
-              <p className="flex items-start gap-2">
-                <span className="mt-0.5">📍</span>
-                <span>XYZ Institute of Technology,<br/>Tech Park Road, Placeholder City — 600 XXX</span>
-              </p>
+              </div>
+              <div>
+                <span className="text-white/50 text-xs uppercase tracking-wider block mb-0.5">Venue</span>
+                <span className="text-white/70 leading-relaxed">
+                  Yenepoya Institute of Technology,<br />
+                  Moodbidri, Mangalore – 574 225
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Col 2 — Quick Links */}
+          {/* Col 2: Quick Links */}
           <div className="space-y-5">
-            <h4 className="font-pixel text-[0.65rem] text-white/70 tracking-widest">Quick Links</h4>
-            <ul className="space-y-2">
+            <h4 className="font-pixel text-sm sm:text-base text-[#00e5ff] tracking-wider">
+              Quick Links
+            </h4>
+            <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-white/50 text-sm hover:text-cyan-400
-                               transition-colors duration-200 flex items-center gap-2 group"
+                    className="text-sm text-white/65 hover:text-white transition-colors flex items-center gap-2 group"
                   >
-                    <span className="w-4 h-px bg-white/20 group-hover:bg-cyan-400 group-hover:w-6 transition-all duration-200" />
+                    <span className="w-1 h-1 rounded-full bg-[#00e5ff]/40 group-hover:bg-[#00e5ff] transition-colors flex-shrink-0" />
                     {link.label}
                   </a>
                 </li>
@@ -125,49 +169,41 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Col 3 — Socials */}
+          {/* Col 3: Follow */}
           <div className="space-y-5">
-            <h4 className="font-pixel text-[0.65rem] text-white/70 tracking-widest">Follow Us</h4>
-            <div className="space-y-3">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-white/50 hover:text-white
-                             transition-colors duration-200 group"
-                >
-                  <span
-                    className="w-9 h-9 rounded-xl flex items-center justify-center
-                               bg-white/5 border border-white/10
-                               group-hover:border-cyan-400/40 group-hover:bg-cyan-400/10
-                               transition-all duration-200"
-                  >
-                    {s.icon}
-                  </span>
-                  <span className="text-sm">{s.label}</span>
-                </a>
-              ))}
-            </div>
+            <h4 className="font-pixel text-sm sm:text-base text-[#00e5ff] tracking-wider">
+              Follow Us
+            </h4>
+            <a
+              href="https://instagram.com/hackatopia"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="group inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 hover:border-[#FF2E9A] transition-all duration-300 shadow-[0_0_18px_rgba(255,46,154,0.15)] hover:shadow-[0_0_28px_rgba(255,46,154,0.45)]"
+            >
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-200 shadow-md">
+                <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+              </div>
+              <span className="text-sm font-bold text-white/80 group-hover:text-[#FF2E9A] transition-colors font-mono tracking-wide">
+                @hackatopia
+              </span>
+            </a>
 
-            <div className="pt-4">
-              <p className="font-pixel text-[0.55rem] text-orange-400/80 tracking-widest">
-                #BuildUtopia2027
-              </p>
-            </div>
+            {/* Tagline */}
+            <p className="text-xs text-white/35 font-mono leading-relaxed pt-2">
+              CODE · COLLABORATE · CREATE
+            </p>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center
-                        justify-between gap-3 text-white/30 text-xs">
-          <p>
-            © 2027 Hackatopia — XYZ Institute of Technology. All rights reserved.
-          </p>
-          <p className="font-pixel text-[0.5rem] tracking-widest text-white/20">
-            Designed with 💜 by XYZ Tech Club
-          </p>
+        {/* ── Bottom Bar ── */}
+        <div className="pt-6 border-t border-white/[0.08]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[0.65rem] text-white/35 font-mono">
+            <p>© 2025 Yenepoya Institute of Technology · Cybernauts × YenCoders · IEEE YIT Student Branch</p>
+            <p className="text-white/25">All Rights Reserved</p>
+          </div>
         </div>
       </div>
     </footer>

@@ -164,12 +164,12 @@ body {
 
 /* Retro Arcade 3D Button - Base */
 .btn-arcade {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  padding: 0.75rem 1.6rem;
-  border-radius: 9999px;
-  border: 3px solid #000000;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 0.88rem;
+  letter-spacing: 0.14em;
+  padding: 0.9rem 2rem;
+  border-radius: 0.75rem;
   cursor: pointer;
   user-select: none;
   display: inline-flex;
@@ -177,125 +177,115 @@ body {
   justify-content: center;
   gap: 0.6rem;
   text-decoration: none;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
   position: relative;
   text-transform: uppercase;
+  overflow: hidden;
 }
 
 /* 1. Amber / Golden "PLAY" / "START" Arcade Button */
 .btn-arcade-amber {
-  background: linear-gradient(180deg, #ffd84d 0%, #ffb119 55%, #e67e00 100%);
-  color: #2b0b00;
+  background: linear-gradient(135deg, #ffcc00 0%, #ff9e00 50%, #ff7300 100%);
+  color: #1a0a00;
+  border: 1.5px solid #ffe680;
   box-shadow: 
-    0 5px 0 #000000,
-    0 8px 15px rgba(0, 0, 0, 0.6),
-    inset 0 2.5px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -2.5px 0 rgba(0, 0, 0, 0.35);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+    0 5px 0 #a34e00,
+    0 10px 25px rgba(255, 154, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 }
 .btn-arcade-amber:hover {
   transform: translateY(-2px);
-  background: linear-gradient(180deg, #ffe173 0%, #ffbe2e 55%, #f28b05 100%);
+  background: linear-gradient(135deg, #ffe066 0%, #ffaa00 50%, #ff8500 100%);
   box-shadow: 
-    0 7px 0 #000000,
-    0 12px 22px rgba(255, 177, 25, 0.5),
-    inset 0 3px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -2.5px 0 rgba(0, 0, 0, 0.35);
+    0 7px 0 #a34e00,
+    0 15px 30px rgba(255, 170, 0, 0.55),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9);
 }
 .btn-arcade-amber:active {
-  transform: translateY(4px);
+  transform: translateY(3px);
   box-shadow: 
-    0 1px 0 #000000,
-    0 3px 8px rgba(0, 0, 0, 0.7),
-    inset 0 2px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.45);
+    0 2px 0 #a34e00,
+    0 6px 15px rgba(255, 154, 0, 0.3);
 }
 
-/* 2. Hot Magenta / Pink "PAUSE" / "REGISTER" Arcade Button */
+/* 2. Hot Magenta / Pink "REGISTER" Arcade Button */
 .btn-arcade-pink {
-  background: linear-gradient(180deg, #ff4db8 0%, #ff1f9e 55%, #b8006b 100%);
+  background: linear-gradient(135deg, #ff2ea6 0%, #ff007f 50%, #d60062 100%);
   color: #ffffff;
+  border: 1.5px solid #ff99d6;
   box-shadow: 
-    0 5px 0 #000000,
-    0 8px 15px rgba(0, 0, 0, 0.6),
-    inset 0 2.5px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -2.5px 0 rgba(0, 0, 0, 0.35);
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+    0 5px 0 #8a0045,
+    0 10px 25px rgba(255, 46, 166, 0.45),
+    inset 0 2px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
 }
 .btn-arcade-pink:hover {
   transform: translateY(-2px);
-  background: linear-gradient(180deg, #ff6bc4 0%, #ff38ab 55%, #cc0077 100%);
+  background: linear-gradient(135deg, #ff54b8 0%, #ff1a8c 50%, #e6006e 100%);
   box-shadow: 
-    0 7px 0 #000000,
-    0 12px 25px rgba(255, 46, 166, 0.55),
-    inset 0 3px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -2.5px 0 rgba(0, 0, 0, 0.35);
+    0 7px 0 #8a0045,
+    0 15px 35px rgba(255, 46, 166, 0.65),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9);
 }
 .btn-arcade-pink:active {
-  transform: translateY(4px);
+  transform: translateY(3px);
   box-shadow: 
-    0 1px 0 #000000,
-    0 3px 8px rgba(0, 0, 0, 0.7),
-    inset 0 2px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.45);
+    0 2px 0 #8a0045,
+    0 6px 15px rgba(255, 46, 166, 0.3);
 }
 
-/* 3. Electric Cyan / Blue "OPTIONS" Arcade Button */
+/* 3. Electric Cyan / Blue "EXPLORE" Arcade Button */
 .btn-arcade-cyan {
-  background: linear-gradient(180deg, #4df0ff 0%, #00d0ea 55%, #007f91 100%);
-  color: #01222b;
+  background: linear-gradient(135deg, #00f0ff 0%, #00c6eb 50%, #0099cc 100%);
+  color: #030e26;
+  border: 1.5px solid #a8f5ff;
   box-shadow: 
-    0 5px 0 #000000,
-    0 8px 15px rgba(0, 0, 0, 0.6),
-    inset 0 2.5px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -2.5px 0 rgba(0, 0, 0, 0.35);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    0 5px 0 #007399,
+    0 10px 25px rgba(0, 240, 255, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 }
 .btn-arcade-cyan:hover {
   transform: translateY(-2px);
-  background: linear-gradient(180deg, #7af4ff 0%, #1ae0f7 55%, #009cb2 100%);
+  background: linear-gradient(135deg, #38f6ff 0%, #00dcff 50%, #00a8e0 100%);
+  color: #030e26;
   box-shadow: 
-    0 7px 0 #000000,
-    0 12px 25px rgba(0, 229, 255, 0.55),
-    inset 0 3px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -2.5px 0 rgba(0, 0, 0, 0.35);
+    0 7px 0 #007399,
+    0 15px 35px rgba(0, 240, 255, 0.65),
+    inset 0 2px 0 rgba(255, 255, 255, 0.95);
 }
 .btn-arcade-cyan:active {
-  transform: translateY(4px);
+  transform: translateY(3px);
   box-shadow: 
-    0 1px 0 #000000,
-    0 3px 8px rgba(0, 0, 0, 0.7),
-    inset 0 2px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.45);
+    0 2px 0 #007399,
+    0 6px 15px rgba(0, 240, 255, 0.3);
 }
 
 /* 4. Cyber Green "SETTINGS" Arcade Button */
 .btn-arcade-green {
-  background: linear-gradient(180deg, #57f564 0%, #20ce30 55%, #0e7819 100%);
-  color: #032107;
+  background: linear-gradient(135deg, #10e060 0%, #00c045 50%, #008f33 100%);
+  color: #022008;
+  border: 1.5px solid #99ffb8;
   box-shadow: 
-    0 5px 0 #000000,
-    0 8px 15px rgba(0, 0, 0, 0.6),
-    inset 0 2.5px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -2.5px 0 rgba(0, 0, 0, 0.35);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+    0 5px 0 #006624,
+    0 10px 25px rgba(16, 224, 96, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 }
 .btn-arcade-green:hover {
   transform: translateY(-2px);
-  background: linear-gradient(180deg, #7aff85 0%, #37e346 55%, #139120 100%);
+  background: linear-gradient(135deg, #33f07a 0%, #1ae05c 50%, #00a83d 100%);
   box-shadow: 
-    0 7px 0 #000000,
-    0 12px 22px rgba(32, 206, 48, 0.5),
-    inset 0 3px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -2.5px 0 rgba(0, 0, 0, 0.35);
+    0 7px 0 #006624,
+    0 15px 30px rgba(16, 224, 96, 0.6),
+    inset 0 2px 0 rgba(255, 255, 255, 0.95);
 }
 .btn-arcade-green:active {
-  transform: translateY(4px);
+  transform: translateY(3px);
   box-shadow: 
-    0 1px 0 #000000,
-    0 3px 8px rgba(0, 0, 0, 0.7),
-    inset 0 2px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.45);
+    0 2px 0 #006624,
+    0 6px 15px rgba(16, 224, 96, 0.3);
 }
 
 /* Retro Arcade 3D Beveled Panel/Card */
