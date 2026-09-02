@@ -149,8 +149,8 @@ export default function Footer() {
             <div className="space-y-3 text-sm font-mono">
               <div>
                 <span className="text-white/40 text-xs uppercase tracking-wider block mb-0.5">Email</span>
-                <a href="mailto:iste@yit.edu.in" className="text-white/80 hover:text-[#00e5ff] transition-colors">
-                  iste@yit.edu.in
+                <a href="mailto:hackatopia@gmail.com" className="text-white/80 hover:text-[#00e5ff] transition-colors">
+                  hackatopia@gmail.com
                 </a>
               </div>
 
