@@ -168,7 +168,7 @@ function App() {
                 href="#about"
                 className="btn-arcade btn-arcade-cyan text-xs sm:text-sm px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-center"
               >
-                EXPLORE HACKATOPIA
+                EXPLORE BROCHURE
               </a>
             </div>
           </div>
