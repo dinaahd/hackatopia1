@@ -1,12 +1,16 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import cybernautsLogo from '../assets/cybernauts.png'
+import yitLogo from '../assets/yit_logo.svg'
+import TransparentImage from './TransparentImage'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const quickLinks = [
   { label: 'About', href: '#about' },
   { label: 'Domains', href: '#domains' },
+  { label: 'Rules', href: '#rules' },
   { label: 'Timeline', href: '#timeline' },
   { label: 'Coordinators', href: '#coordinators' },
   { label: 'Location', href: '#map' },
@@ -81,58 +85,32 @@ export default function Footer() {
 
       <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-12 sm:gap-14">
 
-        {/* ── 3 Big Organiser Logos (No Labels, Clean & Large) ── */}
+        {/* ── Organiser Logos ── */}
         <div
           ref={logoStripRef}
-          className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-white/[0.08] opacity-0"
+          className="flex flex-col md:flex-row items-center justify-start gap-6 md:gap-[3vw] pb-10 border-b border-white/[0.08] opacity-0"
         >
-          <span className="font-pixel text-xs sm:text-sm tracking-[0.25em] text-white/50 uppercase">
+          <span className="font-pixel text-xs sm:text-sm tracking-[0.25em] text-white/50 uppercase flex-shrink-0">
             Organised by
           </span>
 
-          <div className="flex items-center flex-wrap justify-center gap-10 sm:gap-16">
+          <div className="flex items-center flex-wrap justify-center md:justify-start gap-8 sm:gap-12 md:gap-[3vw]">
             {/* 1. Big YIT Logo */}
-            <div className="group cursor-default transition-transform duration-300 hover:scale-105" title="Yenepoya Institute of Technology">
-              <svg className="h-12 sm:h-14 w-auto drop-shadow-[0_0_15px_rgba(0,229,255,0.25)]" viewBox="0 0 160 50" fill="none">
-                <rect x="2" y="2" width="46" height="46" rx="10" fill="rgba(0, 229, 255, 0.08)" stroke="#00e5ff" strokeWidth="2" />
-                <text x="25" y="32" textAnchor="middle" fill="#00e5ff" style={{ fontFamily: 'monospace', fontSize: '20px', fontWeight: 900, letterSpacing: '-1px' }}>
-                  YIT
-                </text>
-                <text x="60" y="24" fill="#ffffff" style={{ fontFamily: 'system-ui, sans-serif', fontSize: '15px', fontWeight: 800, letterSpacing: '1px' }}>
-                  YENEPOYA
-                </text>
-                <text x="60" y="38" fill="rgba(255,255,255,0.55)" style={{ fontFamily: 'system-ui, sans-serif', fontSize: '9px', fontWeight: 700, letterSpacing: '1.5px' }}>
-                  INSTITUTE OF TECH
-                </text>
-              </svg>
+            <div className="group cursor-default transition-transform duration-300 hover:scale-105 flex items-center" title="Yenepoya Institute of Technology">
+              <img
+                src={yitLogo}
+                alt="Yenepoya Institute of Technology Logo"
+                className="h-12 sm:h-14 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,229,255,0.25)]"
+              />
             </div>
 
-            {/* 2. Big IEEE Logo */}
-            <div className="group cursor-default transition-transform duration-300 hover:scale-105" title="IEEE Student Branch">
-              <svg className="h-12 sm:h-14 w-auto drop-shadow-[0_0_15px_rgba(0,170,255,0.25)]" viewBox="0 0 150 50" fill="none">
-                <path d="M25 4L45 25L25 46L5 25L25 4Z" fill="rgba(0, 170, 255, 0.08)" stroke="#00aaff" strokeWidth="2" />
-                <circle cx="25" cy="25" r="5" fill="#00aaff" />
-                <line x1="25" y1="12" x2="25" y2="38" stroke="#00aaff" strokeWidth="1.5" />
-                <line x1="12" y1="25" x2="38" y2="25" stroke="#00aaff" strokeWidth="1.5" />
-                <text x="56" y="34" fill="#00aaff" style={{ fontFamily: 'serif', fontSize: '26px', fontWeight: 900, letterSpacing: '2px' }}>
-                  IEEE
-                </text>
-              </svg>
-            </div>
-
-            {/* 3. Big Cybernauts × YenCoders Logo */}
-            <div className="group cursor-default transition-transform duration-300 hover:scale-105" title="Cybernauts × YenCoders">
-              <svg className="h-12 sm:h-14 w-auto drop-shadow-[0_0_15px_rgba(255,46,166,0.25)]" viewBox="0 0 200 50" fill="none">
-                <circle cx="24" cy="25" r="18" fill="rgba(255, 46, 166, 0.08)" stroke="#FF2E9A" strokeWidth="2" />
-                <circle cx="24" cy="25" r="5" fill="#FF2E9A" />
-                <path d="M24 7v6M24 37v6M6 25h6M36 25h6" stroke="#FF2E9A" strokeWidth="2" strokeLinecap="round" />
-                <text x="52" y="24" fill="#FF2E9A" style={{ fontFamily: 'system-ui, sans-serif', fontSize: '14px', fontWeight: 900, letterSpacing: '1.5px' }}>
-                  CYBERNAUTS
-                </text>
-                <text x="52" y="38" fill="#ffffff" style={{ fontFamily: 'monospace', fontSize: '10px', fontWeight: 700, letterSpacing: '2px' }}>
-                  × YENCODERS
-                </text>
-              </svg>
+            {/* 2. Big Cybernauts Logo */}
+            <div className="group cursor-default transition-transform duration-300 hover:scale-105 flex items-center" title="Cybernauts">
+              <TransparentImage
+                src={cybernautsLogo}
+                alt="Cybernauts Logo"
+                className="h-24 sm:h-32 w-auto object-contain drop-shadow-[0_0_25px_rgba(0,170,255,0.35)]"
+              />
             </div>
           </div>
         </div>
@@ -222,7 +200,7 @@ export default function Footer() {
         {/* ── Bottom Bar ── */}
         <div className="pt-6 border-t border-white/[0.08]">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[0.65rem] text-white/35 font-mono">
-            <p>© 2026 Yenepoya Institute of Technology · Cybernauts × YenCoders · IEEE YIT Student Branch</p>
+            <p>© 2026 Yenepoya Institute of Technology · Cybernauts</p>
             <p className="text-white/25">All Rights Reserved</p>
           </div>
         </div>

@@ -50,49 +50,59 @@ function CoordinatorCard({ person, isFaculty = false }) {
 
   return (
     <div
-      className="coord-card group relative p-5 sm:p-6 rounded-xl transition-all duration-300 flex flex-col justify-between"
+      className="coord-card group relative p-6 sm:p-7 rounded-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-default"
       style={{
-        background: 'linear-gradient(165deg, rgba(14, 18, 36, 0.9) 0%, rgba(8, 10, 24, 0.96) 100%)',
-        border: '1.5px solid rgba(0, 229, 255, 0.16)',
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+        background: 'linear-gradient(165deg, rgba(16, 12, 34, 0.9) 0%, rgba(8, 6, 20, 0.97) 100%)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: '1.5px solid rgba(255, 255, 255, 0.12)',
+        boxShadow: '0 12px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = person.color
-        e.currentTarget.style.boxShadow = `0 12px 36px rgba(0, 0, 0, 0.8), 0 0 25px ${person.color}35, inset 0 1px 0 rgba(255, 255, 255, 0.15)`
-        e.currentTarget.style.transform = 'translateY(-4px)'
+        e.currentTarget.style.boxShadow = `0 18px 44px rgba(0, 0, 0, 0.8), 0 0 30px ${person.color}35, inset 0 1px 0 rgba(255, 255, 255, 0.25)`
+        e.currentTarget.style.transform = 'translateY(-5px)'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = 'rgba(0, 229, 255, 0.16)'
-        e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)'
+        e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.12)'
         e.currentTarget.style.transform = 'translateY(0)'
       }}
     >
-      {/* Top Accent Line */}
+      {/* Top Ambient Glow Line */}
       <div
-        className="absolute top-0 left-0 right-0 h-0.5 rounded-t-xl opacity-70 group-hover:opacity-100 transition-opacity"
+        className="absolute top-0 left-8 right-8 h-[2px] opacity-80 group-hover:opacity-100 transition-opacity"
         style={{
           background: `linear-gradient(90deg, transparent, ${person.color}, transparent)`,
         }}
       />
 
-      <div className="space-y-3.5">
-        <div className="flex items-center gap-3">
+      {/* Hover Ambient Inner Glow */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at 50% 0%, color-mix(in srgb, ${person.color} 20%, transparent) 0%, transparent 70%)`,
+        }}
+      />
+
+      <div className="relative z-10 space-y-4">
+        <div className="flex items-center gap-3.5">
           <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm text-black flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+            className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-sm text-black flex-shrink-0 transition-transform duration-300 group-hover:scale-108"
             style={{
               background: person.color,
-              boxShadow: `0 0 16px ${person.color}80`,
+              boxShadow: `0 0 18px ${person.color}80, inset 0 1px 0 rgba(255,255,255,0.4)`,
             }}
           >
             {isFaculty ? (
-              <GraduationCap className="w-5 h-5 text-black" />
+              <GraduationCap className="w-6 h-6 text-black" />
             ) : (
-              <User className="w-5 h-5 text-black" />
+              <User className="w-6 h-6 text-black" />
             )}
           </div>
 
           <div className="min-w-0 flex-1">
-            <h4 className="text-white font-bold text-sm sm:text-base tracking-tight group-hover:text-[#00e5ff] transition-colors truncate">
+            <h4 className="text-white font-bold text-base sm:text-lg tracking-tight group-hover:text-[#00e5ff] transition-colors truncate">
               {person.name}
             </h4>
             <p className="text-white/50 text-xs font-mono">{person.role}</p>
@@ -100,23 +110,28 @@ function CoordinatorCard({ person, isFaculty = false }) {
         </div>
 
         {/* Phone contact bar */}
-        <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
+        <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
           <a
             href={`tel:${person.rawPhone}`}
-            className="flex items-center gap-2 text-xs sm:text-sm text-white/80 hover:text-[#00e5ff] transition-colors font-mono"
+            className="flex items-center gap-2.5 text-xs sm:text-sm text-white/85 hover:text-[#00e5ff] transition-colors font-mono font-medium group/link"
             title={`Call ${person.name}`}
           >
-            <Phone className="w-3.5 h-3.5 text-[#00e5ff] flex-shrink-0" />
+            <div className="w-6 h-6 rounded-lg bg-[#00e5ff]/10 border border-[#00e5ff]/30 flex items-center justify-center flex-shrink-0 group-hover/link:bg-[#00e5ff]/20">
+              <Phone className="w-3.5 h-3.5 text-[#00e5ff]" />
+            </div>
             <span>{person.phone}</span>
           </a>
 
           <button
             onClick={() => copyToClipboard(person.phone)}
-            className="p-1.5 rounded-md hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer"
+            className="p-2 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-white/50 hover:text-white transition-all cursor-pointer flex items-center gap-1.5 text-xs font-mono"
             title="Copy Phone Number"
           >
             {copied ? (
-              <Check className="w-3.5 h-3.5 text-emerald-400" />
+              <>
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-emerald-400 text-[0.65rem]">Copied!</span>
+              </>
             ) : (
               <Copy className="w-3.5 h-3.5" />
             )}
@@ -235,7 +250,7 @@ export default function Coordinators() {
         {/* Section Header */}
         <div ref={headerRef} className="flex flex-col items-center text-center space-y-4 opacity-0">
           <span className="font-pixel text-[0.65rem] sm:text-xs tracking-[0.25em] text-[#00e5ff] uppercase px-3.5 py-1.5 rounded-sm bg-[#00e5ff]/10 border border-[#00e5ff]/30 shadow-[0_0_12px_rgba(0,229,255,0.25)]">
-            // LEADERSHIP & ASSISTANCE
+            LEADERSHIP & ASSISTANCE
           </span>
 
           <h2 className="font-pixel text-2xl sm:text-4xl lg:text-5xl leading-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">

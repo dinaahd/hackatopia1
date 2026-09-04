@@ -180,7 +180,7 @@ export default function About() {
           {/* Eyebrow */}
           <div ref={eyebrowRef} className="opacity-0">
             <span className="font-pixel text-[0.65rem] sm:text-xs tracking-[0.25em] text-[#2ED3E8] uppercase px-3 py-1.5 rounded-sm bg-[#2ED3E8]/10 border border-[#2ED3E8]/30 shadow-[0_0_12px_rgba(46,211,232,0.2)]">
-              // THE WORLD
+              THE WORLD
             </span>
           </div>
 
@@ -213,7 +213,7 @@ export default function About() {
         >
           {/* Stat 1: Teams & Participants (Blue) */}
           <div
-            className="stat-voxel-card voxel-panel group p-7 sm:p-8 flex flex-col justify-between cursor-default"
+            className="stat-voxel-card voxel-panel group p-7 sm:p-8 flex flex-col justify-between cursor-default rounded-2xl"
             style={{
               '--accent': '#2ED3E8',
               transformStyle: 'preserve-3d',
@@ -227,7 +227,7 @@ export default function About() {
                   <Users className="w-3.5 h-3.5" />
                   TEAMS & PARTICIPANTS
                 </span>
-                <span className="w-2.5 h-2.5 rounded-[1px] bg-[#2ED3E8] shadow-[0_0_8px_#2ED3E8]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2ED3E8] shadow-[0_0_10px_#2ED3E8]" />
               </div>
               <div className="flex items-baseline gap-1">
                 <span
@@ -258,7 +258,7 @@ export default function About() {
 
           {/* Stat 2: Total Prize Pool (Pink Featured) */}
           <div
-            className="stat-voxel-card voxel-panel voxel-panel-pink group p-7 sm:p-8 flex flex-col justify-between cursor-default relative"
+            className="stat-voxel-card voxel-panel voxel-panel-pink group p-7 sm:p-8 flex flex-col justify-between cursor-default relative rounded-2xl"
             style={{
               '--accent': '#FF2E9A',
               transformStyle: 'preserve-3d',
@@ -272,7 +272,7 @@ export default function About() {
                   <Trophy className="w-3.5 h-3.5" />
                   PRIZE POOL UP TO
                 </span>
-                <span className="w-2.5 h-2.5 rounded-[1px] bg-[#FF2E9A] shadow-[0_0_10px_#FF2E9A]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FF2E9A] shadow-[0_0_12px_#FF2E9A]" />
               </div>
               <div className="flex items-start gap-1">
                 <span className="text-2xl sm:text-3xl font-black text-[#FF2E9A] mt-2">₹</span>
@@ -292,7 +292,7 @@ export default function About() {
 
           {/* Stat 3: Duration (Blue) */}
           <div
-            className="stat-voxel-card voxel-panel group p-7 sm:p-8 flex flex-col justify-between cursor-default"
+            className="stat-voxel-card voxel-panel group p-7 sm:p-8 flex flex-col justify-between cursor-default rounded-2xl"
             style={{
               '--accent': '#2ED3E8',
               transformStyle: 'preserve-3d',
@@ -306,7 +306,7 @@ export default function About() {
                   <Clock className="w-3.5 h-3.5" />
                   DURATION
                 </span>
-                <span className="w-2.5 h-2.5 rounded-[1px] bg-[#2ED3E8] shadow-[0_0_8px_#2ED3E8]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2ED3E8] shadow-[0_0_10px_#2ED3E8]" />
               </div>
               <div className="flex items-baseline gap-1">
                 <span
@@ -330,41 +330,39 @@ export default function About() {
       <style>{`
         .voxel-panel {
           position: relative;
-          background: linear-gradient(165deg, rgba(14, 14, 28, 0.85) 0%, rgba(8, 8, 18, 0.95) 100%);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 2.5px solid rgba(255, 255, 255, 0.1);
-          border-radius: 6px;
+          background: linear-gradient(165deg, rgba(16, 12, 34, 0.88) 0%, rgba(8, 6, 20, 0.96) 100%);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1.5px solid rgba(255, 255, 255, 0.12);
+          border-radius: 20px;
           box-shadow:
-            0 8px 0 rgba(0, 0, 0, 0.85),
-            0 16px 32px rgba(0, 0, 0, 0.6),
-            inset 0 1px 0 rgba(255, 255, 255, 0.12);
-          transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            0 12px 32px rgba(0, 0, 0, 0.65),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .voxel-panel:hover {
           border-color: var(--accent);
           box-shadow:
-            0 12px 0 rgba(0, 0, 0, 0.85),
-            0 24px 44px rgba(0, 0, 0, 0.7),
-            0 0 35px color-mix(in srgb, var(--accent) 30%, transparent),
-            inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            0 20px 48px rgba(0, 0, 0, 0.8),
+            0 0 35px color-mix(in srgb, var(--accent) 35%, transparent),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
           transform: translateY(-6px);
         }
 
         .voxel-panel-pink {
-          background: linear-gradient(165deg, rgba(28, 10, 22, 0.85) 0%, rgba(14, 4, 10, 0.95) 100%);
+          background: linear-gradient(165deg, rgba(28, 10, 24, 0.9) 0%, rgba(14, 4, 12, 0.98) 100%);
           border-color: rgba(255, 46, 154, 0.35);
         }
 
         .voxel-panel::before {
           content: '';
           position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 3px;
-          background: var(--accent);
-          opacity: 0.7;
-          border-radius: 4px 4px 0 0;
+          top: 0; left: 15%; right: 15%;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, var(--accent), transparent);
+          opacity: 0.9;
+          border-radius: 9999px;
         }
       `}</style>
     </section>

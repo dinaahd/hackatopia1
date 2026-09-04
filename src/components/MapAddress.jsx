@@ -112,7 +112,7 @@ export default function MapAddress() {
         {/* Section Header */}
         <div ref={headerRef} className="flex flex-col items-center text-center space-y-4 opacity-0">
           <span className="font-pixel text-[0.65rem] sm:text-xs tracking-[0.25em] text-[#00e5ff] uppercase px-3.5 py-1.5 rounded-sm bg-[#00e5ff]/10 border border-[#00e5ff]/30 shadow-[0_0_12px_rgba(0,229,255,0.25)]">
-            // VENUE & LOCATION
+            VENUE & LOCATION
           </span>
 
           <h2 className="font-pixel text-2xl sm:text-4xl lg:text-5xl leading-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
@@ -127,7 +127,7 @@ export default function MapAddress() {
           {/* Clean Map Frame (7 cols) */}
           <div
             ref={mapFrameRef}
-            className="lg:col-span-7 rounded-2xl overflow-hidden relative min-h-[360px] sm:min-h-[400px] opacity-0"
+            className="lg:col-span-7 rounded-2xl overflow-hidden relative min-h-[360px] sm:min-h-[400px] opacity-0 transition-all duration-300 hover:border-[#00e5ff]"
             style={{
               border: '1.5px solid rgba(0, 229, 255, 0.25)',
               boxShadow: '0 12px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 229, 255, 0.1)',
@@ -146,23 +146,51 @@ export default function MapAddress() {
           {/* Clean Venue Address Card (5 cols) */}
           <div
             ref={venueCardRef}
-            className="lg:col-span-5 p-8 sm:p-10 rounded-2xl flex flex-col justify-between gap-8 opacity-0"
+            className="group relative lg:col-span-5 p-8 sm:p-10 rounded-2xl flex flex-col justify-between gap-8 opacity-0 overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
             style={{
-              background: 'linear-gradient(165deg, rgba(14, 18, 36, 0.9) 0%, rgba(8, 10, 24, 0.96) 100%)',
-              border: '1.5px solid rgba(0, 229, 255, 0.18)',
-              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
+              background: 'linear-gradient(165deg, rgba(16, 12, 34, 0.9) 0%, rgba(8, 6, 20, 0.97) 100%)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1.5px solid rgba(0, 229, 255, 0.2)',
+              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#00e5ff'
+              e.currentTarget.style.boxShadow = '0 18px 48px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 229, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(0, 229, 255, 0.2)'
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12)'
             }}
           >
-            <div className="space-y-6">
+            {/* Top Accent Line */}
+            <div
+              className="absolute top-0 left-10 right-10 h-[2px] opacity-80 group-hover:opacity-100 transition-opacity"
+              style={{
+                background: 'linear-gradient(90deg, transparent, #00e5ff, transparent)',
+              }}
+            />
+
+            {/* Hover Inner Ambient Glow */}
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+              style={{
+                background: 'radial-gradient(ellipse at 50% 0%, rgba(0, 229, 255, 0.15) 0%, transparent 70%)',
+              }}
+            />
+
+            <div className="relative z-10 space-y-6">
               <div className="flex items-center gap-2.5 text-[#00e5ff]">
-                <MapPin className="w-5 h-5 flex-shrink-0" />
+                <div className="w-8 h-8 rounded-xl bg-[#00e5ff]/15 border border-[#00e5ff]/40 flex items-center justify-center flex-shrink-0 shadow-[0_0_12px_rgba(0,229,255,0.3)]">
+                  <MapPin className="w-4 h-4" />
+                </div>
                 <span className="font-pixel text-xs tracking-wider uppercase font-bold">
                   Official Venue
                 </span>
               </div>
 
               <div className="space-y-3">
-                <h3 className="text-white font-bold text-2xl sm:text-3xl leading-snug">
+                <h3 className="text-white font-bold text-2xl sm:text-3xl leading-snug group-hover:text-[#00e5ff] transition-colors">
                   Yenepoya Institute of Technology
                 </h3>
                 <p className="text-white/70 text-sm sm:text-base leading-relaxed font-medium">
@@ -172,7 +200,7 @@ export default function MapAddress() {
             </div>
 
             {/* Clean Single Action CTA */}
-            <div>
+            <div className="relative z-10">
               <a
                 href="https://maps.google.com/?q=Yenepoya+Institute+Of+Technology+Moodbidri"
                 target="_blank"

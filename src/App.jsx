@@ -38,6 +38,7 @@ function App() {
       touchMultiplier: 1.8,
     })
 
+    window.__lenis = lenis
     lenis.on('scroll', ScrollTrigger.update)
 
     const updateLenis = (time) => {
@@ -47,9 +48,22 @@ function App() {
     gsap.ticker.add(updateLenis)
     gsap.ticker.lagSmoothing(0)
 
+    const onLenisStop = () => {
+      lenis.stop()
+    }
+    const onLenisStart = () => {
+      lenis.start()
+    }
+
+    window.addEventListener('lenis:stop', onLenisStop)
+    window.addEventListener('lenis:start', onLenisStart)
+
     return () => {
+      window.removeEventListener('lenis:stop', onLenisStop)
+      window.removeEventListener('lenis:start', onLenisStart)
       gsap.ticker.remove(updateLenis)
       lenis.destroy()
+      window.__lenis = null
     }
   }, [])
 
@@ -169,6 +183,12 @@ function App() {
                 className="btn-arcade btn-arcade-cyan text-xs sm:text-sm px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-center"
               >
                 BROCHURE
+              </a>
+              <a
+                href="#rules"
+                className="btn-arcade btn-arcade-amber text-xs sm:text-sm px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-center"
+              >
+                RULE BOOK
               </a>
             </div>
           </div>

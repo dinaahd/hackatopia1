@@ -19,6 +19,18 @@ const Cubes = ({
 }) => {
   const sceneRef = useRef(null);
   const containerRef = useRef(null);
+  const faceColorRef = useRef(faceColor);
+  faceColorRef.current = faceColor;
+
+  // Kill running tweens and reset inline colors on theme switch
+  useEffect(() => {
+    if (!sceneRef.current) return;
+    const faces = sceneRef.current.querySelectorAll('.cube-face');
+    if (faces.length) {
+      gsap.killTweensOf(faces);
+      gsap.set(faces, { clearProps: 'backgroundColor' });
+    }
+  }, [faceColor]);
 
   const colGap = typeof cellGap === 'number' ? `${cellGap}px` : cellGap?.col !== undefined ? `${cellGap.col}px` : '8px';
   const rowGap = typeof cellGap === 'number' ? `${cellGap}px` : cellGap?.row !== undefined ? `${cellGap.row}px` : '8px';
@@ -50,6 +62,7 @@ const Cubes = ({
       const spreadDelay = 0.08 / rippleSpeed;
       const animDuration = 0.28 / rippleSpeed;
       const holdTime = 0.45 / rippleSpeed;
+      const currentFaceColor = faceColorRef.current;
 
       const allCubes = scene.querySelectorAll('.cube');
 
@@ -72,14 +85,14 @@ const Cubes = ({
         });
 
         gsap.to(faces, {
-          backgroundColor: faceColor,
+          backgroundColor: currentFaceColor,
           duration: animDuration,
           delay: delay + animDuration + holdTime,
           ease: 'power2.out'
         });
       });
     },
-    [rippleOnClick, gridSize, faceColor, rippleSpeed]
+    [rippleOnClick, gridSize, rippleSpeed]
   );
 
   useEffect(() => {

@@ -7,10 +7,10 @@ gsap.registerPlugin(ScrollTrigger)
 
 // ── Competition Domains ───────────────────────────────────────────────────
 const tracks = [
-  { name: 'Web3 & Blockchain', color: '#00e5ff', icon: '💎' },
-  { name: 'Generative AI',     color: '#c084fc', icon: '🧠' },
-  { name: 'FinTech',           color: '#ffd700', icon: '⚡' },
-  { name: 'Healthcare Tech',   color: '#00ff88', icon: '🧪' },
+  { name: 'Web3 & Blockchain', color: '#00e5ff' },
+  { name: 'Generative AI',     color: '#c084fc' },
+  { name: 'FinTech',           color: '#ffd700' },
+  { name: 'Healthcare Tech',   color: '#00ff88' },
 ]
 
 // ── Count-up Hook ──────────────────────────────────────────────────────────
@@ -150,7 +150,7 @@ function CardPrize({ triggered }) {
             <span className="mc-pixel-icon" style={{ background: '#ffd700', boxShadow: '0 0 12px #ffd700' }} />
             <p className="mc-label text-yellow-400">PRIZE POOL UP TO</p>
           </div>
-          <span className="mc-badge text-yellow-300 border-yellow-500/50 bg-yellow-950/50">💰 BOUNTIES</span>
+          <span className="mc-badge text-yellow-300 border-yellow-500/50 bg-yellow-950/50">BOUNTIES</span>
         </div>
 
         <div className="flex items-start gap-1 my-2">
@@ -206,7 +206,7 @@ function CardTracks() {
                 borderLeft: `3px solid ${track.color}`,
               }}
             >
-              <span className="text-xs">{track.icon}</span>
+              <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: track.color, boxShadow: `0 0 6px ${track.color}` }} />
               <span className="text-xs sm:text-sm font-semibold text-white/90 tracking-wide">
                 {track.name}
               </span>
@@ -244,7 +244,7 @@ function CardVenue() {
             Yenepoya Institute of Technology
           </p>
           <p className="text-xs sm:text-sm font-medium text-purple-200/70 mt-1">
-            📍 Moodbidri, Karnataka
+            Moodbidri, Karnataka
           </p>
         </div>
 
@@ -433,7 +433,7 @@ export default function Summary() {
           /* Pixelated chunky 3D borders */
           background: linear-gradient(165deg, rgba(16, 7, 38, 0.95) 0%, rgba(8, 3, 20, 0.98) 100%);
           border: 3px solid rgba(255, 255, 255, 0.12);
-          border-radius: 6px;
+          border-radius: 20px;
           box-shadow:
             0 8px 0 rgba(0, 0, 0, 0.85),
             0 16px 32px rgba(0, 0, 0, 0.65),

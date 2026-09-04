@@ -221,6 +221,23 @@ export const StaggeredMenu = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [closeOnClickAway, open, closeMenu]);
 
+  React.useEffect(() => {
+    if (open) {
+      window.dispatchEvent(new CustomEvent('lenis:stop'));
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      window.dispatchEvent(new CustomEvent('lenis:start'));
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      window.dispatchEvent(new CustomEvent('lenis:start'));
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [open]);
+
   const craftBurst = (e, color) => {
     if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -275,34 +292,42 @@ export const StaggeredMenu = ({
               <img src={logoUrl} alt="Hackatopia Logo" className="w-full h-full object-contain rounded-full" draggable={false} />
             </div>
           </a>
-          <button
-            ref={toggleBtnRef}
-            className="sm-toggle craft-pixel-btn craft-stone pointer-events-auto"
-            data-open={open}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="staggered-menu-panel"
-            onClick={e => { toggleMenu(); craftBurst(e, open ? "#4fd3e8" : "#8a8f9c"); }}
-            type="button"
-          >
-            <span ref={textWrapRef} className="sm-toggle-textWrap relative inline-block h-[1.2em] overflow-hidden whitespace-nowrap" aria-hidden="true">
-              <span ref={textInnerRef} className="sm-toggle-textInner flex flex-col leading-none">
-                {textLines.map((l, i) => <span className="sm-toggle-line block h-[1.2em] leading-none" key={i}>{l}</span>)}
+
+          <div className="flex items-center gap-3 sm:gap-4 pointer-events-auto">
+            <button
+              ref={toggleBtnRef}
+              className="sm-toggle craft-pixel-btn craft-stone pointer-events-auto"
+              data-open={open}
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="staggered-menu-panel"
+              onClick={e => { toggleMenu(); craftBurst(e, open ? "#4fd3e8" : "#8a8f9c"); }}
+              type="button"
+            >
+              <span ref={textWrapRef} className="sm-toggle-textWrap relative inline-block h-[1.2em] overflow-hidden whitespace-nowrap" aria-hidden="true">
+                <span ref={textInnerRef} className="sm-toggle-textInner flex flex-col leading-none">
+                  {textLines.map((l, i) => <span className="sm-toggle-line block h-[1.2em] leading-none" key={i}>{l}</span>)}
+                </span>
               </span>
-            </span>
-            <span ref={iconRef} className="sm-icon relative w-4 h-4 shrink-0 inline-flex items-center justify-center" aria-hidden="true">
-              <span ref={plusHRef} className="sm-icon-line absolute left-1/2 top-1/2 w-full h-[2.5px] bg-current rounded-[1px] -translate-x-1/2 -translate-y-1/2" />
-              <span ref={plusVRef} className="sm-icon-line sm-icon-line-v absolute left-1/2 top-1/2 w-full h-[2.5px] bg-current rounded-[1px] -translate-x-1/2 -translate-y-1/2" />
-            </span>
-          </button>
+              <span ref={iconRef} className="sm-icon relative w-4 h-4 shrink-0 inline-flex items-center justify-center" aria-hidden="true">
+                <span ref={plusHRef} className="sm-icon-line absolute left-1/2 top-1/2 w-full h-[2.5px] bg-current rounded-[1px] -translate-x-1/2 -translate-y-1/2" />
+                <span ref={plusVRef} className="sm-icon-line sm-icon-line-v absolute left-1/2 top-1/2 w-full h-[2.5px] bg-current rounded-[1px] -translate-x-1/2 -translate-y-1/2" />
+              </span>
+            </button>
+          </div>
         </header>
 
         {/* SLIDING PANEL */}
         <aside
           id="staggered-menu-panel"
           ref={panelRef}
+          data-lenis-prevent="true"
+          data-lenis-prevent-wheel="true"
+          data-lenis-prevent-touch="true"
           className="sm-panel fixed top-0 right-0 h-screen flex flex-col overflow-y-auto z-[58] pointer-events-auto"
           aria-hidden={!open}
+          onWheel={e => e.stopPropagation()}
+          onTouchMove={e => e.stopPropagation()}
         >
           {/* Pixel City Skyline */}
           <div className="sm-skyline-strip" aria-hidden="true">
@@ -314,7 +339,7 @@ export const StaggeredMenu = ({
           </div>
 
           {/* Panel content */}
-          <div className="sm-panel-content flex-1 flex flex-col justify-between p-6 sm:p-8 pt-2 relative z-10">
+          <div className="sm-panel-content flex-1 flex flex-col justify-between p-6 sm:p-8 pt-2 relative z-10 min-h-min" data-lenis-prevent="true">
 
             {/* Top section: Header row + divider */}
             <div className="flex flex-col gap-3">
@@ -415,6 +440,24 @@ export const StaggeredMenu = ({
           background: radial-gradient(circle at 100% 0%, #160733 0%, #060112 70%);
           border-left: 2px solid rgba(0,212,255,0.22);
           box-shadow: -25px 0 90px rgba(0,0,0,0.95), inset 1px 0 0 rgba(255,255,255,0.06);
+          overflow-y: auto !important;
+          overscroll-behavior: contain !important;
+          overscroll-behavior-y: contain !important;
+          touch-action: pan-y !important;
+          -webkit-overflow-scrolling: touch;
+        }
+        .sm-scope .sm-panel::-webkit-scrollbar {
+          width: 5px;
+        }
+        .sm-scope .sm-panel::-webkit-scrollbar-track {
+          background: rgba(8, 2, 28, 0.6);
+        }
+        .sm-scope .sm-panel::-webkit-scrollbar-thumb {
+          background: rgba(0, 229, 255, 0.4);
+          border-radius: 4px;
+        }
+        .sm-scope .sm-panel::-webkit-scrollbar-thumb:hover {
+          background: rgba(0, 229, 255, 0.8);
         }
         .sm-scope [data-position='left'] .sm-panel { right: auto; left: 0; border-left: none; border-right: 2px solid rgba(0,212,255,0.22); }
         .sm-scope .sm-prelayers { width: clamp(320px, 36vw, 480px); }

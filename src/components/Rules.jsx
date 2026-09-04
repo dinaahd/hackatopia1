@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { BookOpen, ArrowUpRight } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -47,6 +48,7 @@ export default function Rules() {
   const sectionRef = useRef(null)
   const headerRef = useRef(null)
   const rulesContainerRef = useRef(null)
+  const buttonRef = useRef(null)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -64,7 +66,7 @@ export default function Rules() {
       })
 
       if (prefersReducedMotion) {
-        gsap.set([headerRef.current, rulesContainerRef.current], { opacity: 1, y: 0 })
+        gsap.set([headerRef.current, rulesContainerRef.current, buttonRef.current], { opacity: 1, y: 0 })
         return
       }
 
@@ -100,6 +102,26 @@ export default function Rules() {
           )
         })
       }
+
+      // Button entrance
+      if (buttonRef.current) {
+        gsap.fromTo(
+          buttonRef.current,
+          { opacity: 0, y: 25, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.65,
+            ease: 'back.out(1.5)',
+            scrollTrigger: {
+              trigger: buttonRef.current,
+              start: 'top 90%',
+              once: true,
+            },
+          }
+        )
+      }
     }, section)
 
     return () => ctx.revert()
@@ -124,11 +146,11 @@ export default function Rules() {
         }}
       />
 
-      <div className="max-w-4xl w-full mx-auto relative z-10 flex flex-col gap-12 sm:gap-16">
+      <div className="max-w-4xl w-full mx-auto relative z-10 flex flex-col gap-10 sm:gap-14">
         {/* Header */}
         <div ref={headerRef} className="flex flex-col items-center text-center space-y-4 opacity-0">
           <span className="font-pixel text-[0.65rem] sm:text-xs tracking-[0.25em] text-[#2ED3E8] uppercase px-3 py-1.5 rounded-sm bg-[#2ED3E8]/10 border border-[#2ED3E8]/30 shadow-[0_0_12px_rgba(46,211,232,0.2)]">
-            // THE RULEBOOK
+            THE RULEBOOK
           </span>
 
           <h2 className="font-pixel text-2xl sm:text-4xl lg:text-5xl leading-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
@@ -147,26 +169,28 @@ export default function Rules() {
             return (
               <div
                 key={r.id}
-                className="rule-row group relative p-5 sm:p-6 rounded-md flex items-start gap-4 sm:gap-6 cursor-default transition-all duration-200"
+                className="rule-row group relative p-5 sm:p-6 rounded-2xl flex items-start gap-4 sm:gap-6 cursor-default transition-all duration-300"
                 style={{
-                  background: 'linear-gradient(165deg, rgba(14,14,28,0.85) 0%, rgba(8,8,18,0.95) 100%)',
-                  border: '2px solid rgba(255, 255, 255, 0.08)',
-                  boxShadow: '0 6px 0 rgba(0,0,0,0.8), 0 12px 24px rgba(0,0,0,0.5)',
+                  background: 'linear-gradient(165deg, rgba(16,12,34,0.9) 0%, rgba(8,6,20,0.97) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1.5px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)',
                 }}
               >
-                {/* Glowing Voxel-Cube Number Marker in Blue / Pink */}
+                {/* Glowing Number Marker in Blue / Pink */}
                 <div
-                  className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center rounded-sm text-black font-pixel text-sm sm:text-base font-bold shadow-[0_4px_0_#000,inset_0_1px_0_rgba(255,255,255,0.4)] group-hover:scale-105 transition-transform duration-200"
+                  className="w-11 h-11 sm:w-13 sm:h-13 flex-shrink-0 flex items-center justify-center rounded-xl text-black font-pixel text-sm sm:text-base font-bold transition-transform duration-300 group-hover:scale-105"
                   style={{
                     background: r.accent,
-                    boxShadow: `0 4px 0 #000, 0 0 16px ${r.accent}80, inset 0 1px 0 rgba(255,255,255,0.4)`,
+                    boxShadow: `0 0 20px ${r.accent}80, inset 0 1px 0 rgba(255,255,255,0.5)`,
                   }}
                 >
                   0{r.id}
                 </div>
 
                 {/* Rule Details */}
-                <div className="flex-1 space-y-1">
+                <div className="flex-1 space-y-1.5">
                   <h3
                     className="font-pixel text-xs sm:text-sm text-white group-hover:text-[var(--accent)] transition-colors"
                     style={{ '--accent': r.accent }}
@@ -180,8 +204,8 @@ export default function Rules() {
 
                 {/* Status Indicator */}
                 <span
-                  className="hidden sm:inline-block font-mono text-[0.65rem] tracking-widest uppercase mt-1"
-                  style={{ color: `${r.accent}80` }}
+                  className="hidden sm:inline-block font-mono text-[0.65rem] tracking-widest uppercase mt-1 px-2.5 py-1 rounded-full bg-white/5 border border-white/10"
+                  style={{ color: r.accent }}
                 >
                   RULE 0{r.id}
                 </span>
@@ -189,13 +213,27 @@ export default function Rules() {
             )
           })}
         </div>
+
+        {/* Hover Button for Rulebook */}
+        <div ref={buttonRef} className="flex flex-col items-center justify-center pt-2 sm:pt-4 opacity-0">
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-arcade btn-arcade-cyan group text-xs sm:text-sm px-8 sm:px-10 py-4 flex items-center justify-center gap-3 w-full sm:w-auto text-center"
+          >
+            <BookOpen className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
+            <span>RULEBOOK</span>
+            <ArrowUpRight className="w-4 h-4 opacity-80 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+        </div>
       </div>
 
       <style>{`
         .rule-row:hover {
-          border-color: rgba(46, 211, 232, 0.3) !important;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 0 rgba(0,0,0,0.8), 0 16px 30px rgba(46,211,232,0.15) !important;
+          border-color: rgba(46, 211, 232, 0.4) !important;
+          transform: translateY(-4px);
+          box-shadow: 0 16px 36px rgba(0,0,0,0.8), 0 0 30px rgba(46,211,232,0.18), inset 0 1px 0 rgba(255,255,255,0.2) !important;
         }
       `}</style>
     </section>
