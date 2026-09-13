@@ -119,7 +119,7 @@ function App() {
         {/* ── 2. HERO SECTION ─────────────── */}
         <section
           id="home"
-          className="relative flex flex-col items-center justify-center min-h-[100svh] min-h-screen w-full overflow-hidden pt-20 pb-12 sm:py-16 px-4 sm:px-6"
+          className="relative flex flex-col items-center justify-center min-h-[100svh] min-h-screen w-full overflow-hidden pt-16 pb-8 sm:py-16 px-3 sm:px-6"
         >
           {/* Cubes interactive background layer */}
           <div className="absolute inset-0 z-0 w-full h-full min-h-screen flex items-center justify-center pointer-events-auto overflow-hidden">
@@ -154,13 +154,13 @@ function App() {
               ref={heroLogoRef}
               src={heroImg}
               alt="Hackatopia"
-              className="hero-logo-enhanced w-full max-w-[280px] xs:max-w-[320px] sm:max-w-md md:max-w-xl lg:max-w-2xl object-contain select-none pointer-events-none"
+              className="hero-logo-enhanced w-full max-w-[240px] sm:max-w-md md:max-w-xl lg:max-w-2xl object-contain select-none pointer-events-none"
             />
 
             {/* Subtitle / Tagline */}
             <p
               ref={heroTaglineRef}
-              className="mt-3 sm:mt-4 text-white/85 text-[0.7rem] sm:text-xs md:text-sm font-medium tracking-[0.18em] sm:tracking-[0.22em] uppercase drop-shadow-md pointer-events-none"
+              className="mt-2 sm:mt-4 text-white/85 text-[0.6rem] sm:text-xs md:text-sm font-medium tracking-[0.12em] sm:tracking-[0.22em] uppercase drop-shadow-md pointer-events-none"
             >
               October 8-9, 2026 • 24 Hours of Creation
             </p>
@@ -168,25 +168,25 @@ function App() {
             {/* Retro 3D Arcade Action Buttons */}
             <div
               ref={heroButtonsRef}
-              className="mt-6 sm:mt-7 flex items-center justify-center gap-3.5 sm:gap-5 flex-wrap pointer-events-auto w-full max-w-xs sm:max-w-none"
+              className="mt-4 sm:mt-7 flex items-center justify-center gap-2.5 sm:gap-5 flex-wrap pointer-events-auto w-full max-w-[280px] sm:max-w-none"
             >
               <a
                 href="https://forms.gle/vso2h1azUy2k3MkPA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-arcade btn-arcade-pink text-xs sm:text-sm px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-center"
+                className="btn-arcade btn-arcade-pink text-[0.65rem] sm:text-sm px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto text-center"
               >
                 REGISTER NOW
               </a>
               <a
                 href="#about"
-                className="btn-arcade btn-arcade-cyan text-xs sm:text-sm px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-center"
+                className="btn-arcade btn-arcade-cyan text-[0.65rem] sm:text-sm px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto text-center"
               >
                 BROCHURE
               </a>
               <a
                 href="#rules"
-                className="btn-arcade btn-arcade-amber text-xs sm:text-sm px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-center"
+                className="btn-arcade btn-arcade-amber text-[0.65rem] sm:text-sm px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto text-center"
               >
                 RULE BOOK
               </a>

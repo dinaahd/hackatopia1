@@ -78,7 +78,7 @@ export default function Footer() {
     <footer
       id="contact"
       ref={footerRef}
-      className="relative pt-16 pb-12 px-6 lg:px-16 overflow-hidden bg-[#06060c] text-white"
+      className="relative pt-12 sm:pt-16 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-16 overflow-hidden bg-[#06060c] text-white"
     >
       {/* Top Accent Line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00e5ff]/40 to-transparent" />

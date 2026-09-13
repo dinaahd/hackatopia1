@@ -149,7 +149,7 @@ export default function Domains() {
     <section
       id="domains"
       ref={sectionRef}
-      className="relative py-28 sm:py-36 pb-36 sm:pb-48 px-6 lg:px-12 overflow-hidden"
+      className="relative py-20 sm:py-36 pb-28 sm:pb-48 px-4 sm:px-6 lg:px-12 overflow-hidden"
       style={{
         background: 'linear-gradient(180deg, #0a0a14 0%, #0d0824 50%, #0a0a14 100%)',
       }}
@@ -170,7 +170,7 @@ export default function Domains() {
         style={{ background: 'radial-gradient(circle, #2ED3E8 0%, #FF2E9A 60%, transparent 80%)' }}
       />
 
-      <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-14 sm:gap-18">
+      <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-10 sm:gap-18">
         {/* Header */}
         <div ref={headerRef} className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-4 opacity-0">
           <span className="font-pixel text-[0.65rem] sm:text-xs tracking-[0.25em] text-[#2ED3E8] uppercase px-3 py-1.5 rounded-sm bg-[#2ED3E8]/10 border border-[#2ED3E8]/30 shadow-[0_0_12px_rgba(46,211,232,0.2)]">

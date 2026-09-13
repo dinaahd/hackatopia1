@@ -247,7 +247,7 @@ export default function Timeline() {
         )
       }
 
-      // Smooth reveal for timeline items on scroll down and up
+      // Smooth reveal for timeline items — cards converge toward center on scroll
       const cards = section.querySelectorAll('.timeline-item')
       cards.forEach((item, index) => {
         const isEven = index % 2 === 0
@@ -255,44 +255,53 @@ export default function Timeline() {
         const node = item.querySelector('.timeline-node-circle')
 
         if (prefersReducedMotion) {
-          gsap.set([cardBox, node], { opacity: 1, x: 0 })
+          gsap.set([cardBox, node], { opacity: 1, x: 0, y: 0, scale: 1 })
           return
         }
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 85%',
-            toggleActions: 'play reverse play reverse',
-          },
-        })
-
-        // Reveal node with pop animation
+        // Node pop animation — scroll-synced
         if (node) {
-          tl.fromTo(
+          gsap.fromTo(
             node,
-            { scale: 0.3, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }
+            { scale: 0, opacity: 0 },
+            {
+              scale: 1,
+              opacity: 1,
+              duration: 0.5,
+              ease: 'back.out(2)',
+              scrollTrigger: {
+                trigger: item,
+                start: 'top 88%',
+                end: 'top 55%',
+                toggleActions: 'play none none reverse',
+              },
+            }
           )
         }
 
-        // Slide card in smoothly from respective side
+        // Card slides in from its side toward the center on scroll
         if (cardBox) {
-          tl.fromTo(
+          gsap.fromTo(
             cardBox,
             {
               opacity: 0,
-              x: isEven ? 30 : -30,
-              scale: 0.95,
+              x: isEven ? 80 : -80,
+              y: 30,
+              scale: 0.92,
             },
             {
               opacity: 1,
               x: 0,
+              y: 0,
               scale: 1,
-              duration: 0.45,
-              ease: 'power3.out',
-            },
-            '-=0.2'
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: item,
+                start: 'top 90%',
+                end: 'top 55%',
+                scrub: 0.8,
+              },
+            }
           )
         }
       })
@@ -313,7 +322,7 @@ export default function Timeline() {
     <section
       id="timeline"
       ref={sectionRef}
-      className="relative py-24 sm:py-36 px-4 sm:px-6 lg:px-12 w-full overflow-hidden"
+      className="relative py-16 sm:py-36 px-3 sm:px-6 lg:px-12 w-full overflow-hidden"
       style={{
         background: 'linear-gradient(180deg, #070514 0%, #0d0824 50%, #070514 100%)',
       }}
@@ -361,10 +370,10 @@ export default function Timeline() {
           </p>
 
           {/* Interactive Filter Tabs */}
-          <div className="flex items-center justify-center gap-2 mt-4 p-1.5 rounded-xl bg-[#0e0a24]/80 border border-white/10 backdrop-blur-md flex-wrap">
+          <div className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 p-1 sm:p-1.5 rounded-xl bg-[#0e0a24]/80 border border-white/10 backdrop-blur-md flex-wrap">
             <button
               onClick={() => setActiveFilter('ALL')}
-              className={`px-4 sm:px-6 py-2.5 rounded-lg font-mono text-[0.7rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
                 activeFilter === 'ALL'
                   ? 'bg-gradient-to-r from-[#2ED3E8] to-[#FF2E9A] text-white shadow-[0_0_18px_rgba(46,211,232,0.45)]'
                   : 'text-white/60 hover:text-white hover:bg-white/5'
@@ -374,7 +383,7 @@ export default function Timeline() {
             </button>
             <button
               onClick={() => setActiveFilter('JOURNEY')}
-              className={`px-4 sm:px-6 py-2.5 rounded-lg font-mono text-[0.7rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
                 activeFilter === 'JOURNEY'
                   ? 'bg-[#2ED3E8] text-black shadow-[0_0_18px_rgba(46,211,232,0.45)] font-extrabold'
                   : 'text-white/60 hover:text-white hover:bg-white/5'
@@ -384,7 +393,7 @@ export default function Timeline() {
             </button>
             <button
               onClick={() => setActiveFilter('SCHEDULE')}
-              className={`px-4 sm:px-6 py-2.5 rounded-lg font-mono text-[0.7rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
                 activeFilter === 'SCHEDULE'
                   ? 'bg-[#FF2E9A] text-white shadow-[0_0_18px_rgba(255,46,154,0.45)] font-extrabold'
                   : 'text-white/60 hover:text-white hover:bg-white/5'

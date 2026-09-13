@@ -149,7 +149,7 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-28 sm:py-36 px-6 lg:px-12 overflow-hidden"
+      className="relative py-20 sm:py-36 px-4 sm:px-6 lg:px-12 overflow-hidden"
       style={{
         background: 'linear-gradient(180deg, #0a0a14 0%, #0c0824 50%, #0a0a14 100%)',
       }}
@@ -174,7 +174,7 @@ export default function About() {
         style={{ background: 'radial-gradient(circle, #FF2E9A 0%, transparent 70%)' }}
       />
 
-      <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-14 sm:gap-20">
+      <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-10 sm:gap-20">
         {/* Header Block */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-5">
           {/* Eyebrow */}
@@ -213,7 +213,7 @@ export default function About() {
         >
           {/* Stat 1: Teams & Participants (Blue) */}
           <div
-            className="stat-voxel-card voxel-panel group p-7 sm:p-8 flex flex-col justify-between cursor-default rounded-2xl"
+            className="stat-voxel-card voxel-panel group p-5 sm:p-8 flex flex-col justify-between cursor-default rounded-2xl"
             style={{
               '--accent': '#2ED3E8',
               transformStyle: 'preserve-3d',
@@ -232,7 +232,7 @@ export default function About() {
               <div className="flex items-baseline gap-1">
                 <span
                   ref={teamsCountRef}
-                  className="font-black text-5xl sm:text-6xl text-white tracking-tight leading-none"
+                  className="font-black text-4xl sm:text-6xl text-white tracking-tight leading-none"
                   style={{ textShadow: '0 0 25px rgba(46,211,232,0.6)' }}
                 >
                   0
@@ -258,7 +258,7 @@ export default function About() {
 
           {/* Stat 2: Total Prize Pool (Pink Featured) */}
           <div
-            className="stat-voxel-card voxel-panel voxel-panel-pink group p-7 sm:p-8 flex flex-col justify-between cursor-default relative rounded-2xl"
+            className="stat-voxel-card voxel-panel voxel-panel-pink group p-5 sm:p-8 flex flex-col justify-between cursor-default relative rounded-2xl"
             style={{
               '--accent': '#FF2E9A',
               transformStyle: 'preserve-3d',
@@ -278,7 +278,7 @@ export default function About() {
                 <span className="text-2xl sm:text-3xl font-black text-[#FF2E9A] mt-2">₹</span>
                 <span
                   ref={prizeCountRef}
-                  className="font-black text-5xl sm:text-6xl text-white tracking-tight leading-none"
+                  className="font-black text-4xl sm:text-6xl text-white tracking-tight leading-none"
                   style={{ textShadow: '0 0 30px rgba(255,46,154,0.75)' }}
                 >
                   0
@@ -292,7 +292,7 @@ export default function About() {
 
           {/* Stat 3: Duration (Blue) */}
           <div
-            className="stat-voxel-card voxel-panel group p-7 sm:p-8 flex flex-col justify-between cursor-default rounded-2xl"
+            className="stat-voxel-card voxel-panel group p-5 sm:p-8 flex flex-col justify-between cursor-default rounded-2xl"
             style={{
               '--accent': '#2ED3E8',
               transformStyle: 'preserve-3d',
@@ -311,7 +311,7 @@ export default function About() {
               <div className="flex items-baseline gap-1">
                 <span
                   ref={durationCountRef}
-                  className="font-black text-5xl sm:text-6xl text-white tracking-tight leading-none"
+                  className="font-black text-4xl sm:text-6xl text-white tracking-tight leading-none"
                   style={{ textShadow: '0 0 25px rgba(46,211,232,0.6)' }}
                 >
                   0

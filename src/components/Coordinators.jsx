@@ -231,7 +231,7 @@ export default function Coordinators() {
     <section
       id="coordinators"
       ref={sectionRef}
-      className="relative py-24 sm:py-32 px-6 lg:px-12 overflow-hidden"
+      className="relative py-16 sm:py-32 px-4 sm:px-6 lg:px-12 overflow-hidden"
       style={{
         background: 'linear-gradient(180deg, #0a0a14 0%, #0c0824 50%, #0a0a14 100%)',
       }}

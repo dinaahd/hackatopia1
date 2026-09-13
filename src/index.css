@@ -102,6 +102,28 @@ body {
   animation: floatHeroLogo 5s ease-in-out infinite;
 }
 
+/* Mobile: reduce heavy filter effects for performance */
+@media (max-width: 639px) {
+  .hero-logo-enhanced {
+    animation: floatHeroLogoMobile 5s ease-in-out infinite;
+  }
+
+  @keyframes floatHeroLogoMobile {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+      filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.4)) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
+    }
+    50% {
+      transform: translateY(-6px) scale(1.01);
+      filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9));
+    }
+  }
+
+  /* Reduce ambient glow blur sizes on mobile */
+  .blur-\\[120px\\] { filter: blur(60px) !important; }
+  .blur-\\[100px\\] { filter: blur(50px) !important; }
+}
+
 /* Floating glow orbs */
 @keyframes floatOrb {
 
