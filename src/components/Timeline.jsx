@@ -64,7 +64,7 @@ const journeySteps = [
     category: 'PPT SUBMISSION',
     title: 'Phase 1 PPT Submission',
     description: "The Team Leader submits the team's Phase 1 PPT.",
-    badge: 'Deadline: Sept 20, 2026',
+    badge: 'Deadline: Sept 25, 2026',
     isDeadline: true,
     color: '#FFB800', // Gold/Amber
     Icon: FileText,
