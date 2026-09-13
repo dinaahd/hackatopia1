@@ -1,101 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 56" fill="none" className="h-full w-auto">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 70" fill="none">
   <defs>
-    <linearGradient id="yitCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00f0ff" />
-      <stop offset="100%" stop-color="#0088ff" />
+    <linearGradient id="pillarGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E8862E" />
+      <stop offset="100%" stop-color="#B85C1A" />
     </linearGradient>
-    <linearGradient id="yitGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" />
-      <stop offset="100%" stop-color="#c8e6ff" />
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4751C" />
+      <stop offset="100%" stop-color="#A0510E" />
     </linearGradient>
-    <filter id="yitGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
+    <linearGradient id="subtextGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C46A18" />
+      <stop offset="50%" stop-color="#8B4513" />
+      <stop offset="100%" stop-color="#A0510E" />
+    </linearGradient>
+    <filter id="pillarGlow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
   </defs>
 
-  <!-- 1. Authentic YIT Crest & Emblem Insignia -->
-  <g transform="translate(4, 3)">
-    <!-- Outer Shield / Hex Badge -->
-    <path
-      d="M25 1 L47 13 L47 37 L25 49 L3 37 L3 13 Z"
-      fill="rgba(0, 240, 255, 0.06)"
-      stroke="url(#yitCyanGrad)"
-      stroke-width="1.75"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M25 5 L43 15 L43 35 L25 45 L7 15 Z"
-      fill="none"
-      stroke="rgba(0, 240, 255, 0.25)"
-      stroke-width="1"
-      stroke-dasharray="2 2"
-    />
+  <!-- Pillar/Column Icon - 5 vertical bars representing the architectural pillar -->
+  <g transform="translate(4, 5)" filter="url(#pillarGlow)">
+    <!-- Top cap -->
+    <rect x="2" y="0" width="48" height="5" rx="1.5" fill="url(#pillarGrad)" />
 
-    <!-- Stylized 'Y' Tree / Rising Flame of Knowledge -->
-    <!-- Left Leaf / Wing -->
-    <path
-      d="M14 18 C18 20, 22 26, 25 33 C23 26, 21 21, 16 16 Z"
-      fill="#00f0ff"
-      opacity="0.9"
-    />
-    <!-- Right Leaf / Wing -->
-    <path
-      d="M36 18 C32 20, 28 26, 25 33 C27 26, 29 21, 34 16 Z"
-      fill="#00c8ff"
-      opacity="0.9"
-    />
-    <!-- Central Rising Flame / Core of Y -->
-    <path
-      d="M25 12 C26.5 16, 28 20, 25 27 C22 20, 23.5 16, 25 12 Z"
-      fill="#ffffff"
-    />
-    <circle cx="25" cy="11" r="2" fill="#00f0ff" filter="url(#yitGlow)" />
+    <!-- 5 Pillar bars -->
+    <rect x="5" y="8" width="6" height="42" rx="1" fill="url(#pillarGrad)" opacity="0.95" />
+    <rect x="14" y="8" width="6" height="42" rx="1" fill="url(#pillarGrad)" opacity="0.90" />
+    <rect x="23" y="8" width="6" height="42" rx="1" fill="url(#pillarGrad)" opacity="0.85" />
+    <rect x="32" y="8" width="6" height="42" rx="1" fill="url(#pillarGrad)" opacity="0.90" />
+    <rect x="41" y="8" width="6" height="42" rx="1" fill="url(#pillarGrad)" opacity="0.95" />
 
-    <!-- Open Book Base of Education -->
-    <path
-      d="M13 36 C19 33, 23 35, 25 38 C27 35, 31 33, 37 36 L36 39 C31 36, 27 38, 25 41 C23 38, 19 36, 14 39 Z"
-      fill="url(#yitCyanGrad)"
-    />
-
-    <!-- Stem of the Y -->
-    <path
-      d="M24 33 L26 33 L26 43 L24 43 Z"
-      fill="#ffffff"
-      opacity="0.85"
-    />
+    <!-- Bottom base -->
+    <rect x="2" y="53" width="48" height="5" rx="1.5" fill="url(#pillarGrad)" />
   </g>
 
-  <!-- 2. Wordmark Typography -->
-  <g transform="translate(62, 0)">
-    <!-- YENEPOYA -->
-    <text
-      x="0"
-      y="22"
-      fill="url(#yitGoldGrad)"
-      style="font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 900; letter-spacing: 0.12em;"
-    >
-      YENEPOYA
-    </text>
+  <!-- YENEPOYA text -->
+  <text
+    x="68"
+    y="30"
+    fill="url(#textGrad)"
+    style="font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; font-size: 26px; font-weight: 900; letter-spacing: 0.08em;"
+  >
+    YENEPOYA
+  </text>
 
-    <!-- INSTITUTE OF TECHNOLOGY -->
-    <text
-      x="0"
-      y="36"
-      fill="#00f0ff"
-      style="font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em;"
-    >
-      INSTITUTE OF TECHNOLOGY
-    </text>
-
-    <!-- Accreditation / Location sub-line -->
-    <text
-      x="0"
-      y="47"
-      fill="rgba(255, 255, 255, 0.45)"
-      style="font-family: 'Inter', monospace, sans-serif; font-size: 7px; font-weight: 600; letter-spacing: 0.18em;"
-    >
-      MOODBIDRI · MANGALORE
-    </text>
-  </g>
+  <!-- INSTITUTE OF TECHNOLOGY text -->
+  <text
+    x="68"
+    y="52"
+    fill="url(#subtextGrad)"
+    style="font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.15em;"
+  >
+    INSTITUTE OF TECHNOLOGY
+  </text>
 </svg>

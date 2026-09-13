@@ -9,7 +9,7 @@ const rulesList = [
   {
     id: 1,
     title: 'Team Formation',
-    rule: 'Teams of up to 4 — solo builders welcome too. Cross-college teams are fully permitted.',
+    rule: 'Teams of 2 to 4 members. Cross-department teams are permitted.',
     accent: '#2ED3E8', // Blue
   },
   {
@@ -33,7 +33,7 @@ const rulesList = [
   {
     id: 5,
     title: 'Submission & Pitch',
-    rule: 'Final submission (repo + deck + demo video) plus a live 3-minute pitch required to be judged.',
+    rule: 'Final submission (repo + deck) plus a live 3-minute pitch required to be judged.',
     accent: '#2ED3E8', // Blue
   },
   {

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import cybernautsLogo from '../assets/cybernauts.png'
-import yitLogo from '../assets/yit_logo.svg'
+import yitLogo from '../assets/yenepoya-technology-logo.svg'
 import TransparentImage from './TransparentImage'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -100,7 +100,7 @@ export default function Footer() {
               <img
                 src={yitLogo}
                 alt="Yenepoya Institute of Technology Logo"
-                className="h-12 sm:h-14 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,229,255,0.25)]"
+                className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(232,134,46,0.3)]"
               />
             </div>
 
@@ -171,7 +171,7 @@ export default function Footer() {
 
             <div className="pt-1">
               <a
-                href="https://instagram.com/hackatopia"
+                href="https://instagram.com/hackatopia_2k26"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -185,7 +185,7 @@ export default function Footer() {
                   </svg>
                 </div>
                 <span className="text-sm font-bold text-white/90 group-hover:text-[#FF2E9A] transition-colors font-mono tracking-wide">
-                  @hackatopia
+                  @hackatopia_2k26
                 </span>
               </a>
             </div>
