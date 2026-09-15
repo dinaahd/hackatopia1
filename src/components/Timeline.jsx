@@ -64,7 +64,7 @@ const journeySteps = [
     category: 'PPT SUBMISSION',
     title: 'Phase 1 PPT Submission',
     description: "The Team Leader submits the team's Phase 1 PPT.",
-    badge: 'Deadline: Sept 25, 2026',
+    badge: 'Deadline: Sept 30, 2026',
     isDeadline: true,
     color: '#FFB800', // Gold/Amber
     Icon: FileText,
@@ -324,7 +324,7 @@ export default function Timeline() {
       ref={sectionRef}
       className="relative py-16 sm:py-36 px-3 sm:px-6 lg:px-12 w-full overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #070514 0%, #0d0824 50%, #070514 100%)',
+        background: 'transparent',
       }}
     >
       {/* Background Grid Lines */}
@@ -586,7 +586,9 @@ export default function Timeline() {
                           <div className="relative z-10 mt-4 p-3.5 rounded-xl bg-[#FFB800]/15 border border-[#FFB800]/40 flex items-center gap-2.5">
                             <AlertCircle className="w-4 h-4 text-[#FFB800] flex-shrink-0" />
                             <p className="text-xs font-bold text-[#FFB800] tracking-wide">
-                              HARD CODE FREEZE · OCTOBER 9, 09:00 AM
+                              {item.id === 'j-04'
+                                ? 'SUBMISSION DEADLINE · SEPTEMBER 30, 2026'
+                                : 'HARD CODE FREEZE · OCTOBER 9, 09:00 AM'}
                             </p>
                           </div>
                         )}

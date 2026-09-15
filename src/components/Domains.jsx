@@ -151,7 +151,7 @@ export default function Domains() {
       ref={sectionRef}
       className="relative py-20 sm:py-36 pb-28 sm:pb-48 px-4 sm:px-6 lg:px-12 overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #0a0a14 0%, #0d0824 50%, #0a0a14 100%)',
+        background: 'transparent',
       }}
     >
       {/* Background Grid Lines */}
@@ -199,18 +199,18 @@ export default function Domains() {
               onMouseLeave={(e) => handleResetTilt(e.currentTarget)}
             >
               <div
-                className="domain-card group relative w-full flex flex-col items-center justify-center p-3 sm:p-5 cursor-pointer select-none"
+                className="domain-card group relative w-full flex flex-col items-center justify-center p-1 sm:p-2 cursor-pointer select-none"
                 style={{
                   '--glow-color': domain.glowColor,
                   '--sec-glow': domain.secGlow,
                   '--accent-color': domain.accent,
                 }}
               >
-                {/* Subtle back illumination glow */}
+                {/* Subtle back illumination glow blending with background */}
                 <div
-                  className="absolute inset-4 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-3xl pointer-events-none"
+                  className="absolute inset-0 rounded-full opacity-20 group-hover:opacity-70 transition-opacity duration-500 blur-3xl pointer-events-none"
                   style={{
-                    background: `radial-gradient(circle, ${domain.glowColor} 0%, ${domain.secGlow} 50%, transparent 75%)`,
+                    background: `radial-gradient(circle at center, ${domain.glowColor} 0%, ${domain.secGlow} 45%, transparent 70%)`,
                   }}
                 />
 

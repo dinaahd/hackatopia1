@@ -271,7 +271,7 @@ export const StaggeredMenu = ({
   const buildings = [42, 65, 54, 82, 46, 70, 58, 92, 48, 68, 62, 88, 52, 78, 38, 74, 56, 68];
 
   return (
-    <div className={"sm-scope " + (isFixed ? "fixed top-0 left-0 w-full z-50 pointer-events-none" : "relative w-full h-full")}>
+    <div className={"sm-scope " + (isFixed ? "fixed top-0 left-0 w-full z-[100] pointer-events-none" : "relative w-full h-full")}>
       <div
         className={(className ? className + " " : "") + "staggered-menu-wrapper relative w-full h-full"}
         style={accentColor ? { ["--sm-accent"]: accentColor } : undefined}
@@ -279,14 +279,14 @@ export const StaggeredMenu = ({
         data-open={open || undefined}
       >
         {/* Prelayers */}
-        <div ref={preLayersRef} className="sm-prelayers fixed top-0 right-0 bottom-0 pointer-events-none z-[55]" aria-hidden="true">
+        <div ref={preLayersRef} className="sm-prelayers fixed top-0 right-0 bottom-0 pointer-events-none z-[105]" aria-hidden="true">
           {(colors && colors.length ? colors.slice(0, 4) : ["#00e5ff", "#ff2ea6", "#0c0422"]).map((c, i) => (
             <div key={i} className="sm-prelayer absolute top-0 right-0 h-full w-full shadow-2xl" style={{ background: c }} />
           ))}
         </div>
 
         {/* NAVBAR */}
-        <header className="staggered-menu-header w-full flex items-center justify-between px-6 sm:px-10 py-4 sm:py-5 pointer-events-none z-[60]" aria-label="Main navigation header">
+        <header className="staggered-menu-header w-full flex items-center justify-between px-6 sm:px-10 py-3.5 sm:py-4 pointer-events-none z-[120]" aria-label="Main navigation header">
           <a href="#home" className="sm-logo pointer-events-auto select-none group flex items-center" aria-label="Go to home">
             <div className="sm-logo-circle relative w-13 h-13 sm:w-22 sm:h-22 rounded-full p-2 flex items-center justify-center transition-all duration-300">
               <img src={logoUrl} alt="Hackatopia Logo" className="w-full h-full object-contain rounded-full" draggable={false} />
@@ -324,7 +324,7 @@ export const StaggeredMenu = ({
           data-lenis-prevent="true"
           data-lenis-prevent-wheel="true"
           data-lenis-prevent-touch="true"
-          className="sm-panel fixed top-0 right-0 h-screen flex flex-col overflow-y-auto z-[58] pointer-events-auto"
+          className="sm-panel fixed top-0 right-0 h-screen flex flex-col overflow-y-auto z-[110] pointer-events-auto"
           aria-hidden={!open}
           onWheel={e => e.stopPropagation()}
           onTouchMove={e => e.stopPropagation()}

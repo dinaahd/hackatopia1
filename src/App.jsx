@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -18,6 +18,74 @@ import MapAddress from './components/MapAddress'
 import Footer from './components/Footer'
 
 gsap.registerPlugin(ScrollTrigger)
+
+/**
+ * VideoBackground – renders a fixed video behind all post-Hero content.
+ * Respects prefers-reduced-motion by pausing the video and showing a
+ * static frame instead.
+ */
+function VideoBackground() {
+  const videoRef = useRef(null)
+  const wrapperRef = useRef(null)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const handle = () => {
+      if (!videoRef.current) return
+      if (mq.matches) {
+        videoRef.current.pause()
+      } else {
+        videoRef.current.play().catch(() => {})
+      }
+    }
+    handle()
+    mq.addEventListener('change', handle)
+    return () => mq.removeEventListener('change', handle)
+  }, [])
+
+  useEffect(() => {
+    if (!wrapperRef.current) return
+
+    // Initially hide video on Hero (1st page) so square animation is fully visible
+    gsap.set(wrapperRef.current, { opacity: 0 })
+
+    const st = ScrollTrigger.create({
+      trigger: '#about',
+      start: 'top 95%',
+      end: 'top 40%',
+      scrub: 0.3,
+      onUpdate: (self) => {
+        if (wrapperRef.current) {
+          wrapperRef.current.style.opacity = String(self.progress)
+        }
+      },
+    })
+
+    return () => st.kill()
+  }, [])
+
+  return (
+    <div ref={wrapperRef} className="video-bg-wrapper" aria-hidden="true" style={{ opacity: 0 }}>
+      <video
+        ref={videoRef}
+        className="video-bg-element"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        disablePictureInPicture
+        tabIndex={-1}
+      >
+        <source src="/background.mov" type="video/quicktime" />
+        <source src="/background.mov" type="video/mp4" />
+        <source src="/desktop.mp4" type="video/mp4" />
+      </video>
+      {/* Minimal overlay for text readability */}
+      <div className="video-bg-overlay" />
+    </div>
+  )
+}
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -112,24 +180,27 @@ function App() {
       {/* Assembly Preloader */}
       {loading && <Preloader onComplete={() => setLoading(false)} />}
 
-      <main className="relative min-h-screen bg-[#0a0a14] text-white overflow-x-hidden">
-        {/* ── 1. NAVBAR & MENU ────── */}
-        <Navbar />
+      {/* ── VIDEO BACKGROUND (fixed viewport-filling, behind everything) ── */}
+      <VideoBackground />
 
+      {/* ── 1. NAVBAR & MENU (top-level fixed, z-[100]+ above all layers) ── */}
+      <Navbar />
+
+      <main className="relative min-h-screen bg-transparent text-white overflow-x-hidden" style={{ zIndex: 1 }}>
         {/* ── 2. HERO SECTION ─────────────── */}
         <section
           id="home"
-          className="relative flex flex-col items-center justify-center min-h-[100svh] min-h-screen w-full overflow-hidden pt-16 pb-8 sm:py-16 px-3 sm:px-6"
+          className="relative flex flex-col items-center justify-center min-h-[100svh] min-h-screen w-full overflow-hidden pt-20 sm:pt-24 pb-8 sm:pb-12 px-3 sm:px-6"
+          style={{ background: '#080220', zIndex: 2 }}
         >
-          {/* Cubes interactive background layer */}
-          <div className="absolute inset-0 z-0 w-full h-full min-h-screen flex items-center justify-center pointer-events-auto overflow-hidden">
+          {/* Cubes interactive background layer – starts from the very top of the page */}
+          <div className="absolute inset-0 z-0 w-full h-full pointer-events-auto overflow-hidden">
             <Cubes
-              gridSize={12}
-              maxAngle={0}
-              radius={4}
-              cellGap={8}
-              borderStyle="1.5px dashed rgba(0, 229, 255, 0.28)"
-              faceColor="#08031a"
+              gridCols={24}
+              gridRows={14}
+              cellGap={4}
+              borderStyle="1px dashed rgba(0, 229, 255, 0.45)"
+              faceColor="rgba(8, 3, 26, 0.85)"
               rippleSpeed={1.5}
               rippleOnClick
             />

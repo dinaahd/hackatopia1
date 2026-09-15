@@ -41,7 +41,7 @@ export default function Sponsors() {
       ref={sectionRef}
       className="relative py-20 sm:py-36 w-full overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #0a0a14 0%, #0c0824 50%, #0a0a14 100%)',
+        background: 'transparent',
       }}
     >
       {/* Background Grid */}

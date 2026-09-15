@@ -107,7 +107,7 @@ export default function FAQ() {
       ref={sectionRef}
       className="relative py-20 sm:py-36 px-4 sm:px-6 lg:px-12 overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #0a0a14 0%, #0c0824 50%, #0a0a14 100%)',
+        background: 'transparent',
       }}
     >
       {/* Background Grid Lines */}
@@ -147,7 +147,7 @@ export default function FAQ() {
                 key={idx}
                 className="faq-item group rounded-2xl overflow-hidden transition-all duration-300"
                 style={{
-                  background: 'linear-gradient(165deg, rgba(16,12,34,0.9) 0%, rgba(8,6,20,0.97) 100%)',
+                  background: 'linear-gradient(165deg, rgba(16,12,34,0.75) 0%, rgba(8,6,20,0.85) 100%)',
                   backdropFilter: 'blur(16px)',
                   WebkitBackdropFilter: 'blur(16px)',
                   border: '1.5px solid',

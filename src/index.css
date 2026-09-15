@@ -519,30 +519,15 @@ body {
 ══════════════════════════════════════════ */
 .domain-card {
   position: relative;
-  overflow: hidden;
-  border-radius: 20px;
-  padding: 2.5rem 1.5rem;
-  background: rgba(18, 8, 31, 0.7);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: visible;
+  padding: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
-}
-
-.domain-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -100%;
-  width: 60%;
-  height: 200%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
-  transition: left 0.6s ease;
-}
-
-.domain-card:hover::before {
-  left: 200%;
 }
 
 .domain-card:hover {
@@ -664,4 +649,100 @@ body {
   font-size: 1.75rem;
   flex-shrink: 0;
   animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════════
+   VIDEO BACKGROUND (post-Hero sections)
+══════════════════════════════════════════ */
+
+/*
+ * The video wrapper is a direct child of <main>.
+ * It uses position:fixed + z-index:0 so it stays viewport-filling
+ * while content scrolls above it at z-index:1+.
+ *
+ * The Hero section has an opaque background that covers the video.
+ * All post-Hero sections are transparent so the video shows through.
+ */
+
+/* Fixed viewport-filling wrapper */
+.video-bg-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* The <video> element */
+.video-bg-element {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  /* GPU-accelerated layer for performance with translucent lightness */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  opacity: 0.65;
+  filter: brightness(1.12);
+}
+
+/* Minimal dark overlay so the video animation is vivid and clearly visible */
+.video-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 2, 14, 0.15);
+  pointer-events: none;
+}
+
+/* ── Hero gets an opaque background so the video doesn't bleed through ── */
+#home {
+  background: var(--base);
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Navbar stays above video ── */
+nav,
+header,
+[class*="navbar"],
+[class*="Navbar"] {
+  position: relative;
+  z-index: 50;
+}
+
+/* ── All sections / direct children of main sit above the video ── */
+main > section,
+main > div:not(.video-bg-wrapper),
+main > footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .video-bg-element {
+    display: none;
+  }
+
+  /* Fallback: show the base color instead of video */
+  .video-bg-wrapper {
+    background: var(--base);
+  }
+}
+
+/* ── Mobile optimisations ── */
+@media (max-width: 639px) {
+  /* Slightly heavier overlay on mobile for readability on smaller screens */
+  .video-bg-overlay {
+    background: rgba(8, 2, 32, 0.78);
+  }
+
+  /* Reduce GPU memory pressure on low-end devices */
+  .video-bg-element {
+    will-change: auto;
+  }
 }
