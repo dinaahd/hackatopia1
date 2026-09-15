@@ -8,12 +8,12 @@ gsap.registerPlugin(ScrollTrigger)
 const faqs = [
   {
     q: 'Who is eligible to participate in Hackatopia?',
-    a: 'Hackatopia is open to undergraduate & postgraduate students from all recognized universities and colleges. Cross-college and interdisciplinary teams are fully permitted.',
+    a: 'Hackatopia is open to undergraduate & postgraduate students from all recognized universities and colleges. Interdisciplinary teams are fully permitted.',
     color: '#2ED3E8',
   },
   {
     q: 'What is the team size limit?',
-    a: 'Teams can have between 2 to 4 members. Solo participants are also welcome, but building in teams is strongly encouraged.',
+    a: 'Teams must consist of 2 to 4 members.',
     color: '#FF2E9A',
   },
   {

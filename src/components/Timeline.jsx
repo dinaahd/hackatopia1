@@ -64,7 +64,7 @@ const journeySteps = [
     category: 'PPT SUBMISSION',
     title: 'Phase 1 PPT Submission',
     description: "The Team Leader submits the team's Phase 1 PPT.",
-    badge: 'Deadline: Sept 30, 2026',
+    badge: 'Deadline: Sept 28, 2026',
     isDeadline: true,
     color: '#FFB800', // Gold/Amber
     Icon: FileText,
@@ -587,7 +587,7 @@ export default function Timeline() {
                             <AlertCircle className="w-4 h-4 text-[#FFB800] flex-shrink-0" />
                             <p className="text-xs font-bold text-[#FFB800] tracking-wide">
                               {item.id === 'j-04'
-                                ? 'SUBMISSION DEADLINE · SEPTEMBER 30, 2026'
+                                ? 'SUBMISSION DEADLINE · SEPTEMBER 28, 2026'
                                 : 'HARD CODE FREEZE · OCTOBER 9, 09:00 AM'}
                             </p>
                           </div>
