@@ -6,7 +6,6 @@ import {
   Clock,
   Sparkles,
   Users,
-  Code2,
   FileText,
   CheckCircle2,
   Trophy,
@@ -22,7 +21,7 @@ import {
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ── Phase 1: Online Qualification & Preparation Journey (Steps 01 – 07) ──
+// ── Phase 1: Online Qualification & Preparation Journey (Steps 01 – 06) ──
 const journeySteps = [
   {
     id: 'j-01',
@@ -47,19 +46,8 @@ const journeySteps = [
     Icon: Users,
   },
   {
-    id: 'j-03',
-    stepNum: '03',
-    phase: 'JOURNEY',
-    category: 'PHASE 1',
-    title: 'Online Assessment',
-    description: 'Complete the online assessment as instructed.',
-    badge: 'ASSESSMENT',
-    color: '#9D4EDD', // Purple
-    Icon: Code2,
-  },
-  {
     id: 'j-04',
-    stepNum: '04',
+    stepNum: '03',
     phase: 'JOURNEY',
     category: 'PPT SUBMISSION',
     title: 'Phase 1 PPT Submission',
@@ -71,7 +59,7 @@ const journeySteps = [
   },
   {
     id: 'j-05',
-    stepNum: '05',
+    stepNum: '04',
     phase: 'JOURNEY',
     category: 'EVALUATION',
     title: 'Committee Review',
@@ -82,7 +70,7 @@ const journeySteps = [
   },
   {
     id: 'j-06',
-    stepNum: '06',
+    stepNum: '05',
     phase: 'JOURNEY',
     category: 'SHORTLISTING',
     title: 'Finalists Announcement',
@@ -93,7 +81,7 @@ const journeySteps = [
   },
   {
     id: 'j-07',
-    stepNum: '07',
+    stepNum: '06',
     phase: 'JOURNEY',
     category: 'HACKATOPIA',
     title: '24-Hour Grand Finale',
