@@ -165,7 +165,6 @@ export default function Rules() {
         {/* 6 Rules List with Voxel Cube Markers in Blue & Pink */}
         <div ref={rulesContainerRef} className="flex flex-col gap-4 sm:gap-5 w-full">
           {rulesList.map((r) => {
-            const isPink = r.accent === '#FF2E9A'
             return (
               <div
                 key={r.id}
