@@ -6,14 +6,16 @@ export default function CustomCursor() {
   const cursorRing = useRef(null)
   const [isHovered, setIsHovered] = useState(false)
   const [isClicking, setIsClicking] = useState(false)
-  const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const [isTouchDevice] = useState(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) {
+      return false
+    }
+
+    return window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  })
 
   useEffect(() => {
-    // Check touch device or reduced motion
-    if (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setIsTouchDevice(true)
-      return
-    }
+    if (isTouchDevice) return
 
     const dot = cursorDot.current
     const ring = cursorRing.current
@@ -63,7 +65,7 @@ export default function CustomCursor() {
       window.removeEventListener('mouseup', onMouseUp)
       document.removeEventListener('mouseover', handleMouseOver)
     }
-  }, [])
+  }, [isTouchDevice])
 
   if (isTouchDevice) return null
 

@@ -225,16 +225,16 @@ export const StaggeredMenu = ({
     if (open) {
       window.dispatchEvent(new CustomEvent('lenis:stop'));
       document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overscrollBehavior = 'contain';
     } else {
       window.dispatchEvent(new CustomEvent('lenis:start'));
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
+      document.body.style.overscrollBehavior = '';
     }
     return () => {
       window.dispatchEvent(new CustomEvent('lenis:start'));
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
+      document.body.style.overscrollBehavior = '';
     };
   }, [open]);
 
@@ -324,10 +324,8 @@ export const StaggeredMenu = ({
           data-lenis-prevent="true"
           data-lenis-prevent-wheel="true"
           data-lenis-prevent-touch="true"
-          className="sm-panel fixed top-0 right-0 h-screen flex flex-col overflow-y-auto z-[110] pointer-events-auto"
+          className="sm-panel fixed top-0 right-0 h-screen h-[100dvh] max-h-[100dvh] flex flex-col overflow-y-auto z-[110] pointer-events-auto"
           aria-hidden={!open}
-          onWheel={e => e.stopPropagation()}
-          onTouchMove={e => e.stopPropagation()}
         >
           {/* Pixel City Skyline */}
           <div className="sm-skyline-strip" aria-hidden="true">
@@ -339,7 +337,7 @@ export const StaggeredMenu = ({
           </div>
 
           {/* Panel content */}
-          <div className="sm-panel-content flex-1 flex flex-col justify-between p-6 sm:p-8 pt-2 relative z-10 min-h-min" data-lenis-prevent="true">
+          <div className="sm-panel-content flex-1 flex flex-col justify-between p-4 sm:p-8 pt-2 relative z-10" data-lenis-prevent="true">
 
             {/* Top section: Header row + divider */}
             <div className="flex flex-col gap-3">
@@ -364,7 +362,7 @@ export const StaggeredMenu = ({
             </div>
 
             {/* Nav links */}
-            <div className="my-auto py-2">
+            <div className="sm:my-auto my-2 py-1 sm:py-2">
               <ul className="sm-panel-list list-none m-0 p-0 flex flex-col gap-1.5 sm:gap-2" role="list">
                 {items.map((it, idx) => {
                   const theme = navThemes[idx] || navThemes[0];
@@ -412,8 +410,8 @@ export const StaggeredMenu = ({
             </div>
 
             {/* Bottom section: REGISTER NOW button */}
-            <div className="pt-5 pb-2 border-t border-white/10 flex flex-col gap-3 active:scale-90">
-              <div className="sm-register-cta px-4 sm:px-6">
+            <div className="pt-4 pb-4 sm:pt-5 sm:pb-2 border-t border-white/10 flex flex-col gap-3">
+              <div className="sm-register-cta px-3 sm:px-6">
                 <a
                   href="https://forms.gle/vso2h1azUy2k3MkPA"
                   target="_blank"
@@ -437,6 +435,9 @@ export const StaggeredMenu = ({
       <style>{`
         .sm-scope .sm-panel {
           width: clamp(320px, 36vw, 480px);
+          height: 100vh;
+          height: 100dvh;
+          max-height: 100dvh;
           background: radial-gradient(circle at 100% 0%, #160733 0%, #060112 70%);
           border-left: 2px solid rgba(0,212,255,0.22);
           box-shadow: -25px 0 90px rgba(0,0,0,0.95), inset 1px 0 0 rgba(255,255,255,0.06);
@@ -444,7 +445,14 @@ export const StaggeredMenu = ({
           overscroll-behavior: contain !important;
           overscroll-behavior-y: contain !important;
           touch-action: pan-y !important;
-          -webkit-overflow-scrolling: touch;
+          -webkit-overflow-scrolling: touch !important;
+        }
+        .sm-scope .sm-panel * {
+          touch-action: pan-y;
+        }
+        .sm-scope .sm-panel-content {
+          min-height: calc(100% - 108px);
+          flex-shrink: 0;
         }
         .sm-scope .sm-panel::-webkit-scrollbar {
           width: 5px;
@@ -460,10 +468,24 @@ export const StaggeredMenu = ({
           background: rgba(0, 229, 255, 0.8);
         }
         .sm-scope [data-position='left'] .sm-panel { right: auto; left: 0; border-left: none; border-right: 2px solid rgba(0,212,255,0.22); }
-        .sm-scope .sm-prelayers { width: clamp(320px, 36vw, 480px); }
+        .sm-scope .sm-prelayers { width: clamp(320px, 36vw, 480px); height: 100vh; height: 100dvh; }
         .sm-scope [data-position='left'] .sm-prelayers { right: auto; left: 0; }
         @media (max-width: 640px) {
           .sm-scope .sm-panel, .sm-scope .sm-prelayers { width: 100vw; }
+          .sm-scope .sm-skyline-strip { height: 56px !important; }
+          .sm-scope .sm-panel-content {
+            min-height: calc(100% - 56px);
+            padding: 0.5rem 1rem 2rem 1rem !important;
+          }
+          .sm-scope .sm-nav-link {
+            padding: 0.55rem 0.85rem !important;
+          }
+          .sm-scope .sm-panel-itemLabel {
+            font-size: 1.35rem !important;
+          }
+          .sm-scope .sm-register-cta {
+            padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0.75rem)) !important;
+          }
         }
         .sm-scope .staggered-menu-header {
           background: transparent !important;
