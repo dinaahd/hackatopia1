@@ -112,7 +112,7 @@ export default function FAQ() {
     >
       {/* Background Grid Lines */}
       <div
-        className="absolute inset-0 opacity-[0.06] pointer-events-none"
+        className="absolute inset-0 opacity-[0.06] pointer-events-none hidden sm:block"
         style={{
           backgroundImage:
             'linear-gradient(rgba(46, 211, 232, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 211, 232, 0.4) 1px, transparent 1px)',

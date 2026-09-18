@@ -33,6 +33,10 @@ const Cubes = ({
   const colGap = typeof cellGap === 'number' ? `${cellGap}px` : '4px';
   const rowGap = typeof cellGap === 'number' ? `${cellGap}px` : '4px';
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const actualCols = isMobile ? Math.min(gridCols, 8) : gridCols;
+  const actualRows = isMobile ? Math.min(gridRows, 5) : gridRows;
+
   // Trigger ripple from specific fractional or integer coordinates
   const triggerRippleAt = useCallback((hitCol, hitRow, customColor) => {
     if (!sceneRef.current) return;
@@ -42,11 +46,13 @@ const Cubes = ({
     const holdTime = 0.45 / rippleSpeed;
     const currentFaceColor = faceColorRef.current;
     const allCubes = scene.querySelectorAll('.cube');
+    const maxRadius = isMobile ? 10 : 18;
 
     allCubes.forEach(cube => {
       const r = parseFloat(cube.dataset.row);
       const c = parseFloat(cube.dataset.col);
       const dist = Math.hypot(c - hitCol, r - hitRow);
+      if (dist > maxRadius) return;
       const delay = dist * spreadDelay;
       const randomColor = customColor || (Math.random() > 0.5 ? BLUE : PINK);
       const faces = Array.from(cube.querySelectorAll('.cube-face'));
@@ -66,7 +72,7 @@ const Cubes = ({
         ease: 'power2.out'
       });
     });
-  }, [rippleSpeed]);
+  }, [rippleSpeed, isMobile]);
 
   // Click Ripple: Originates directly from the clicked cube or click location
   const handleClick = useCallback(
@@ -87,20 +93,20 @@ const Cubes = ({
         hitCol = parseFloat(clickedCube.dataset.col);
         hitRow = parseFloat(clickedCube.dataset.row);
       } else {
-        hitCol = ((clientX - rect.left) / rect.width) * (gridCols - 1);
-        hitRow = ((clientY - rect.top) / rect.height) * (gridRows - 1);
+        hitCol = ((clientX - rect.left) / rect.width) * (actualCols - 1);
+        hitRow = ((clientY - rect.top) / rect.height) * (actualRows - 1);
       }
 
       triggerRippleAt(hitCol, hitRow);
     },
-    [rippleOnClick, gridCols, gridRows, triggerRippleAt]
+    [rippleOnClick, actualCols, actualRows, triggerRippleAt]
   );
 
   // Hover effect: subtly illuminate cubes under the mouse cursor
   const lastHoveredRef = useRef(null);
   const handleMouseMove = useCallback(
     e => {
-      if (!sceneRef.current) return;
+      if (isMobile || !sceneRef.current) return;
       const scene = sceneRef.current;
       const rect = scene.getBoundingClientRect();
       const clientX = e.clientX;
@@ -114,8 +120,8 @@ const Cubes = ({
         clientY > rect.bottom
       ) return;
 
-      const hitCol = Math.round(((clientX - rect.left) / rect.width) * (gridCols - 1));
-      const hitRow = Math.round(((clientY - rect.top) / rect.height) * (gridRows - 1));
+      const hitCol = Math.round(((clientX - rect.left) / rect.width) * (actualCols - 1));
+      const hitRow = Math.round(((clientY - rect.top) / rect.height) * (actualRows - 1));
       const key = `${hitRow}-${hitCol}`;
 
       if (lastHoveredRef.current === key) return;
@@ -140,7 +146,7 @@ const Cubes = ({
         });
       }
     },
-    [gridCols, gridRows]
+    [actualCols, actualRows, isMobile]
   );
 
   useEffect(() => {
@@ -167,35 +173,39 @@ const Cubes = ({
 
     window.addEventListener('click', handleHeroClick);
     window.addEventListener('touchstart', handleHeroClick, { passive: true });
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
 
-    // Initial ambient wave after mount
+    // Defer initial ambient wave to avoid main-thread freeze on initial page load
     const initialTimer = setTimeout(() => {
-      triggerRippleAt(Math.floor(gridCols / 2), Math.floor(gridRows / 2));
-    }, 400);
+      triggerRippleAt(Math.floor(actualCols / 2), Math.floor(actualRows / 2));
+    }, isMobile ? 4000 : 1500);
 
-    // Continuous subtle ambient ripples every 7s
+    // Continuous subtle ambient ripples (slower on mobile to save CPU)
     const interval = setInterval(() => {
-      const randomCol = Math.floor(Math.random() * gridCols);
-      const randomRow = Math.floor(Math.random() * 4);
+      const randomCol = Math.floor(Math.random() * actualCols);
+      const randomRow = Math.floor(Math.random() * Math.max(1, Math.floor(actualRows / 2)));
       triggerRippleAt(randomCol, randomRow);
-    }, 7000);
+    }, isMobile ? 12000 : 8000);
 
     return () => {
       window.removeEventListener('click', handleHeroClick);
       window.removeEventListener('touchstart', handleHeroClick);
-      window.removeEventListener('mousemove', handleMouseMove);
+      if (!isMobile) {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
       clearTimeout(initialTimer);
       clearInterval(interval);
     };
-  }, [handleClick, handleMouseMove, triggerRippleAt, gridCols, gridRows]);
+  }, [handleClick, handleMouseMove, triggerRippleAt, actualCols, actualRows, isMobile]);
 
-  const rows = Array.from({ length: gridRows });
-  const cols = Array.from({ length: gridCols });
+  const rows = Array.from({ length: actualRows });
+  const cols = Array.from({ length: actualCols });
 
   const sceneStyle = {
-    gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
-    gridTemplateRows: `repeat(${gridRows}, 1fr)`,
+    gridTemplateColumns: `repeat(${actualCols}, 1fr)`,
+    gridTemplateRows: `repeat(${actualRows}, 1fr)`,
     columnGap: colGap,
     rowGap: rowGap
   };

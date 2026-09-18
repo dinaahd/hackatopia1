@@ -150,7 +150,8 @@ const ElectricBorder = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const octaves = 10;
+    const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches);
+    const octaves = isMobile ? 4 : 10;
     const lacunarity = 1.6;
     const gain = 0.7;
     const amplitude = chaos;
@@ -158,6 +159,10 @@ const ElectricBorder = ({
     const baseFlatness = 0;
     const displacement = 60;
     const borderOffset = 60;
+    // On mobile, halve the sample density for cheaper draws
+    const sampleDivisor = isMobile ? 4 : 2;
+
+    let isVisible = true;
 
     const updateSize = () => {
       const rect = container.getBoundingClientRect();
@@ -179,6 +184,12 @@ const ElectricBorder = ({
 
     const drawElectricBorder = currentTime => {
       if (!canvas || !ctx) return;
+
+      // Skip drawing when off-screen
+      if (!isVisible) {
+        animationRef.current = requestAnimationFrame(drawElectricBorder);
+        return;
+      }
 
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       if (dpr !== lastDpr) {
@@ -210,7 +221,7 @@ const ElectricBorder = ({
       const radius = Math.min(borderRadius, maxRadius);
 
       const approximatePerimeter = 2 * (borderWidth + borderHeight) + 2 * Math.PI * radius;
-      const sampleCount = Math.floor(approximatePerimeter / 2);
+      const sampleCount = Math.floor(approximatePerimeter / sampleDivisor);
 
       ctx.beginPath();
 
@@ -265,6 +276,15 @@ const ElectricBorder = ({
     });
     resizeObserver.observe(container);
 
+    // Pause rAF when off-screen to stop burning CPU
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    intersectionObserver.observe(container);
+
     animationRef.current = requestAnimationFrame(drawElectricBorder);
 
     return () => {
@@ -272,6 +292,7 @@ const ElectricBorder = ({
         cancelAnimationFrame(animationRef.current);
       }
       resizeObserver.disconnect();
+      intersectionObserver.disconnect();
     };
   }, [color, speed, chaos, borderRadius, octavedNoise, getRoundedRectPoint]);
 

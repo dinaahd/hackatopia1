@@ -317,7 +317,7 @@ export default function Timeline() {
     >
       {/* Background Grid Lines */}
       <div
-        className="absolute inset-0 opacity-[0.05] pointer-events-none"
+        className="absolute inset-0 opacity-[0.05] pointer-events-none hidden sm:block"
         style={{
           backgroundImage:
             'linear-gradient(rgba(46, 211, 232, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 211, 232, 0.4) 1px, transparent 1px)',
@@ -325,17 +325,17 @@ export default function Timeline() {
         }}
       />
 
-      {/* Ambient background glows */}
+      {/* Ambient background glows (hidden on mobile to save GPU) */}
       <div
-        className="absolute top-1/4 -left-28 w-96 h-96 rounded-full opacity-15 blur-[120px] pointer-events-none"
+        className="hidden sm:block absolute top-1/4 -left-28 w-96 h-96 rounded-full opacity-15 blur-[120px] pointer-events-none"
         style={{ background: '#2ED3E8' }}
       />
       <div
-        className="absolute top-2/3 -right-28 w-96 h-96 rounded-full opacity-15 blur-[120px] pointer-events-none"
+        className="hidden sm:block absolute top-2/3 -right-28 w-96 h-96 rounded-full opacity-15 blur-[120px] pointer-events-none"
         style={{ background: '#FF2E9A' }}
       />
       <div
-        className="absolute bottom-10 left-1/3 w-80 h-80 rounded-full opacity-10 blur-[100px] pointer-events-none"
+        className="hidden sm:block absolute bottom-10 left-1/3 w-80 h-80 rounded-full opacity-10 blur-[100px] pointer-events-none"
         style={{ background: '#FFB800' }}
       />
 

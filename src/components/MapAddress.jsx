@@ -97,7 +97,7 @@ export default function MapAddress() {
     >
       {/* Background Grid Pattern */}
       <div
-        className="absolute inset-0 opacity-[0.06] pointer-events-none"
+        className="absolute inset-0 opacity-[0.06] pointer-events-none hidden sm:block"
         style={{
           backgroundImage:
             'linear-gradient(rgba(0, 229, 255, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.4) 1px, transparent 1px)',
@@ -106,7 +106,7 @@ export default function MapAddress() {
       />
 
       {/* Ambient Glow */}
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#00e5ff]/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="hidden sm:block absolute bottom-10 right-10 w-96 h-96 bg-[#00e5ff]/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col gap-12 sm:gap-14">
         {/* Section Header */}

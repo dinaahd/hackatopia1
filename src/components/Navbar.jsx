@@ -1,6 +1,6 @@
 import React from 'react';
 import StaggeredMenu from './StaggeredMenu/StaggeredMenu';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.webp';
 
 const menuItems = [
   { label: 'Home', ariaLabel: 'Go to home section', link: '#home' },

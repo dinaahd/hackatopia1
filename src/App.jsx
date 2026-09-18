@@ -1,59 +1,48 @@
-import { useEffect, useState, useRef } from 'react'
-import Lenis from 'lenis'
+import React, { useEffect, useState, useRef, Suspense, lazy } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import heroImg from './assets/logo.png'
+import heroImg from './assets/logo.webp'
 import Navbar from './components/Navbar'
 import Cubes from './components/Cubes/CubesGrid'
 import Preloader from './components/Preloader'
 import CustomCursor from './components/CustomCursor'
-import About from './components/About'
-import Domains from './components/Domains'
-import Rules from './components/Rules'
-import Timeline from './components/Timeline'
-import Sponsors from './components/Sponsors'
-import FAQ from './components/FAQ'
-import Coordinators from './components/Coordinators'
-import MapAddress from './components/MapAddress'
-import Footer from './components/Footer'
+
+// Code-split all below-the-fold sections for instant initial paint & minimal bundle
+const About = lazy(() => import('./components/About'))
+const Domains = lazy(() => import('./components/Domains'))
+const Rules = lazy(() => import('./components/Rules'))
+const Timeline = lazy(() => import('./components/Timeline'))
+const Sponsors = lazy(() => import('./components/Sponsors'))
+const FAQ = lazy(() => import('./components/FAQ'))
+const Coordinators = lazy(() => import('./components/Coordinators'))
+const MapAddress = lazy(() => import('./components/MapAddress'))
+const Footer = lazy(() => import('./components/Footer'))
 
 gsap.registerPlugin(ScrollTrigger)
 
 /**
- * VideoBackground – renders a fixed video behind all post-Hero content.
- * Respects prefers-reduced-motion by pausing the video and showing a
- * static frame instead.
+ * VideoBackground – lightweight video behind post-Hero content.
+ * Defers rendering the <video> element completely until scrolled near #about,
+ * saving multiple megabytes of bandwidth on initial page load.
  */
 function VideoBackground() {
   const videoRef = useRef(null)
   const wrapperRef = useRef(null)
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const handle = () => {
-      if (!videoRef.current) return
-      if (mq.matches) {
-        videoRef.current.pause()
-      } else {
-        videoRef.current.play().catch(() => {})
-      }
-    }
-    handle()
-    mq.addEventListener('change', handle)
-    return () => mq.removeEventListener('change', handle)
-  }, [])
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false)
 
   useEffect(() => {
     if (!wrapperRef.current) return
 
-    // Initially hide video on Hero (1st page) so square animation is fully visible
     gsap.set(wrapperRef.current, { opacity: 0 })
 
     const st = ScrollTrigger.create({
-      trigger: '#about',
-      start: 'top 95%',
-      end: 'top 40%',
+      trigger: '#home',
+      start: 'bottom 95%',
+      end: 'bottom 40%',
       scrub: 0.3,
+      onEnter: () => {
+        setShouldLoadVideo(true)
+      },
       onUpdate: (self) => {
         if (wrapperRef.current) {
           wrapperRef.current.style.opacity = String(self.progress)
@@ -66,122 +55,124 @@ function VideoBackground() {
 
   return (
     <div ref={wrapperRef} className="video-bg-wrapper" aria-hidden="true" style={{ opacity: 0 }}>
-      <video
-        ref={videoRef}
-        className="video-bg-element"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        disablePictureInPicture
-        tabIndex={-1}
-      >
-        <source src="/background.mov" type="video/quicktime" />
-        <source src="/background.mov" type="video/mp4" />
-        <source src="/desktop.mp4" type="video/mp4" />
-      </video>
-      {/* Minimal overlay for text readability */}
+      {shouldLoadVideo && (
+        <video
+          ref={videoRef}
+          className="video-bg-element"
+          autoPlay
+          loop
+          muted
+          playsInline
+          disablePictureInPicture
+          tabIndex={-1}
+        >
+          <source src="/desktop.mp4" type="video/mp4" />
+        </video>
+      )}
       <div className="video-bg-overlay" />
     </div>
   )
 }
 
 function App() {
-  const [loading, setLoading] = useState(true)
+  // On mobile screens, disable full-screen blocking preloader so Hero paints on frame 1
+  const [loading, setLoading] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth >= 768 && !window.matchMedia('(pointer: coarse)').matches
+  })
+
   const heroContentRef = useRef(null)
   const heroLogoRef = useRef(null)
   const heroTaglineRef = useRef(null)
   const heroButtonsRef = useRef(null)
 
-  // Initialize Lenis Smooth Scroll connected to GSAP ScrollTrigger
+  // Initialize Lenis Smooth Scroll connected to GSAP ScrollTrigger for Desktop
+  // Initialize Lenis Smooth Scroll connected to GSAP ScrollTrigger for Desktop only
+  // On mobile touch devices, native momentum scroll is faster, GPU-accelerated, and eliminates 33s of main-thread ticker work
   useEffect(() => {
+    const isMobile = window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+    if (isMobile || prefersReducedMotion) return
 
-    const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 1.8,
+    let lenis = null
+    let updateLenis = null
+    let destroyed = false
+
+    import('lenis').then(({ default: LenisModule }) => {
+      if (destroyed) return
+      lenis = new LenisModule({
+        duration: 1.1,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        touchMultiplier: 1.8,
+      })
+
+      window.__lenis = lenis
+      lenis.on('scroll', ScrollTrigger.update)
+
+      updateLenis = (time) => {
+        lenis.raf(time * 1000)
+      }
+
+      gsap.ticker.add(updateLenis)
+      gsap.ticker.lagSmoothing(0)
     })
 
-    window.__lenis = lenis
-    lenis.on('scroll', ScrollTrigger.update)
-
-    const updateLenis = (time) => {
-      lenis.raf(time * 1000)
-    }
-
-    gsap.ticker.add(updateLenis)
-    gsap.ticker.lagSmoothing(0)
-
     const onLenisStop = () => {
-      lenis.stop()
+      if (lenis) lenis.stop()
     }
     const onLenisStart = () => {
-      lenis.start()
+      if (lenis) lenis.start()
     }
 
     window.addEventListener('lenis:stop', onLenisStop)
     window.addEventListener('lenis:start', onLenisStart)
 
     return () => {
+      destroyed = true
       window.removeEventListener('lenis:stop', onLenisStop)
       window.removeEventListener('lenis:start', onLenisStart)
-      gsap.ticker.remove(updateLenis)
-      lenis.destroy()
-      window.__lenis = null
+      if (updateLenis) gsap.ticker.remove(updateLenis)
+      if (lenis) {
+        lenis.destroy()
+        window.__lenis = null
+      }
     }
   }, [])
 
-  // Hero entrance animation when loading finishes
+  // Hero entrance animation (non-blocking, logo visible on frame 1)
   useEffect(() => {
-    if (loading) return
-
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
       if (heroLogoRef.current) {
-        tl.fromTo(
-          heroLogoRef.current,
-          { opacity: 0, scale: 0.85, y: 30 },
-          { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'back.out(1.4)' }
-        )
+        tl.from(heroLogoRef.current, { scale: 0.95, y: 15, duration: 0.8, ease: 'back.out(1.4)' })
       }
 
       if (heroTaglineRef.current) {
-        tl.fromTo(
-          heroTaglineRef.current,
-          { opacity: 0, y: 18, letterSpacing: '0.35em' },
-          { opacity: 1, y: 0, letterSpacing: '0.22em', duration: 0.75 },
-          '-=0.5'
-        )
+        tl.from(heroTaglineRef.current, { opacity: 0.5, y: 10, duration: 0.6 }, '-=0.4')
       }
 
       if (heroButtonsRef.current) {
-        tl.fromTo(
-          heroButtonsRef.current.children,
-          { opacity: 0, y: 22, scale: 0.9 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.12, ease: 'back.out(1.6)' },
-          '-=0.4'
-        )
+        tl.from(heroButtonsRef.current.children, { opacity: 0.5, y: 15, duration: 0.5, stagger: 0.08 }, '-=0.3')
       }
     })
 
     return () => ctx.revert()
-  }, [loading])
+  }, [])
 
   return (
     <>
       {/* Interactive Global Voxel Cursor for desktop */}
       <CustomCursor />
 
-      {/* Assembly Preloader */}
+      {/* Assembly Preloader for desktop */}
       {loading && <Preloader onComplete={() => setLoading(false)} />}
 
-      {/* ── VIDEO BACKGROUND (fixed viewport-filling, behind everything) ── */}
-      <VideoBackground />
+      {/* ── VIDEO BACKGROUND (deferred rendering, behind everything; skipped on mobile) ── */}
+      {!(typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches)) && (
+        <VideoBackground />
+      )}
 
       {/* ── 1. NAVBAR & MENU (top-level fixed, z-[100]+ above all layers) ── */}
       <Navbar />
@@ -220,11 +211,15 @@ function App() {
             ref={heroContentRef}
             className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto px-2 sm:px-4 pointer-events-none w-full"
           >
-            {/* Centered Logo */}
+            {/* Centered Logo with explicit dimensions & high priority for LCP */}
             <img
               ref={heroLogoRef}
               src={heroImg}
-              alt="Hackatopia"
+              alt="Hackatopia 2026"
+              width="672"
+              height="250"
+              fetchPriority="high"
+              decoding="async"
               className="hero-logo-enhanced w-full max-w-[240px] sm:max-w-md md:max-w-xl lg:max-w-2xl object-contain select-none pointer-events-none"
             />
 
@@ -265,32 +260,35 @@ function App() {
           </div>
         </section>
 
-        {/* ── 3. ABOUT ──────────────── */}
-        <About />
+        {/* ── BELOW-THE-FOLD SECTIONS (Lazy loaded with smooth fallback) ──── */}
+        <Suspense fallback={<div className="min-h-[160px] flex items-center justify-center text-[#00e5ff]/40 font-pixel text-xs">LOADING REALM...</div>}>
+          {/* ── 3. ABOUT ──────────────── */}
+          <About />
 
-        {/* ── 4. TRACKS ─────────────── */}
-        <Domains />
+          {/* ── 4. TRACKS ─────────────── */}
+          <Domains />
 
-        {/* ── 5. RULES ──────────────── */}
-        <Rules />
+          {/* ── 5. RULES ──────────────── */}
+          <Rules />
 
-        {/* ── 6. TIMELINE ───────────── */}
-        <Timeline />
+          {/* ── 6. TIMELINE ───────────── */}
+          <Timeline />
 
-        {/* ── 7. SPONSORS ───────────── */}
-        <Sponsors />
+          {/* ── 7. SPONSORS ───────────── */}
+          <Sponsors />
 
-        {/* ── 8. FAQ ────────────────── */}
-        <FAQ />
-        {/* ── 9. COORDINATORS ───────── */}
-        <Coordinators />
+          {/* ── 8. FAQ ────────────────── */}
+          <FAQ />
 
+          {/* ── 9. COORDINATORS ───────── */}
+          <Coordinators />
 
-        {/* ── 10. MAP & ADDRESS ─────── */}
-        <MapAddress />
+          {/* ── 10. MAP & ADDRESS ─────── */}
+          <MapAddress />
 
-        {/* ── 11. FOOTER ────────────── */}
-        <Footer />
+          {/* ── 11. FOOTER ────────────── */}
+          <Footer />
+        </Suspense>
       </main>
     </>
   )

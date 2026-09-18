@@ -343,8 +343,8 @@ export default function Summary() {
         background: 'radial-gradient(ellipse at 50% 30%, #120630 0%, #080220 60%, #040112 100%)',
       }}
     >
-      {/* Immersive Ambient Glow Orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Immersive Ambient Glow Orbs (hidden on mobile) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden hidden sm:block">
         <div
           className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full opacity-[0.12]"
           style={{
@@ -368,9 +368,9 @@ export default function Summary() {
         />
       </div>
 
-      {/* Grid background texture */}
+      {/* Grid background texture (hidden on mobile) */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none opacity-[0.03] hidden sm:block"
         style={{
           backgroundImage:
             'linear-gradient(rgba(0, 229, 255, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.5) 1px, transparent 1px)',

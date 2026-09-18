@@ -138,7 +138,7 @@ export default function Rules() {
     >
       {/* Background Grid Lines */}
       <div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none"
+        className="absolute inset-0 opacity-[0.08] pointer-events-none hidden sm:block"
         style={{
           backgroundImage:
             'linear-gradient(rgba(46, 211, 232, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 211, 232, 0.4) 1px, transparent 1px)',
@@ -228,13 +228,6 @@ export default function Rules() {
         </div>
       </div>
 
-      <style>{`
-        .rule-row:hover {
-          border-color: rgba(46, 211, 232, 0.4) !important;
-          transform: translateY(-4px);
-          box-shadow: 0 16px 36px rgba(0,0,0,0.8), 0 0 30px rgba(46,211,232,0.18), inset 0 1px 0 rgba(255,255,255,0.2) !important;
-        }
-      `}</style>
     </section>
   )
 }
