@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, Suspense, lazy } from 'react'
+import { useEffect, useState, useRef, Suspense, lazy } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import heroImg from './assets/logo.webp'
@@ -19,6 +19,22 @@ const MapAddress = lazy(() => import('./components/MapAddress'))
 const Footer = lazy(() => import('./components/Footer'))
 
 gsap.registerPlugin(ScrollTrigger)
+
+/**
+ * Prefetch rulebook PDF on user intent (hover/focus/touch)
+ * so it opens instantly without lag or waiting, while keeping initial load 100% clean.
+ */
+const prefetchRulebook = () => {
+  if (typeof document === 'undefined') return
+  if (!document.querySelector('link[data-prefetch="rulebook"]')) {
+    const link = document.createElement('link')
+    link.rel = 'prefetch'
+    link.href = '/rulebook.pdf'
+    link.as = 'document'
+    link.setAttribute('data-prefetch', 'rulebook')
+    document.head.appendChild(link)
+  }
+}
 
 /**
  * VideoBackground – lightweight video behind post-Hero content.
@@ -115,7 +131,8 @@ function App() {
       }
 
       gsap.ticker.add(updateLenis)
-      gsap.ticker.lagSmoothing(0)
+      // Smooth out lag spikes when switching tabs (e.g. viewing PDF in another tab)
+      gsap.ticker.lagSmoothing(500, 33)
     })
 
     const onLenisStop = () => {
@@ -124,14 +141,23 @@ function App() {
     const onLenisStart = () => {
       if (lenis) lenis.start()
     }
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        if (lenis) lenis.stop()
+      } else {
+        if (lenis) lenis.start()
+      }
+    }
 
     window.addEventListener('lenis:stop', onLenisStop)
     window.addEventListener('lenis:start', onLenisStart)
+    document.addEventListener('visibilitychange', onVisibilityChange)
 
     return () => {
       destroyed = true
       window.removeEventListener('lenis:stop', onLenisStop)
       window.removeEventListener('lenis:start', onLenisStart)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
       if (updateLenis) gsap.ticker.remove(updateLenis)
       if (lenis) {
         lenis.destroy()
@@ -251,7 +277,12 @@ function App() {
                 BROCHURE
               </a>
               <a
-                href="#rules"
+                href="/rulebook.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={prefetchRulebook}
+                onTouchStart={prefetchRulebook}
+                onFocus={prefetchRulebook}
                 className="btn-arcade btn-arcade-amber text-[0.65rem] sm:text-sm px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto text-center"
               >
                 RULE BOOK

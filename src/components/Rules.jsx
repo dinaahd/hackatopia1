@@ -3,6 +3,18 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { BookOpen, ArrowUpRight } from 'lucide-react'
 
+const prefetchRulebook = () => {
+  if (typeof document === 'undefined') return
+  if (!document.querySelector('link[data-prefetch="rulebook"]')) {
+    const link = document.createElement('link')
+    link.rel = 'prefetch'
+    link.href = '/rulebook.pdf'
+    link.as = 'document'
+    link.setAttribute('data-prefetch', 'rulebook')
+    document.head.appendChild(link)
+  }
+}
+
 gsap.registerPlugin(ScrollTrigger)
 
 const rulesList = [
@@ -216,9 +228,12 @@ export default function Rules() {
         {/* Hover Button for Rulebook */}
         <div ref={buttonRef} className="flex flex-col items-center justify-center pt-2 sm:pt-4 opacity-0">
           <a
-            href="#"
+            href="/rulebook.pdf"
             target="_blank"
             rel="noopener noreferrer"
+            onMouseEnter={prefetchRulebook}
+            onTouchStart={prefetchRulebook}
+            onFocus={prefetchRulebook}
             className="btn-arcade btn-arcade-cyan group text-xs sm:text-sm px-8 sm:px-10 py-4 flex items-center justify-center gap-3 w-full sm:w-auto text-center"
           >
             <BookOpen className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
