@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap');
 @import "tailwindcss";
 
 /* ── CSS Custom Properties ── */
@@ -83,45 +82,29 @@ body {
    KEYFRAME ANIMATIONS
 ══════════════════════════════════════════ */
 
-/* Floating hero logo with neon aura & deep shadow */
+/* Floating hero logo with GPU-composited transform animation */
 @keyframes floatHeroLogo {
-
   0%,
   100% {
     transform: translateY(0px) scale(1);
-    filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6)) drop-shadow(0 0 60px rgba(255, 46, 166, 0.45)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9));
   }
-
   50% {
-    transform: translateY(-10px) scale(1.02);
-    filter: drop-shadow(0 0 40px rgba(0, 229, 255, 0.85)) drop-shadow(0 0 85px rgba(255, 46, 166, 0.7)) drop-shadow(0 25px 45px rgba(0, 0, 0, 0.95));
+    transform: translateY(-8px) scale(1.015);
   }
 }
 
 .hero-logo-enhanced {
+  filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6)) drop-shadow(0 0 60px rgba(255, 46, 166, 0.45)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9));
   animation: floatHeroLogo 5s ease-in-out infinite;
+  will-change: transform;
 }
 
-/* Mobile: reduce heavy filter effects for performance */
+/* Mobile: optimized glow filter */
 @media (max-width: 639px) {
   .hero-logo-enhanced {
-    animation: floatHeroLogoMobile 5s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.4)) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
+    animation: floatHeroLogo 5s ease-in-out infinite;
   }
-
-  @keyframes floatHeroLogoMobile {
-    0%, 100% {
-      transform: translateY(0px) scale(1);
-      filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.4)) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
-    }
-    50% {
-      transform: translateY(-6px) scale(1.01);
-      filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9));
-    }
-  }
-
-  /* Reduce ambient glow blur sizes on mobile */
-  .blur-\\[120px\\] { filter: blur(60px) !important; }
-  .blur-\\[100px\\] { filter: blur(50px) !important; }
 }
 
 /* Floating glow orbs */
@@ -745,4 +728,112 @@ main > footer {
   .video-bg-element {
     will-change: auto;
   }
+
+  /* Remove hero logo will-change to free GPU layer */
+  .hero-logo-enhanced {
+    will-change: auto;
+  }
+
+  /* ── Kill all backdrop-filter blur on mobile (saves ~15 GPU compositing layers) ── */
+  .glass-panel,
+  .pixel-arcade-card,
+  .voxel-panel,
+  .faq-item,
+  .rule-row,
+  .timeline-card-box {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* ── Simplify/hide ambient glow orbs on mobile ── */
+  .orb {
+    display: none;
+  }
+
+  /* ── Reduce domain card filter complexity on mobile ── */
+  .domain-4k-image {
+    will-change: auto;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6));
+  }
+
+  /* Disable domain card hover float animation on mobile */
+  .domain-card:hover .domain-4k-image {
+    animation: none;
+  }
 }
+
+/* ══════════════════════════════════════════
+   VOXEL PANEL STYLES (moved from About.jsx inline <style>)
+══════════════════════════════════════════ */
+.voxel-panel {
+  position: relative;
+  background: linear-gradient(165deg, rgba(16, 12, 34, 0.88) 0%, rgba(8, 6, 20, 0.96) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.voxel-panel:hover {
+  border-color: var(--accent);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.8),
+    0 0 35px color-mix(in srgb, var(--accent) 35%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-6px);
+}
+
+.voxel-panel-pink {
+  background: linear-gradient(165deg, rgba(28, 10, 24, 0.9) 0%, rgba(14, 4, 12, 0.98) 100%);
+  border-color: rgba(255, 46, 154, 0.35);
+}
+
+.voxel-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.9;
+  border-radius: 9999px;
+}
+
+/* ══════════════════════════════════════════
+   RULE ROW HOVER (moved from Rules.jsx inline <style>)
+══════════════════════════════════════════ */
+.rule-row:hover {
+  border-color: rgba(46, 211, 232, 0.4) !important;
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.8), 0 0 30px rgba(46,211,232,0.18), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+}
+
+/* ══════════════════════════════════════════
+   DOMAIN CARD FLOAT ANIMATION (moved from Domains.jsx inline <style>)
+══════════════════════════════════════════ */
+@keyframes floatDomainCard {
+  0%, 100% {
+    transform: translateY(0px) scale(1.02);
+    filter: drop-shadow(0 0 25px var(--glow-color)) drop-shadow(0 0 60px var(--sec-glow)) drop-shadow(0 15px 35px rgba(0, 0, 0, 0.9));
+  }
+  50% {
+    transform: translateY(-14px) scale(1.045);
+    filter: drop-shadow(0 0 45px var(--glow-color)) drop-shadow(0 0 90px var(--sec-glow)) drop-shadow(0 25px 48px rgba(0, 0, 0, 0.95));
+  }
+}
+
+.domain-4k-image {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  transform: translateY(0) scale(1);
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 16px rgba(0, 229, 255, 0.18));
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  will-change: transform, filter;
+}
+
+.domain-card:hover .domain-4k-image {
+  animation: floatDomainCard 4.2s ease-in-out infinite;
+}

@@ -9,19 +9,31 @@
   <!-- SEO -->
   <title>Hackatopia 2026 — National Level Hackathon | Build Utopia</title>
   <meta name="description"
-    content="Hackatopia 2026 is a 24-hour national-level hackathon hosted by XYZ Institute of Technology. 500+ participants, ₹1,00,000+ prize pool, 4 innovation tracks. October 8-9, 2026." />
+    content="Hackatopia 2026 is a 24-hour national-level hackathon hosted by Yenepoya Institute of Technology. 500+ participants, ₹1,00,000+ prize pool, 4 innovation tracks. October 8-9, 2026." />
   <meta name="theme-color" content="#080220" />
   <meta property="og:title" content="Hackatopia 2026 — Build Utopia" />
   <meta property="og:description"
     content="Join 500+ builders at India's most electrifying 24-hour hackathon. October 8-9, 2026." />
   <meta property="og:type" content="website" />
 
-  <!-- Fonts -->
+  <!-- LCP Image Preload -->
+  <link rel="preload" as="image" href="/src/assets/logo.webp" type="image/webp" fetchpriority="high" />
+
+  <!-- Preconnect and Non-blocking Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap"
-    rel="stylesheet" />
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Press+Start+2P&display=swap"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+  </noscript>
 </head>
 
 <body>

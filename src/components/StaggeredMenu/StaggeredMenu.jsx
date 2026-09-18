@@ -1,7 +1,7 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import logo from "../../assets/logo.png";
-import logoText from "../../assets/logo_text.png";
+import logo from "../../assets/logo.webp";
+import logoText from "../../assets/logo_text.webp";
 
 export const StaggeredMenu = ({
   position = "right",
@@ -289,7 +289,7 @@ export const StaggeredMenu = ({
         <header className="staggered-menu-header w-full flex items-center justify-between px-6 sm:px-10 py-3.5 sm:py-4 pointer-events-none z-[120]" aria-label="Main navigation header">
           <a href="#home" className="sm-logo pointer-events-auto select-none group flex items-center" aria-label="Go to home">
             <div className="sm-logo-circle relative w-13 h-13 sm:w-22 sm:h-22 rounded-full p-2 flex items-center justify-center transition-all duration-300">
-              <img src={logoUrl} alt="Hackatopia Logo" className="w-full h-full object-contain rounded-full" draggable={false} />
+              <img src={logoUrl} alt="Hackatopia Logo" width="88" height="88" loading="lazy" decoding="async" className="w-full h-full object-contain rounded-full" draggable={false} />
             </div>
           </a>
 

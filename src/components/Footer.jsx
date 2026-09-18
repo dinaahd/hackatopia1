@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import cybernautsLogo from '../assets/cybernauts.png'
+import cybernautsLogo from '../assets/cybernauts_logo-removebg-preview.webp'
 import yitLogo from '../assets/yenepoya-technology-logo.svg'
-import TransparentImage from './TransparentImage'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -101,15 +100,23 @@ export default function Footer() {
               <img
                 src={yitLogo}
                 alt="Yenepoya Institute of Technology Logo"
+                width="180"
+                height="64"
+                loading="lazy"
+                decoding="async"
                 className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(232,134,46,0.3)]"
               />
             </div>
 
             {/* 2. Big Cybernauts Logo */}
             <div className="group cursor-default transition-transform duration-300 hover:scale-105 flex items-center" title="Cybernauts">
-              <TransparentImage
+              <img
                 src={cybernautsLogo}
                 alt="Cybernauts Logo"
+                width="128"
+                height="128"
+                loading="lazy"
+                decoding="async"
                 className="h-24 sm:h-32 w-auto object-contain drop-shadow-[0_0_25px_rgba(0,170,255,0.35)]"
               />
             </div>

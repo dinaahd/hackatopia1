@@ -53,3 +53,13 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+
+/* Mobile: remove pseudo-element dots and disable transitions to reduce paint work */
+@media (max-width: 639px) {
+  .default-animation .cube-face {
+    transition: none;
+  }
+  .default-animation .cube-face::after {
+    display: none;
+  }
+}

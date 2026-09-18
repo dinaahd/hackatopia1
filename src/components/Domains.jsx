@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import domain1Img from '../assets/domain1.png'
-import domain2Img from '../assets/domain2.png'
-import domain3Img from '../assets/domain3.png'
-import domain4Img from '../assets/domain4.png'
+import domain1Img from '../assets/domain1.webp'
+import domain2Img from '../assets/domain2.webp'
+import domain3Img from '../assets/domain3.webp'
+import domain4Img from '../assets/domain4.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -117,7 +117,10 @@ export default function Domains() {
     return () => ctx.revert()
   }, [])
 
+  const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches);
+
   const handleTilt = (e, container) => {
+    if (isMobile) return;
     const rect = container.getBoundingClientRect()
     const x = (e.clientX - rect.left) / rect.width - 0.5
     const y = (e.clientY - rect.top) / rect.height - 0.5
@@ -134,6 +137,7 @@ export default function Domains() {
   }
 
   const handleResetTilt = (container) => {
+    if (isMobile) return;
     const img = container.querySelector('.domain-4k-image')
     if (img) {
       gsap.to(img, {
@@ -156,7 +160,7 @@ export default function Domains() {
     >
       {/* Background Grid Lines */}
       <div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none"
+        className="absolute inset-0 opacity-[0.08] pointer-events-none hidden sm:block"
         style={{
           backgroundImage:
             'linear-gradient(rgba(46, 211, 232, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 211, 232, 0.4) 1px, transparent 1px)',
@@ -164,9 +168,9 @@ export default function Domains() {
         }}
       />
 
-      {/* Ambient glow in Blue & Pink */}
+      {/* Ambient glow in Blue & Pink (hidden on mobile) */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full opacity-15 blur-[120px] pointer-events-none"
+        className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full opacity-15 blur-[120px] pointer-events-none"
         style={{ background: 'radial-gradient(circle, #2ED3E8 0%, #FF2E9A 60%, transparent 80%)' }}
       />
 
@@ -219,9 +223,11 @@ export default function Domains() {
                   <img
                     src={domain.img}
                     alt={domain.alt}
+                    width="460"
+                    height="320"
                     className="domain-4k-image w-full max-w-[460px] h-auto object-contain select-none"
                     draggable={false}
-                    loading="eager"
+                    loading="lazy"
                     decoding="async"
                   />
                 </div>
@@ -250,32 +256,6 @@ export default function Domains() {
         </div>
       </div>
 
-      {/* 4K Image Rendering & Hover Float Animation Styles */}
-      <style>{`
-        @keyframes floatDomainCard {
-          0%, 100% {
-            transform: translateY(0px) scale(1.02);
-            filter: drop-shadow(0 0 25px var(--glow-color)) drop-shadow(0 0 60px var(--sec-glow)) drop-shadow(0 15px 35px rgba(0, 0, 0, 0.9));
-          }
-          50% {
-            transform: translateY(-14px) scale(1.045);
-            filter: drop-shadow(0 0 45px var(--glow-color)) drop-shadow(0 0 90px var(--sec-glow)) drop-shadow(0 25px 48px rgba(0, 0, 0, 0.95));
-          }
-        }
-
-        .domain-4k-image {
-          image-rendering: -webkit-optimize-contrast;
-          image-rendering: high-quality;
-          transform: translateY(0) scale(1);
-          filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 16px rgba(0, 229, 255, 0.18));
-          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
-          will-change: transform, filter;
-        }
-
-        .domain-card:hover .domain-4k-image {
-          animation: floatDomainCard 4.2s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   )
 }

@@ -156,7 +156,7 @@ export default function About() {
     >
       {/* Background Animated Grid Lines */}
       <div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none"
+        className="absolute inset-0 opacity-[0.08] pointer-events-none hidden sm:block"
         style={{
           backgroundImage:
             'linear-gradient(rgba(46, 211, 232, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(46, 211, 232, 0.5) 1px, transparent 1px)',
@@ -164,13 +164,13 @@ export default function About() {
         }}
       />
 
-      {/* Ambient Glow Orbs in Blue & Pink */}
+      {/* Ambient Glow Orbs in Blue & Pink (hidden on mobile to save GPU) */}
       <div
-        className="absolute top-1/4 -left-20 w-96 h-96 rounded-full opacity-15 pointer-events-none blur-[100px]"
+        className="hidden sm:block absolute top-1/4 -left-20 w-96 h-96 rounded-full opacity-15 pointer-events-none blur-[100px]"
         style={{ background: 'radial-gradient(circle, #2ED3E8 0%, transparent 70%)' }}
       />
       <div
-        className="absolute bottom-1/4 -right-20 w-96 h-96 rounded-full opacity-15 pointer-events-none blur-[100px]"
+        className="hidden sm:block absolute bottom-1/4 -right-20 w-96 h-96 rounded-full opacity-15 pointer-events-none blur-[100px]"
         style={{ background: 'radial-gradient(circle, #FF2E9A 0%, transparent 70%)' }}
       />
 
@@ -326,45 +326,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* Voxel Panel Styles */}
-      <style>{`
-        .voxel-panel {
-          position: relative;
-          background: linear-gradient(165deg, rgba(16, 12, 34, 0.88) 0%, rgba(8, 6, 20, 0.96) 100%);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1.5px solid rgba(255, 255, 255, 0.12);
-          border-radius: 20px;
-          box-shadow:
-            0 12px 32px rgba(0, 0, 0, 0.65),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
-          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-
-        .voxel-panel:hover {
-          border-color: var(--accent);
-          box-shadow:
-            0 20px 48px rgba(0, 0, 0, 0.8),
-            0 0 35px color-mix(in srgb, var(--accent) 35%, transparent),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
-          transform: translateY(-6px);
-        }
-
-        .voxel-panel-pink {
-          background: linear-gradient(165deg, rgba(28, 10, 24, 0.9) 0%, rgba(14, 4, 12, 0.98) 100%);
-          border-color: rgba(255, 46, 154, 0.35);
-        }
-
-        .voxel-panel::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 15%; right: 15%;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, var(--accent), transparent);
-          opacity: 0.9;
-          border-radius: 9999px;
-        }
-      `}</style>
     </section>
   )
 }

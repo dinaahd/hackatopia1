@@ -12,10 +12,10 @@ export default function Preloader({ onComplete }) {
     // Check if user prefers reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    // Simulate asset assembly progress
+    // Simulate asset assembly progress swiftly
     let currentProgress = 0
     const interval = setInterval(() => {
-      currentProgress += Math.floor(Math.random() * 15) + 8
+      currentProgress += Math.floor(Math.random() * 20) + 25
       if (currentProgress >= 100) {
         currentProgress = 100
         clearInterval(interval)
@@ -25,9 +25,9 @@ export default function Preloader({ onComplete }) {
           if (containerRef.current) {
             gsap.to(containerRef.current, {
               opacity: 0,
-              scale: 1.04,
-              duration: prefersReducedMotion ? 0.3 : 0.7,
-              ease: 'power3.inOut',
+              scale: 1.02,
+              duration: 0.35,
+              ease: 'power2.inOut',
               onComplete: () => {
                 setLoaded(true)
                 if (onComplete) onComplete()
@@ -37,11 +37,11 @@ export default function Preloader({ onComplete }) {
             setLoaded(true)
             if (onComplete) onComplete()
           }
-        }, 300)
+        }, 120)
       } else {
         setProgress(currentProgress)
       }
-    }, 80)
+    }, 40)
 
     // Stagger block drop animation in city preview
     if (!prefersReducedMotion && cityRef.current) {
