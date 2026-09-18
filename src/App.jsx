@@ -20,21 +20,6 @@ const Footer = lazy(() => import('./components/Footer'))
 
 gsap.registerPlugin(ScrollTrigger)
 
-/**
- * Prefetch rulebook PDF on user intent (hover/focus/touch)
- * so it opens instantly without lag or waiting, while keeping initial load 100% clean.
- */
-const prefetchRulebook = () => {
-  if (typeof document === 'undefined') return
-  if (!document.querySelector('link[data-prefetch="rulebook"]')) {
-    const link = document.createElement('link')
-    link.rel = 'prefetch'
-    link.href = '/rulebook.pdf'
-    link.as = 'document'
-    link.setAttribute('data-prefetch', 'rulebook')
-    document.head.appendChild(link)
-  }
-}
 
 /**
  * VideoBackground – lightweight video behind post-Hero content.
@@ -280,9 +265,6 @@ function App() {
                 href="/rulebook.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                onMouseEnter={prefetchRulebook}
-                onTouchStart={prefetchRulebook}
-                onFocus={prefetchRulebook}
                 className="btn-arcade btn-arcade-amber text-[0.65rem] sm:text-sm px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto text-center"
               >
                 RULE BOOK
