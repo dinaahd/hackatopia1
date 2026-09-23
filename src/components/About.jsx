@@ -61,8 +61,8 @@ export default function About() {
   const statsRef = useRef(null)
 
   // Stat numbers refs
-  const teamsCountRef = useCountUp(30, triggered, 0)
-  const participantsCountRef = useCountUp(120, triggered, 0.1)
+  const teamsCountRef = useCountUp(60, triggered, 0)
+  const participantsCountRef = useCountUp(240, triggered, 0.1)
   const prizeCountRef = useCountUp(100000, triggered, 0.15)
   const durationCountRef = useCountUp(24, triggered, 0.3)
 
@@ -252,7 +252,7 @@ export default function About() {
               </div>
             </div>
             <p className="text-xs sm:text-sm text-white/60 font-medium leading-relaxed pt-5 border-t border-white/10 mt-6">
-              30 teams of 2–4 builders competing across 4 innovation domains.
+              60 teams of 2–4 builders competing across 4 innovation domains.
             </p>
           </div>
 
