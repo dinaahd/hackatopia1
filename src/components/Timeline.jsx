@@ -100,7 +100,7 @@ const eventSchedule = [
     phase: 'SCHEDULE',
     dayBadge: 'DAY 1 · OCT 8',
     category: 'CHECK-IN & KEYNOTE',
-    time: '09:00 AM – 11:00 AM',
+    time: '08:30 AM – 11:00 AM',
     title: 'Check-in & Opening Ceremony',
     description:
       'Team registration verification, welcome keynote, track briefing, and theme orientation.',
@@ -113,7 +113,7 @@ const eventSchedule = [
     phase: 'SCHEDULE',
     dayBadge: 'DAY 1 · OCT 8',
     category: 'HACKING KICKOFF',
-    time: '11:00 AM',
+    time: '11:30 AM',
     title: '24-Hour Hacking Begins',
     description:
       'The countdown starts. Teams begin coding, architecture setup, repository creation, and API integration.',
@@ -125,9 +125,9 @@ const eventSchedule = [
     stepNum: '03',
     phase: 'SCHEDULE',
     dayBadge: 'DAY 1 · OCT 8',
-    category: 'MENTORSHIP SPRINT',
-    time: '03:30 PM – 06:00 PM',
-    title: 'Mentor Evaluation Round 1',
+    category: 'CHECKPOINT 1',
+    time: '03:30 PM – 04:30 PM',
+    title: 'Checkpoint 1: Mentorship Round 1',
     description:
       'Industry experts and faculty mentors visit team tables to review wireframes, architecture, and provide technical guidance.',
     color: '#2ED3E8', // Cyan
@@ -138,11 +138,11 @@ const eventSchedule = [
     stepNum: '04',
     phase: 'SCHEDULE',
     dayBadge: 'DAY 1 · OCT 8',
-    category: 'MIDNIGHT SPRINT',
-    time: '12:00 AM (Midnight)',
-    title: 'Midnight Checkpoint & Refreshments',
+    category: 'CHECKPOINT 2',
+    time: '11:30 PM – 12:30 AM',
+    title: 'Checkpoint 2: Midnight Checkpoint',
     description:
-      'Midway progress check, gaming lounge breaks, snacks, and continuous hacking sprints through the night.',
+      'Midway progress check, midnight refreshments & snacks, gaming lounge breaks, and continuous hacking sprints through the night.',
     color: '#FF2E9A', // Pink
     Icon: Moon,
   },
@@ -152,10 +152,10 @@ const eventSchedule = [
     phase: 'SCHEDULE',
     dayBadge: 'DAY 2 · OCT 9',
     category: 'SUBMISSION DEADLINE',
-    time: '09:00 AM',
+    time: '10:30 AM',
     title: 'Morning Code Freeze',
     description:
-      'Hard code freeze. Teams submit repository links, presentation decks, and video demonstration links.',
+      'Hard code freeze. Teams submit repository links and presentation decks.',
     color: '#FFB800', // Gold/Amber
     isDeadline: true,
     Icon: Clock,
@@ -165,11 +165,24 @@ const eventSchedule = [
     stepNum: '06',
     phase: 'SCHEDULE',
     dayBadge: 'DAY 2 · OCT 9',
-    category: 'GRAND VALEDICTORY',
-    time: '10:00 AM – 01:00 PM',
-    title: 'Judging & Closing Awards Ceremony',
+    category: 'FINAL EVALUATION',
+    time: '11:30 AM – 01:00 PM',
+    title: 'Final Presentation & Judging (Expo Style)',
     description:
-      'Live 3-minute project demos in front of the jury panel, followed by winner announcements and prize distribution.',
+      'Panel evaluation where teams pitch their solutions, present live demos, and face a Q&A session.',
+    color: '#2ED3E8', // Cyan
+    Icon: Users,
+  },
+  {
+    id: 's-07',
+    stepNum: '07',
+    phase: 'SCHEDULE',
+    dayBadge: 'DAY 2 · OCT 9',
+    category: 'GRAND VALEDICTORY',
+    time: '02:30 PM – 04:00 PM',
+    title: 'Closing Awards Ceremony & Valedictory',
+    description:
+      'Winner announcements, felicitation of teams, and grand prize distribution.',
     color: '#FF2E9A', // Pink
     Icon: Award,
   },
@@ -576,7 +589,7 @@ export default function Timeline() {
                             <p className="text-xs font-bold text-[#FFB800] tracking-wide">
                               {item.id === 'j-04'
                                 ? 'SUBMISSION DEADLINE · SEPTEMBER 28, 2026'
-                                : 'HARD CODE FREEZE · OCTOBER 9, 09:00 AM'}
+                                : 'HARD CODE FREEZE · OCTOBER 9, 10:30 AM'}
                             </p>
                           </div>
                         )}
