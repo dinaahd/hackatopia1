@@ -74,7 +74,7 @@ const journeySteps = [
     phase: 'JOURNEY',
     category: 'SHORTLISTING',
     title: 'Finalists Announcement',
-    description: 'Selected teams will be announced for the final round.',
+    description: 'Selected teams will be announced on October 1,2026 for the final round.',
     badge: 'SHORTLISTING',
     color: '#00F5D4', // Neon Teal
     Icon: Trophy,
@@ -374,31 +374,28 @@ export default function Timeline() {
           <div className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 p-1 sm:p-1.5 rounded-xl bg-[#0e0a24]/80 border border-white/10 backdrop-blur-md flex-wrap">
             <button
               onClick={() => setActiveFilter('ALL')}
-              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
-                activeFilter === 'ALL'
+              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${activeFilter === 'ALL'
                   ? 'bg-gradient-to-r from-[#2ED3E8] to-[#FF2E9A] text-white shadow-[0_0_18px_rgba(46,211,232,0.45)]'
                   : 'text-white/60 hover:text-white hover:bg-white/5'
-              }`}
+                }`}
             >
               FULL ROADMAP
             </button>
             <button
               onClick={() => setActiveFilter('JOURNEY')}
-              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
-                activeFilter === 'JOURNEY'
+              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${activeFilter === 'JOURNEY'
                   ? 'bg-[#2ED3E8] text-black shadow-[0_0_18px_rgba(46,211,232,0.45)] font-extrabold'
                   : 'text-white/60 hover:text-white hover:bg-white/5'
-              }`}
+                }`}
             >
               PHASE 1: ONLINE QUALIFICATION
             </button>
             <button
               onClick={() => setActiveFilter('SCHEDULE')}
-              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
-                activeFilter === 'SCHEDULE'
+              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${activeFilter === 'SCHEDULE'
                   ? 'bg-[#FF2E9A] text-white shadow-[0_0_18px_rgba(255,46,154,0.45)] font-extrabold'
                   : 'text-white/60 hover:text-white hover:bg-white/5'
-              }`}
+                }`}
             >
               PHASE 2: ON-SITE GRAND FINALE
             </button>
@@ -491,20 +488,17 @@ export default function Timeline() {
                   )}
 
                   <div
-                    className={`timeline-item relative flex items-start md:items-center ${
-                      isEven ? 'md:flex-row-reverse' : 'md:flex-row'
-                    }`}
+                    className={`timeline-item relative flex items-start md:items-center ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'
+                      }`}
                   >
                     {/* Card Content Container */}
                     <div
-                      className={`w-full md:w-[46%] pl-14 md:pl-0 ${
-                        isEven ? 'md:pl-8 text-left' : 'md:pr-8 md:text-left'
-                      }`}
+                      className={`w-full md:w-[46%] pl-14 md:pl-0 ${isEven ? 'md:pl-8 text-left' : 'md:pr-8 md:text-left'
+                        }`}
                     >
                       <div
-                        className={`timeline-card-box group relative p-6 sm:p-8 rounded-2xl transition-all duration-300 hover:-translate-y-2 cursor-default overflow-hidden ${
-                          isDeadline ? 'ring-2 ring-[#FFB800]/80' : ''
-                        }`}
+                        className={`timeline-card-box group relative p-6 sm:p-8 rounded-2xl transition-all duration-300 hover:-translate-y-2 cursor-default overflow-hidden ${isDeadline ? 'ring-2 ring-[#FFB800]/80' : ''
+                          }`}
                         style={{
                           background: isDeadline
                             ? 'linear-gradient(165deg, rgba(28, 20, 6, 0.94) 0%, rgba(14, 10, 2, 0.98) 100%)'
@@ -549,11 +543,10 @@ export default function Timeline() {
                           </span>
 
                           <span
-                            className={`font-mono text-[0.68rem] px-3 py-1.5 rounded-full font-bold flex items-center gap-1.5 ${
-                              isDeadline
+                            className={`font-mono text-[0.68rem] px-3 py-1.5 rounded-full font-bold flex items-center gap-1.5 ${isDeadline
                                 ? 'bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/50 animate-pulse'
                                 : 'text-white/85 bg-white/10'
-                            }`}
+                              }`}
                           >
                             <Clock className="w-3.5 h-3.5 opacity-80" />
                             <span>{item.badge || item.time}</span>
