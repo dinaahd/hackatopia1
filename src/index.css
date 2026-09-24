@@ -650,10 +650,12 @@ body {
 /* Fixed viewport-filling wrapper */
 .video-bg-wrapper {
   position: fixed;
+  inset: 0;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  height: 100dvh;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -719,13 +721,14 @@ main > footer {
 
 /* ── Mobile optimisations ── */
 @media (max-width: 639px) {
-  /* Slightly heavier overlay on mobile for readability on smaller screens */
+  /* Translucent overlay on mobile so video animation is vibrant and clearly visible */
   .video-bg-overlay {
-    background: rgba(8, 2, 32, 0.78);
+    background: rgba(8, 2, 32, 0.38);
   }
 
-  /* Reduce GPU memory pressure on low-end devices */
+  /* Keep video animation crisp and visible on mobile */
   .video-bg-element {
+    opacity: 0.72;
     will-change: auto;
   }
 

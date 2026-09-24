@@ -31,6 +31,14 @@ function VideoBackground() {
   const wrapperRef = useRef(null)
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false)
 
+  // Start loading video promptly so it's buffered and ready as soon as the user scrolls
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShouldLoadVideo(true)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [])
+
   useEffect(() => {
     if (!wrapperRef.current) return
 
@@ -49,10 +57,27 @@ function VideoBackground() {
           wrapperRef.current.style.opacity = String(self.progress)
         }
       },
+      onRefresh: (self) => {
+        if (wrapperRef.current) {
+          wrapperRef.current.style.opacity = String(self.progress)
+        }
+      },
     })
 
     return () => st.kill()
   }, [])
+
+  // Explicitly ensure video autoplays on mobile devices
+  useEffect(() => {
+    if (shouldLoadVideo && videoRef.current) {
+      videoRef.current.defaultMuted = true
+      videoRef.current.muted = true
+      const playPromise = videoRef.current.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {})
+      }
+    }
+  }, [shouldLoadVideo])
 
   return (
     <div ref={wrapperRef} className="video-bg-wrapper" aria-hidden="true" style={{ opacity: 0 }}>
@@ -64,10 +89,13 @@ function VideoBackground() {
           loop
           muted
           playsInline
+          webkit-playsinline="true"
+          preload="auto"
           disablePictureInPicture
           tabIndex={-1}
         >
           <source src="/desktop.mp4" type="video/mp4" />
+          <source src="/background.mov" type="video/quicktime" />
         </video>
       )}
       <div className="video-bg-overlay" />
@@ -180,10 +208,8 @@ function App() {
       {/* Assembly Preloader for desktop */}
       {loading && <Preloader onComplete={() => setLoading(false)} />}
 
-      {/* ── VIDEO BACKGROUND (deferred rendering, behind everything; skipped on mobile) ── */}
-      {!(typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches)) && (
-        <VideoBackground />
-      )}
+      {/* ── VIDEO BACKGROUND (viewport-filling background animation behind all content) ── */}
+      <VideoBackground />
 
       {/* ── 1. NAVBAR & MENU (top-level fixed, z-[100]+ above all layers) ── */}
       <Navbar />

@@ -34,8 +34,8 @@ const Cubes = ({
   const rowGap = typeof cellGap === 'number' ? `${cellGap}px` : '4px';
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const actualCols = isMobile ? Math.min(gridCols, 8) : gridCols;
-  const actualRows = isMobile ? Math.min(gridRows, 5) : gridRows;
+  const actualCols = isMobile ? Math.min(gridCols, 10) : gridCols;
+  const actualRows = isMobile ? Math.min(gridRows, 14) : gridRows;
 
   // Trigger ripple from specific fractional or integer coordinates
   const triggerRippleAt = useCallback((hitCol, hitRow, customColor) => {
@@ -171,27 +171,37 @@ const Cubes = ({
       }
     };
 
+    let lastTouchMove = 0;
+    const handleHeroTouchMove = e => {
+      const now = Date.now();
+      if (now - lastTouchMove < 120) return;
+      lastTouchMove = now;
+      handleHeroClick(e);
+    };
+
     window.addEventListener('click', handleHeroClick);
     window.addEventListener('touchstart', handleHeroClick, { passive: true });
+    window.addEventListener('touchmove', handleHeroTouchMove, { passive: true });
     if (!isMobile) {
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
     }
 
-    // Defer initial ambient wave to avoid main-thread freeze on initial page load
+    // Initial ambient wave after mount so page looks alive immediately
     const initialTimer = setTimeout(() => {
       triggerRippleAt(Math.floor(actualCols / 2), Math.floor(actualRows / 2));
-    }, isMobile ? 4000 : 1500);
+    }, isMobile ? 600 : 1200);
 
-    // Continuous subtle ambient ripples (slower on mobile to save CPU)
+    // Continuous subtle ambient ripples
     const interval = setInterval(() => {
       const randomCol = Math.floor(Math.random() * actualCols);
-      const randomRow = Math.floor(Math.random() * Math.max(1, Math.floor(actualRows / 2)));
+      const randomRow = Math.floor(Math.random() * actualRows);
       triggerRippleAt(randomCol, randomRow);
-    }, isMobile ? 12000 : 8000);
+    }, isMobile ? 5500 : 7000);
 
     return () => {
       window.removeEventListener('click', handleHeroClick);
       window.removeEventListener('touchstart', handleHeroClick);
+      window.removeEventListener('touchmove', handleHeroTouchMove);
       if (!isMobile) {
         window.removeEventListener('mousemove', handleMouseMove);
       }
