@@ -74,7 +74,7 @@ const journeySteps = [
     phase: 'JOURNEY',
     category: 'SHORTLISTING',
     title: 'Finalists Announcement',
-    description: 'Selected teams will be announced on October 1,2026 for the final round.',
+    description: 'Selected teams will be announced on 1st October 2026 for the final round.',
     badge: 'SHORTLISTING',
     color: '#00F5D4', // Neon Teal
     Icon: Trophy,
@@ -375,8 +375,8 @@ export default function Timeline() {
             <button
               onClick={() => setActiveFilter('ALL')}
               className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${activeFilter === 'ALL'
-                  ? 'bg-gradient-to-r from-[#2ED3E8] to-[#FF2E9A] text-white shadow-[0_0_18px_rgba(46,211,232,0.45)]'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'bg-gradient-to-r from-[#2ED3E8] to-[#FF2E9A] text-white shadow-[0_0_18px_rgba(46,211,232,0.45)]'
+                : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
             >
               FULL ROADMAP
@@ -384,8 +384,8 @@ export default function Timeline() {
             <button
               onClick={() => setActiveFilter('JOURNEY')}
               className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${activeFilter === 'JOURNEY'
-                  ? 'bg-[#2ED3E8] text-black shadow-[0_0_18px_rgba(46,211,232,0.45)] font-extrabold'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'bg-[#2ED3E8] text-black shadow-[0_0_18px_rgba(46,211,232,0.45)] font-extrabold'
+                : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
             >
               PHASE 1: ONLINE QUALIFICATION
@@ -393,8 +393,8 @@ export default function Timeline() {
             <button
               onClick={() => setActiveFilter('SCHEDULE')}
               className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-mono text-[0.6rem] sm:text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${activeFilter === 'SCHEDULE'
-                  ? 'bg-[#FF2E9A] text-white shadow-[0_0_18px_rgba(255,46,154,0.45)] font-extrabold'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'bg-[#FF2E9A] text-white shadow-[0_0_18px_rgba(255,46,154,0.45)] font-extrabold'
+                : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
             >
               PHASE 2: ON-SITE GRAND FINALE
@@ -544,8 +544,8 @@ export default function Timeline() {
 
                           <span
                             className={`font-mono text-[0.68rem] px-3 py-1.5 rounded-full font-bold flex items-center gap-1.5 ${isDeadline
-                                ? 'bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/50 animate-pulse'
-                                : 'text-white/85 bg-white/10'
+                              ? 'bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/50 animate-pulse'
+                              : 'text-white/85 bg-white/10'
                               }`}
                           >
                             <Clock className="w-3.5 h-3.5 opacity-80" />
