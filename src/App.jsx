@@ -7,6 +7,8 @@ import Cubes from './components/Cubes/CubesGrid'
 import Preloader from './components/Preloader'
 import CustomCursor from './components/CustomCursor'
 
+import RulebookModal from './components/RulebookModal'
+
 // Code-split all below-the-fold sections for instant initial paint & minimal bundle
 const About = lazy(() => import('./components/About'))
 const Domains = lazy(() => import('./components/Domains'))
@@ -104,6 +106,27 @@ function VideoBackground() {
 }
 
 function App() {
+  const [isRulebookOpen, setIsRulebookOpen] = useState(false)
+
+  // Global listener for rulebook modal opening (from any button or hash)
+  useEffect(() => {
+    const handleOpenRulebook = () => setIsRulebookOpen(true)
+    window.addEventListener('open:rulebook', handleOpenRulebook)
+
+    const checkHash = () => {
+      if (window.location.hash === '#rulebook') {
+        setIsRulebookOpen(true)
+      }
+    }
+    checkHash()
+    window.addEventListener('hashchange', checkHash)
+
+    return () => {
+      window.removeEventListener('open:rulebook', handleOpenRulebook)
+      window.removeEventListener('hashchange', checkHash)
+    }
+  }, [])
+
   // On mobile screens, disable full-screen blocking preloader so Hero paints on frame 1
   const [loading, setLoading] = useState(() => {
     if (typeof window === 'undefined') return false
@@ -287,14 +310,13 @@ function App() {
               >
                 BROCHURE
               </a>
-              <a
-                href="/rulebook.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-arcade btn-arcade-amber text-[0.65rem] sm:text-sm px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto text-center"
+              <button
+                type="button"
+                onClick={() => setIsRulebookOpen(true)}
+                className="btn-arcade btn-arcade-amber text-[0.65rem] sm:text-sm px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto text-center cursor-pointer"
               >
                 RULE BOOK
-              </a>
+              </button>
             </div>
           </div>
         </section>
@@ -308,7 +330,7 @@ function App() {
           <Domains />
 
           {/* ── 5. RULES ──────────────── */}
-          <Rules />
+          <Rules onOpenRulebook={() => setIsRulebookOpen(true)} />
 
           {/* ── 6. TIMELINE ───────────── */}
           <Timeline />
@@ -328,6 +350,12 @@ function App() {
           {/* ── 11. FOOTER ────────────── */}
           <Footer />
         </Suspense>
+
+        {/* Official Interactive Rulebook Modal */}
+        <RulebookModal
+          isOpen={isRulebookOpen}
+          onClose={() => setIsRulebookOpen(false)}
+        />
       </main>
     </>
   )

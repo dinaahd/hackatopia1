@@ -45,7 +45,7 @@ const rulesList = [
   },
 ]
 
-export default function Rules() {
+export default function Rules({ onOpenRulebook }) {
   const sectionRef = useRef(null)
   const headerRef = useRef(null)
   const rulesContainerRef = useRef(null)
@@ -56,8 +56,25 @@ export default function Rules() {
     if (!section) return
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.innerWidth < 768
+
+    // Trigger refresh so ScrollTrigger measures new lazy-loaded DOM elements correctly
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 150)
 
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion || isMobile) {
+        // On mobile or reduced motion, immediately ensure full visibility
+        if (headerRef.current) gsap.set(headerRef.current, { opacity: 1, y: 0 })
+        if (buttonRef.current) gsap.set(buttonRef.current, { opacity: 1, y: 0, scale: 1 })
+        if (rulesContainerRef.current) {
+          const rows = rulesContainerRef.current.querySelectorAll('.rule-row')
+          gsap.set(rows, { opacity: 1, x: 0 })
+        }
+        return
+      }
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -65,11 +82,6 @@ export default function Rules() {
           once: true,
         },
       })
-
-      if (prefersReducedMotion) {
-        gsap.set([headerRef.current, rulesContainerRef.current, buttonRef.current], { opacity: 1, y: 0 })
-        return
-      }
 
       // Header entrance
       tl.fromTo(
@@ -125,8 +137,20 @@ export default function Rules() {
       }
     }, section)
 
-    return () => ctx.revert()
+    return () => {
+      clearTimeout(refreshTimer)
+      ctx.revert()
+    }
   }, [])
+
+  const handleOpenRulebook = (e) => {
+    e.preventDefault()
+    if (onOpenRulebook) {
+      onOpenRulebook()
+    } else {
+      window.dispatchEvent(new CustomEvent('open:rulebook'))
+    }
+  }
 
   return (
     <section
@@ -149,7 +173,7 @@ export default function Rules() {
 
       <div className="max-w-4xl w-full mx-auto relative z-10 flex flex-col gap-10 sm:gap-14">
         {/* Header */}
-        <div ref={headerRef} className="flex flex-col items-center text-center space-y-4 opacity-0">
+        <div ref={headerRef} className="flex flex-col items-center text-center space-y-4">
           <span className="font-pixel text-[0.65rem] sm:text-xs tracking-[0.25em] text-[#2ED3E8] uppercase px-3 py-1.5 rounded-sm bg-[#2ED3E8]/10 border border-[#2ED3E8]/30 shadow-[0_0_12px_rgba(46,211,232,0.2)]">
             THE RULEBOOK
           </span>
@@ -215,17 +239,16 @@ export default function Rules() {
         </div>
 
         {/* Hover Button for Rulebook */}
-        <div ref={buttonRef} className="flex flex-col items-center justify-center pt-2 sm:pt-4 opacity-0">
-          <a
-            href="/rulebook.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-arcade btn-arcade-cyan group text-xs sm:text-sm px-8 sm:px-10 py-4 flex items-center justify-center gap-3 w-full sm:w-auto text-center"
+        <div ref={buttonRef} className="flex flex-col items-center justify-center pt-2 sm:pt-4">
+          <button
+            type="button"
+            onClick={handleOpenRulebook}
+            className="btn-arcade btn-arcade-cyan group text-xs sm:text-sm px-8 sm:px-10 py-4 flex items-center justify-center gap-3 w-full sm:w-auto text-center cursor-pointer"
           >
             <BookOpen className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
-            <span>RULEBOOK</span>
+            <span>OPEN OFFICIAL RULEBOOK</span>
             <ArrowUpRight className="w-4 h-4 opacity-80 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
+          </button>
         </div>
       </div>
 
